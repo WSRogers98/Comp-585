@@ -93,8 +93,11 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Text(
               'Will was here'
+              '\n'
               'Micah was here'
+              '\n'
               'marlon was here'
+              '\n'
               'ruth was here'
               '\n'
               'You have pushed the button this many times:',
