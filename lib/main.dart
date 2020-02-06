@@ -94,6 +94,8 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               'Will was here'
               'Micah was here'
+              'marlon was here'
+              'ruth was here'
               '\n'
               'You have pushed the button this many times:',
             ),
