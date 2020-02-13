@@ -8,6 +8,7 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+  //  Size size= MediaQuery.of(context).size;
     return MaterialApp(
       title: 'Cherokee Learning Game',
       debugShowCheckedModeBanner: false,
@@ -18,13 +19,23 @@ class MyApp extends StatelessWidget {
               Stack(
                 fit: StackFit.expand,
                 children: <Widget>[
+                  Center(
+                   child: DecoratedBox(
+                    position: DecorationPosition.background,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                        image: AssetImage('assets/background.jpeg'),
+                        fit: BoxFit.cover),
+                ),
+                   ),
+                  ),
                   Material(color: Colors.white),
                   Positioned(
                     top: 250,
                     left: 90,
                     height: 30,
                     width:120,
-                    child: Text('Learn Cherokee',
+                    child: Text('Whos Your Daddy',
                     style: TextStyle(
 
                     ),
