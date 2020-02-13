@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
                     position: DecorationPosition.background,
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                        image: AssetImage('assets/background.jpeg'),
+                        image: AssetImage('assets/images/background.jpeg'),
                         fit: BoxFit.cover),
                 ),
                    ),
