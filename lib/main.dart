@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
@@ -18,6 +19,17 @@ class MyApp extends StatelessWidget {
                 fit: StackFit.expand,
                 children: <Widget>[
                   Material(color: Colors.white),
+                  Positioned(
+                    top: 250,
+                    left: 90,
+                    height: 30,
+                    width:120,
+                    child: Text('Learn Cherokee',
+                    style: TextStyle(
+
+                    ),
+                  ),
+                  ),
                   Positioned(
                     top: 290,
                     left:50,
