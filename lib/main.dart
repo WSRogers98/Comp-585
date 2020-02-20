@@ -1,89 +1,69 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:test8/SizeConfig.dart';
+import 'package:test8/sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 void main() => runApp(MyApp());
 
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-  //  Size size= MediaQuery.of(context).size;
-    return MaterialApp(
+    return new MaterialApp(
       title: 'Cherokee Learning Game',
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        //appBar: AppBar(title: Text('Splash Screen')),
-        body: LayoutBuilder(
-          builder: (context, constraints) =>
-              Stack(
-                fit: StackFit.expand,
-                children: <Widget>[
-                  Center(
-                   child: DecoratedBox(
-                    position: DecorationPosition.background,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                        image: AssetImage('assets/images/background.jpeg'),
-                        fit: BoxFit.cover),
-                ),
-                   ),
-                  ),
-                  Material(color: Colors.white),
-                  Positioned(
-                    top: 250,
-                    left: 90,
-                    height: 30,
-                    width:120,
-                    child: Text('Whos Your Daddy',
-                    style: TextStyle(
-
-                    ),
-                  ),
-                  ),
-                  Positioned(
-                    top: 290,
-                    left:50,
-                    height: 30,
-                    width:70,
-                    child:  RaisedButton(
-                      onPressed: () {},
-                      child: Text('Play'),
-                    ),
-                  ),
-                  Positioned(
-                    top: 290,
-                    left: 150,
-                    height: 30,
-                    width:70,
-                    child:  RaisedButton(
-                      onPressed: () {},
-                      child: Text('Learn'),
-                    ),
-                  ),
-                  Positioned(
-                    top: 330,
-                    left: 90,
-                    height: 30,
-                    width:84,
-                    child:  RaisedButton(
-                      onPressed: () {},
-                      child: Text('Profile'),
-                    ),
-                  ),
-                  Positioned(
-                    top: 30,
-                    right:5,
-                    height: 25,
-                    width:25,
-                    child:  FloatingActionButton(
-                      child: Icon(Icons.settings),
-                    ),
-                  ),
-                ],
-              ),
+      theme: ThemeData(
+        buttonTheme: ButtonThemeData(
+           height: 25,
+          minWidth: 30
         ),
       ),
+      home: new MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget{
+
+  @override
+  _MyHomePageState createState() => new _MyHomePageState();
+
+}
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  Widget build(BuildContext context){
+    SizeConfig().init(context);
+    const thiscolor= const Color(0x6BA7B5);
+    return Scaffold(
+      body: Center(
+        child: Container(
+          decoration: BoxDecoration(
+            image:  const DecorationImage(
+              image: AssetImage('assets/images/tempBackground.png'),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Align(
+            alignment: Alignment(0,.97),
+            child: RaisedButton(
+              onPressed: () {
+                // comment this out to run app
+                signInWithGoogle();
+              },
+              child: const Text('Profile', style: TextStyle(fontSize: 10)),
+              color: thiscolor.withOpacity(1),
+              shape: RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(10.0),
+
+              ),
+              textColor: Colors.white,
+              elevation: 15,
+            ),
+          )
+          ),
+    ),
     );
   }
 }
