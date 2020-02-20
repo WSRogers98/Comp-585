@@ -2,10 +2,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:test8/SizeConfig.dart';
-import 'package:test8/sign_in.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+final GoogleSignIn _googleSignIn = GoogleSignIn();
+final FirebaseAuth _auth = FirebaseAuth.instance;
 
+Future<FirebaseUser> _handleSignIn() async {
+  final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+  final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+  final AuthCredential credential = GoogleAuthProvider.getCredential(
+    accessToken: googleAuth.accessToken,
+    idToken: googleAuth.idToken,
+  );
+
+  final FirebaseUser user = (await _auth.signInWithCredential(credential)).user;
+  print("signed in " + user.displayName);
+  return user;
+}
+var user = FirebaseUser;
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -33,6 +49,7 @@ class MyHomePage extends StatefulWidget{
 }
 class _MyHomePageState extends State<MyHomePage> {
   @override
+  final _formKey = GlobalKey<FormState>();
   Widget build(BuildContext context){
     SizeConfig().init(context);
     const thiscolor= const Color(0x6BA7B5);
@@ -47,12 +64,13 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           child: Align(
             alignment: Alignment(0,.97),
-            child: RaisedButton(
-              onPressed: () {
-                // comment this out to run app
-                signInWithGoogle();
+
+            child:
+             user == null ? RaisedButton(
+              onPressed: () async {
+                print('clicked');
               },
-              child: const Text('Profile', style: TextStyle(fontSize: 10)),
+              child: Text('Sign In', style: TextStyle(fontSize: 10)),
               color: thiscolor.withOpacity(1),
               shape: RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(10.0),
@@ -60,7 +78,55 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               textColor: Colors.white,
               elevation: 15,
-            ),
+
+            )
+            : RaisedButton(
+              onPressed: () async {
+        print('clicked');
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context){
+                    return AlertDialog(
+                      content: Form(
+                        key: _formKey,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                        Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: TextFormField(),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: TextFormField(),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: RaisedButton(
+                          child: Text("Submit"),
+                          onPressed: () {
+                            if (_formKey.currentState.validate()) {
+                              _formKey.currentState.save();
+                            }
+                          },
+                        ),
+                      )
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+                );
+        },
+          child: Text('Sign In', style: TextStyle(fontSize: 10)),
+          color: thiscolor.withOpacity(1),
+          shape: RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(10.0),
+
+          ),
+          textColor: Colors.white,
+          elevation: 15,
+        ),
           )
           ),
     ),
