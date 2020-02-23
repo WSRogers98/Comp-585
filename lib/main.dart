@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         buttonTheme: ButtonThemeData(
            height: 25,
-          minWidth: 30
+          minWidth: 65
         ),
       ),
       home: new MyHomePage(),
@@ -54,23 +54,61 @@ class _MyHomePageState extends State<MyHomePage> {
     SizeConfig().init(context);
     const thiscolor= const Color(0x6BA7B5);
     return Scaffold(
-      body: Center(
-        child: Container(
+      body: Container(
           decoration: BoxDecoration(
             image:  const DecorationImage(
               image: AssetImage('assets/images/tempBackground.png'),
               fit: BoxFit.cover,
             ),
           ),
-          child: Align(
-            alignment: Alignment(0,.97),
+        child: SafeArea(
+          child: Stack(
+            children: <Widget>[
+              Container(
+                child: Align(
+                  alignment: Alignment(.45,.73),
+                  child: RaisedButton(
+                    onPressed: () async {
+                      print('clicked');
+                    },
+                    child: Text('Learn', style: TextStyle(fontSize: 10)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(10.0),
 
-            child:
-             user == null ? RaisedButton(
-              onPressed: () async {
-                print('clicked');
+                    ),
+                    textColor: Colors.white,
+                    elevation: 15,
+                    color: thiscolor.withOpacity(1),
+                  ),
+                ),
+              ),
+              Container(
+                child: Align(
+                  alignment: Alignment(-.45,.73),
+                  child: RaisedButton(
+                    onPressed: () async {
+                      print('clicked');
+                    },
+                    child: Text('Play', style: TextStyle(fontSize: 10)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(10.0),
+
+                    ),
+                    textColor: Colors.white,
+                    elevation: 15,
+                    color: thiscolor.withOpacity(1),
+                  ),
+                ),
+              ),
+              Container(
+                child: Align(
+                alignment: Alignment(0,.965),
+                child:
+                  user == null ? RaisedButton(
+                   onPressed: () async {
+                    print('clicked');
               },
-              child: Text('Sign In', style: TextStyle(fontSize: 10)),
+              child: Text('Profile', style: TextStyle(fontSize: 10)),
               color: thiscolor.withOpacity(1),
               shape: RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(10.0),
@@ -118,7 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   }
                 );
         },
-          child: Text('Sign In', style: TextStyle(fontSize: 10)),
+          child: Text('Sign in', style: TextStyle(fontSize: 10)),
           color: thiscolor.withOpacity(1),
           shape: RoundedRectangleBorder(
             borderRadius: new BorderRadius.circular(10.0),
@@ -127,9 +165,13 @@ class _MyHomePageState extends State<MyHomePage> {
           textColor: Colors.white,
           elevation: 15,
         ),
-          )
           ),
-    ),
+              ),
+          ]
+          ),
+          ),
+        ),
     );
+
   }
 }
