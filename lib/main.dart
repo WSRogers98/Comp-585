@@ -4,23 +4,10 @@ import 'package:flutter/widgets.dart';
 import 'package:test8/SizeConfig.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:test8/lobby.dart';
 
-final GoogleSignIn _googleSignIn = GoogleSignIn();
-final FirebaseAuth _auth = FirebaseAuth.instance;
-
-Future<FirebaseUser> _handleSignIn() async {
-  final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-  final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-
-  final AuthCredential credential = GoogleAuthProvider.getCredential(
-    accessToken: googleAuth.accessToken,
-    idToken: googleAuth.idToken,
-  );
-
-  final FirebaseUser user = (await _auth.signInWithCredential(credential)).user;
-  print("signed in " + user.displayName);
-  return user;
-}
+String _email, _password;
+String currUser;
 var user = FirebaseUser;
 void main() => runApp(MyApp());
 
@@ -32,8 +19,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         buttonTheme: ButtonThemeData(
-           height: 25,
-          minWidth: 30
+            height: 25,
+            minWidth: 30
         ),
       ),
       home: new MyHomePage(),
@@ -42,7 +29,6 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget{
-
   @override
   _MyHomePageState createState() => new _MyHomePageState();
 
@@ -92,23 +78,19 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                        Padding(
+                      Padding(
                         padding: EdgeInsets.all(8.0),
-                        child: TextFormField(),
+                        child: TextFormField(onSaved: (input) => _email = input,),
                       ),
                       Padding(
                         padding: EdgeInsets.all(8.0),
-                        child: TextFormField(),
+                        child: TextFormField(onSaved: (input) => _password = input),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: RaisedButton(
                           child: Text("Submit"),
-                          onPressed: () {
-                            if (_formKey.currentState.validate()) {
-                              _formKey.currentState.save();
-                            }
-                          },
+                          onPressed: signIn,
                         ),
                       )
                           ],
@@ -132,4 +114,37 @@ class _MyHomePageState extends State<MyHomePage> {
     ),
     );
   }
+  void signIn() async {
+    print("signin");
+    if(_formKey.currentState.validate()){
+      _formKey.currentState.save();
+      try{
+        FirebaseUser user = (await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)).user;
+        currUser = user.uid;
+        print(user);
+        Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyPage()));
+      }catch(e){
+        print("notFound");
+        print(e.message);
+      }
+    }
+  }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
