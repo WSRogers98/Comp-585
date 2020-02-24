@@ -90,7 +90,7 @@ void completeRoom(){
       .collection("gameSessions")
       .getDocuments()
       .then((QuerySnapshot snapshot) {
-      print(snapshot.);
+      print(snapshot.documents.toList());
 //    snapshot.documents.forEach((f) => print('${f.data}}'));
   });
 }
