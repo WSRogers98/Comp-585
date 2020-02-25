@@ -6,7 +6,14 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:test8/lobby.dart';
+import 'package:test8/main.dart';
 
+//enter question/answer
+//display question
+//display answers
+//display winner
+String qna;
 
 class DbPage extends StatefulWidget {
   @override
@@ -17,8 +24,30 @@ class _DbPageState extends State<DbPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Answer Votes')),
-      body: _buildBody(context),
-    );
+      body: Column(
+        children: [_buildBody(context),
+
+        TextFormField(
+          onSaved: (input) => qna = input,
+       ),
+    RaisedButton(
+                child: Text("submit"),
+                onPressed: submitQ,
+                color: Colors.red,
+                textColor: Colors.yellow,
+                padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                splashColor: Colors.grey,
+              ),
+          RaisedButton(
+            child: Text("submit"),
+            onPressed: submitA,
+            color: Colors.red,
+            textColor: Colors.yellow,
+            padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+            splashColor: Colors.grey,
+          )])
+      );
+
   }
 
   Widget _buildBody(BuildContext context) {
@@ -26,7 +55,6 @@ class _DbPageState extends State<DbPage> {
       stream: Firestore.instance.collection('users').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
-
         return _buildList(context, snapshot.data.documents);
       },
     );
@@ -41,9 +69,8 @@ class _DbPageState extends State<DbPage> {
 
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
     final record = Record.fromSnapshot(data);
-
     return Padding(
-      key: ValueKey(record.name),
+      key: ValueKey(record.answer),
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Container(
         decoration: BoxDecoration(
@@ -51,7 +78,7 @@ class _DbPageState extends State<DbPage> {
           borderRadius: BorderRadius.circular(5.0),
         ),
         child: ListTile(
-            title: Text(record.name),
+            title: Text(record.answer),
             trailing: Text(record.votes.toString()),
             onTap: () => record.reference.updateData({'votes': FieldValue.increment(1)})
         ),
@@ -61,20 +88,37 @@ class _DbPageState extends State<DbPage> {
 }
 
 class Record {
-  final String name;
+  final String answer;
   final int votes;
   final DocumentReference reference;
 
   Record.fromMap(Map<String, dynamic> map, {this.reference})
-      : assert(map['name'] != null),
+      : assert(map['answer'] != null),
         assert(map['votes'] != null),
-        name = map['name'],
+        answer = map['answer'],
         votes = map['votes'];
 
   Record.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, reference: snapshot.reference);
 
   @override
-  String toString() => "Record<$name:$votes>";
+  String toString() => "Record<$answer:$votes>";
 }
 
+void submitQ(){
+  Firestore.instance
+      .collection('users')
+      .document(currUser)
+      .setData({
+    'question': qna,
+  });
+}
+
+void submitA(){
+  Firestore.instance
+      .collection('users')
+      .document(currUser)
+      .updateData({
+    'answer': qna,
+  });
+}
