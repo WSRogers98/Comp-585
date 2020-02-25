@@ -120,11 +120,25 @@ class _MyHomePageState extends State<MyHomePage> {
                           children: <Widget>[
                       Padding(
                         padding: EdgeInsets.all(8.0),
-                        child: TextFormField(onSaved: (input) => _email = input,),
+                        child: TextFormField(
+                            decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Enter Email Here',
+                              ),
+                          autofocus: true,
+                          obscureText: false,
+                          onSaved: (input) => _email = input,),
                       ),
                       Padding(
                         padding: EdgeInsets.all(8.0),
-                        child: TextFormField(onSaved: (input) => _password = input),
+                        child: TextFormField(
+                            decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Enter Password Here',
+                              ),
+                            autofocus: false,
+                            obscureText: true,
+                            onSaved: (input) => _password = input),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
