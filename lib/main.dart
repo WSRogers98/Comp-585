@@ -52,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
             Container(
             child: Align(
-                alignment: Alignment(.45,.73),
+                alignment: Alignment(.45,.70),
             child: RaisedButton(
               onPressed: () async {
                 print('clicked');
@@ -70,9 +70,10 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       Container(
         child: Align(
-          alignment: Alignment(-.45,.73),
+          alignment: Alignment(-.45,.70),
           child: RaisedButton(
             onPressed: () async {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyPage()));
               print('clicked');
             },
             child: Text('Play', style: TextStyle(fontSize: 10)),
@@ -88,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
                 Container(
                  child: Align(
-                   alignment: Alignment(0,.97),
+                   alignment: Alignment(0,.88),
 
                     child:
                     user == null ? RaisedButton(
@@ -164,7 +165,7 @@ class _MyHomePageState extends State<MyHomePage> {
         FirebaseUser user = (await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)).user;
         currUser = user.uid;
         print(user);
-        Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyPage()));
+//        Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyPage()));
       }catch(e){
         print("notFound");
         print(e.message);
