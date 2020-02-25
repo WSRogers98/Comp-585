@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         buttonTheme: ButtonThemeData(
             height: 25,
-            minWidth: 30
+            minWidth: 65,
         ),
       ),
       home: new MyHomePage(),
@@ -40,22 +40,62 @@ class _MyHomePageState extends State<MyHomePage> {
     SizeConfig().init(context);
     const thiscolor= const Color(0x6BA7B5);
     return Scaffold(
-      body: Center(
-        child: Container(
+      body: Container(
           decoration: BoxDecoration(
             image:  const DecorationImage(
               image: AssetImage('assets/images/tempBackground.png'),
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
             ),
           ),
-          child: Align(
-            alignment: Alignment(0,.97),
-
-            child:
-             user == null ? RaisedButton(
+          child:SafeArea(
+            child: Stack(
+              children: <Widget>[
+            Container(
+            child: Align(
+                alignment: Alignment(.40,.70),
+            child: RaisedButton(
               onPressed: () async {
                 print('clicked');
               },
+              child: Text('Learn', style: TextStyle(fontSize: 10)),
+              shape: RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(10.0),
+
+              ),
+              textColor: Colors.white,
+              elevation: 15,
+              color: thiscolor.withOpacity(1),
+            ),
+          ),
+      ),
+      Container(
+        child: Align(
+          alignment: Alignment(-.40,.70),
+          child: RaisedButton(
+            onPressed: () async {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyPage()));
+              print('clicked');
+            },
+            child: Text('Play', style: TextStyle(fontSize: 10)),
+            shape: RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(10.0),
+
+            ),
+            textColor: Colors.white,
+            elevation: 15,
+            color: thiscolor.withOpacity(1),
+          ),
+        ),
+      ),
+                Container(
+                 child: Align(
+                   alignment: Alignment(0,.85),
+
+                    child:
+                    user == null ? RaisedButton(
+                    onPressed: () async {
+                     print('clicked');
+                      },
               child: Text('Sign In', style: TextStyle(fontSize: 10)),
               color: thiscolor.withOpacity(1),
               shape: RoundedRectangleBorder(
@@ -80,11 +120,25 @@ class _MyHomePageState extends State<MyHomePage> {
                           children: <Widget>[
                       Padding(
                         padding: EdgeInsets.all(8.0),
-                        child: TextFormField(onSaved: (input) => _email = input,),
+                        child: TextFormField(
+                            decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Enter Email Here',
+                              ),
+                          autofocus: true,
+                          obscureText: false,
+                          onSaved: (input) => _email = input,),
                       ),
                       Padding(
                         padding: EdgeInsets.all(8.0),
-                        child: TextFormField(onSaved: (input) => _password = input),
+                        child: TextFormField(
+                            decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Enter Password Here',
+                              ),
+                            autofocus: false,
+                            obscureText: true,
+                            onSaved: (input) => _password = input),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -109,7 +163,10 @@ class _MyHomePageState extends State<MyHomePage> {
           textColor: Colors.white,
           elevation: 15,
         ),
-          )
+          ),
+                ),
+              ]
+            ),
           ),
     ),
     );
@@ -122,7 +179,7 @@ class _MyHomePageState extends State<MyHomePage> {
         FirebaseUser user = (await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)).user;
         currUser = user.uid;
         print(user);
-        Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyPage()));
+//        Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyPage()));
       }catch(e){
         print("notFound");
         print(e.message);
