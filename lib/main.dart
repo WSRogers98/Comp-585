@@ -44,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
           decoration: BoxDecoration(
             image:  const DecorationImage(
               image: AssetImage('assets/images/tempBackground.png'),
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
             ),
           ),
           child:SafeArea(
@@ -52,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
             Container(
             child: Align(
-                alignment: Alignment(.45,.70),
+                alignment: Alignment(.40,.70),
             child: RaisedButton(
               onPressed: () async {
                 print('clicked');
@@ -70,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       Container(
         child: Align(
-          alignment: Alignment(-.45,.70),
+          alignment: Alignment(-.40,.70),
           child: RaisedButton(
             onPressed: () async {
               Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyPage()));
@@ -89,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
                 Container(
                  child: Align(
-                   alignment: Alignment(0,.88),
+                   alignment: Alignment(0,.85),
 
                     child:
                     user == null ? RaisedButton(
