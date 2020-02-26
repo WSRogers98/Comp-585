@@ -32,7 +32,7 @@ class _MyHomePageState extends State<GamePage> {
     const thiscolor = const Color(0x6BA7B5);
     const backgroundColor = const Color(0xffb77b);
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: backgroundColor.withOpacity(1),
       body: Container(
         child: SafeArea(
           child: Stack(
