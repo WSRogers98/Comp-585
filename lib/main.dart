@@ -89,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
                 Container(
                  child: Align(
-                   alignment: Alignment(0,.85),
+                   alignment: Alignment(0,.9),
 
                     child:
                     user == null ? RaisedButton(

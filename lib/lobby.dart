@@ -10,6 +10,7 @@ import 'dart:math';
 import 'package:test8/main.dart';
 import 'package:test8/vote.dart';
 import 'package:test8/room.dart';
+import 'package:test8/GameScreen.dart';
 
 String player1;
 String player2;
@@ -54,8 +55,14 @@ class _lobbyState extends State<lobbyPage> {
               ),
               RaisedButton(
 
-                child: Text("Start a Game"),
+                child: Text("Start Game"),
                 onPressed: () {
+                  Firestore.instance
+                      .collection('gameSessions')
+                      .document(_roomNum)
+                      .updateData({
+                    'GameOpen':false
+                  });
                   completeRoom(context);
 
                 },
@@ -124,7 +131,7 @@ void joinRoom(){
 
 
 Future completeRoom(context) async {
-  Navigator.push(context, MaterialPageRoute(builder: (context) => roomPage()));
+  Navigator.push(context, MaterialPageRoute(builder: (context) => MyGame()));
 }
 void completeRoooom(){
 
