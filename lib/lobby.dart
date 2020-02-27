@@ -116,14 +116,43 @@ class _lobbyState extends State<lobbyPage> {
           .collection('gameSessions')
           .document(_roomNum)
           .setData({
+        'roomNumber': _roomNum,
         'player1': currUser,
       });
     }
 
-    void joinRoom(){
+    void joinRoom() async{
       print(_roomNum);
-      var existingIndex = Firestore.instance.toString();
-      print("!!!! attempting to print existing index: "+existingIndex);
+
+//      List<DocumentSnapshot> templist;
+//
+//      var players = Firestore.instance.collection('gameSessions').getDocuments().toString();
+
+      //List<String> players = (List<String>) Firestore.instance.collection('gameSessions').
+      //List<String> group = (List<String>) document.get("dungeon_group");
+      //var testing =  players.docs.map(doc => doc.data());
+
+//      var list = templist.map((DocumentSnapshot players){
+//        return players.data;
+//      }).toList();
+
+      List<DocumentSnapshot> templist;
+      List<Map<dynamic, dynamic>> list = new List();
+      CollectionReference collectionRef = Firestore.instance.collection("gameSessions");
+      QuerySnapshot collectionSnapshot = await collectionRef.getDocuments();
+
+      templist = collectionSnapshot.documents;
+
+      list = templist.map((DocumentSnapshot docSnapshot){
+        return docSnapshot.data;
+      }).toList();
+
+
+
+      print('before list !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+      list.forEach((element) => print(element));
+      print('after  list !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+
       _roomNum = myController.text;
       Firestore.instance
           .collection('gameSessions')
