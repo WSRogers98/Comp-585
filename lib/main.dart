@@ -179,7 +179,8 @@ class _MyHomePageState extends State<MyHomePage> {
         FirebaseUser user = (await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)).user;
         currUser = user.uid;
         print(user);
-//        Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyPage()));
+        print("success");
+        Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
       }catch(e){
         print("notFound");
         print(e.message);
