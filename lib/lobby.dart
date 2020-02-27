@@ -44,9 +44,9 @@ class _lobbyState extends State<lobbyPage> {
               TextField(
                 controller: myController,
               ),
-              TextFormField(
-                onSaved: (input) => _roomNum = input,
-              ),
+//              TextFormField(
+//                onSaved: (input) => _roomNum = input,
+//              ),
               RaisedButton(
                 child: Text("Join a Room"),
                 onPressed: joinRoom,
