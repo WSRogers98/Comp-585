@@ -13,7 +13,7 @@ import 'package:test8/vote.dart';
 String player1;
 String player2;
 String _roomNum;
-final myController = TextEditingController();
+//final myController = TextEditingController();
 class roomPage extends StatefulWidget {
   @override
   _roomState createState() => _roomState();
@@ -90,11 +90,7 @@ class _roomState extends State<roomPage> {
 //        )
     );
   }
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    myController.dispose();
-    super.dispose();
-  }
+
 }
 
 void startRoom(){
@@ -112,7 +108,7 @@ void startRoom(){
 
 void joinRoom(){
   print(_roomNum);
-  _roomNum = myController.text;
+
   Firestore.instance
       .collection('gameSessions')
       .document(_roomNum)
@@ -121,6 +117,23 @@ void joinRoom(){
   });
 }
 
+class Record {
+  final String name;
+  final int votes;
+  final DocumentReference reference;
+
+  Record.fromMap(Map<String, dynamic> map, {this.reference})
+      : assert(map['player1'] != null),
+        assert(map['votes'] != null),
+        name = map['player1'],
+        votes = map['votes'];
+
+  Record.fromSnapshot(DocumentSnapshot snapshot)
+      : this.fromMap(snapshot.data, reference: snapshot.reference);
+
+  @override
+  String toString() => "Record<$name:$votes>";
+}
 
 Future completeRoom(context) async {
   Navigator.push(context, MaterialPageRoute(builder: (context) => DbPage()));

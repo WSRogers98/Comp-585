@@ -12,17 +12,38 @@ import 'package:test8/vote.dart';
 import 'package:test8/room.dart';
 import 'package:test8/GameScreen.dart';
 
-
+int currDocLength = 0;
 class lobbyPage extends StatefulWidget {
   @override
   _lobbyState createState() => _lobbyState();
 }
 class _lobbyState extends State<lobbyPage> {
-
+  int roomDocIndex;
   String player1;
   String player2;
   String _roomNum;
   final myController = TextEditingController();
+
+  Widget _buildList(BuildContext context, String playerID) {
+    print("ooo");
+    return ListTile(
+
+      title: Text(playerID),
+      //subtitle: Text(document['bod']),
+    );
+  }
+
+  Widget _buildLoopDoc(BuildContext context, DocumentSnapshot document, int docLength) {
+    return ListView.builder(
+      itemExtent: 80.0,
+      itemCount: docLength,
+      itemBuilder: (context, index) {
+        print("ppp");
+        docLength = docLength - 1;
+        return _buildList(context, document[docLength.toString()]);
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +53,6 @@ class _lobbyState extends State<lobbyPage> {
         //////////////////////////PPPPPPPLLLLLLLZZZZZZ make the below items layout in the same page, the column I commented out and the stream builder
         Column(
             children: [
-
               RaisedButton(
                 child: Text("Start a Room"),
                 onPressed: startRoom,
@@ -44,9 +64,6 @@ class _lobbyState extends State<lobbyPage> {
               TextField(
                 controller: myController,
               ),
-//              TextFormField(
-//                onSaved: (input) => _roomNum = input,
-//              ),
               RaisedButton(
                 child: Text("Join a Room"),
                 onPressed: joinRoom,
@@ -56,14 +73,13 @@ class _lobbyState extends State<lobbyPage> {
                 splashColor: Colors.grey,
               ),
               RaisedButton(
-
                 child: Text("Start Game"),
                 onPressed: () {
                   Firestore.instance
                       .collection('gameSessions')
                       .document(_roomNum)
                       .updateData({
-                    'GameOpen': false
+                    'GameOpen':false
                   });
                   completeRoom(context);
                 },
@@ -72,39 +88,115 @@ class _lobbyState extends State<lobbyPage> {
                 padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                 splashColor: Colors.grey,
               ),
-
-//              StreamBuilder(
-//                stream: Firestore.instance.collection('gameSessions').snapshots(),
-//                //print an integer every 2secs, 10 times
-//                builder: (context, snapshot) {
-//                  if (!snapshot.hasData) {
-//                    player1 = snapshot.data.documents[0]['player1'];
-//                    player2 = snapshot.data.documents[0]['player1'];
-//                    return Text("Loading..");
-//                  }
-//                  return ListView.builder(
-//                    itemExtent: 80.0,
-//                    itemCount: 2,
-//                    itemBuilder: (context, index) {
-//                      return ListTile(
+              Flexible(
+                child:
+                StreamBuilder(
+                  stream: Firestore.instance.collection('gameSessions').snapshots(),
+                  //print an integer every 2secs, 10 times
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Text("Loading..");
+                    }
+                    return ListView.builder(
+                      itemExtent: 80.0,
+                      itemCount: 1,
+                      itemBuilder: (context, index) {
+                        int docLength = 0;
+                        for (int i = 0; i < snapshot.data.documents.length; i++) {
+                          print(snapshot.data.documents[i]['roomNumber']);
+                          if (_roomNum == snapshot.data.documents[i]['roomNumber']){
+                            roomDocIndex = i;
+                          }
+                        }
+                        asyncFunc();
+                        docLength = currDocLength;
+                        List<DocumentSnapshot> templist;
+                        List<Map<dynamic, dynamic>> list = new List();
+                        CollectionReference collectionRef = Firestore.instance.collection(
+                            "gameSessions");
+                       // QuerySnapshot collectionSnapshot = await collectionRef.getDocuments();
 //
-//                          title: Text(snapshot.data.documents[index]['player1']),
-//                          subtitle: Text(snapshot.data.documents[index]['player2']),
-//                      );
-//                    }
-//                  );
-//                },
-//              ),
-            ]
-        )
+//                        templist = collectionSnapshot.documents;
+//
+//                        list = templist.map((DocumentSnapshot docSnapshot) {
+//                          return docSnapshot.data;
+//                        }).toList();
+//
+//                        var room;
+//
+//                        for (var i = 0; i < list.length; i++) {
+//                          print(_roomNum);
+//                          if (list[i]["roomNumber"] == _roomNum) {
+//                            room = list[i];
+//                          }
+//                        }
+
+                        int numPlayers = 0;
+//                        for (var key in room.keys) {
+//                          if (key.startsWith("player")) numPlayers++;
+//                        }
+                        while(1==1){
+                          try {
+                            numPlayers++;
+                            String pp = 'player' + numPlayers.toString();
+                            var that = snapshot.data.documents[roomDocIndex][pp];
+                            docLength = numPlayers;
+                          } catch (_) {
+                            break;
+                          }
+                        }
+
+                        print("please");
+                        print(docLength);
+                        return _buildLoopDoc(context, snapshot.data.documents[roomDocIndex], 0);
+                      },
+                    );
+                  },
+                ),
+              )
+
+
+            ])
     );
+
+  }
+
+  void  asyncFunc() async {
+    currDocLength = 0;
+    List<DocumentSnapshot> templist;
+    List<Map<dynamic, dynamic>> list = new List();
+    CollectionReference collectionRef = Firestore.instance.collection(
+        "gameSessions");
+    QuerySnapshot collectionSnapshot = await collectionRef.getDocuments();
+
+    templist = collectionSnapshot.documents;
+
+    list = templist.map((DocumentSnapshot docSnapshot) {
+      return docSnapshot.data;
+    }).toList();
+
+    var room;
+
+    for (var i = 0; i < list.length; i++) {
+
+      print(_roomNum);
+      if (list[i]["roomNumber"] == _roomNum) {
+        room = list[i];
+      }
+    }
+    for (var key in room.keys) {
+      if (key.startsWith("player")) currDocLength++;
+      print(currDocLength);
+      print("aha");
+    }
+
+  }
 
     void dispose() {
       // Clean up the controller when the widget is disposed.
       myController.dispose();
       super.dispose();
     }
-  }
 
   void startRoom() {
     var randNum = new Random();

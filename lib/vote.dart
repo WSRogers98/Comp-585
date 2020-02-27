@@ -70,7 +70,7 @@ class _DbPageState extends State<DbPage> {
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
     final record = Record.fromSnapshot(data);
     return Padding(
-      key: ValueKey(record.answer),
+      key: ValueKey(record.name),
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Container(
         decoration: BoxDecoration(
@@ -78,7 +78,7 @@ class _DbPageState extends State<DbPage> {
           borderRadius: BorderRadius.circular(5.0),
         ),
         child: ListTile(
-            title: Text(record.answer),
+            title: Text(record.name),
             trailing: Text(record.votes.toString()),
             onTap: () => record.reference.updateData({'votes': FieldValue.increment(1)})
         ),
@@ -88,21 +88,21 @@ class _DbPageState extends State<DbPage> {
 }
 
 class Record {
-  final String answer;
+  final String name;
   final int votes;
   final DocumentReference reference;
 
   Record.fromMap(Map<String, dynamic> map, {this.reference})
-      : assert(map['answer'] != null),
+      : assert(map['name'] != null),
         assert(map['votes'] != null),
-        answer = map['answer'],
+        name = map['name'],
         votes = map['votes'];
 
   Record.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, reference: snapshot.reference);
 
   @override
-  String toString() => "Record<$answer:$votes>";
+  String toString() => "Record<$name:$votes>";
 }
 
 void submitQ(){
@@ -119,6 +119,6 @@ void submitA(){
       .collection('users')
       .document(currUser)
       .updateData({
-    'answer': qna,
+    'name': qna,
   });
 }
