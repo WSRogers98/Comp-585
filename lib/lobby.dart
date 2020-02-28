@@ -218,6 +218,38 @@ class _lobbyState extends State<lobbyPage> {
   }
 
 
+  // this function grabs and returns a list of players in a specified gameSession
+  Future<List<String>> getPlayers() async{
+
+//      var grabtest = Firestore.instance.collection('gameSessions').document(_roomNum).collection('players').getDocuments();
+//
+//      _roomNum = 7382.toString();
+
+      List<DocumentSnapshot> templist;
+      List<String> list = new List();
+      CollectionReference collectionRef = Firestore.instance.collection('gameSessions').document(_roomNum).collection('players');
+      QuerySnapshot collectionSnapshot = await collectionRef.getDocuments();
+
+      templist = collectionSnapshot.documents; // <--- ERROR
+
+      list = templist.map((DocumentSnapshot docSnapshot){
+        return docSnapshot.documentID;
+      }).toList();
+
+
+//    print("before testing print line !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//      print(list);
+//      for (var i = 0; i < list.length; i++) {
+//        print(list[i]);
+//      }
+//    print("after testing print line  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
+      return list;
+
+
+  }
+
+
   Future completeRoom(context) async {
     print(getDocuments().then((value)=>(value.documents.length)));
     print('h');
