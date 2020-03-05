@@ -161,6 +161,9 @@ class _lobbyState extends State<lobbyPage> {
   void joinRoom() async {
     _roomNum = myController.text;
 
+    //print(getPlayers().then((onValue)=>print(onValue)));
+    print(getPlayers());
+    print("ii");
     //print(_roomNum);
 
 //      List<DocumentSnapshot> templist;
@@ -235,7 +238,8 @@ class _lobbyState extends State<lobbyPage> {
       list = templist.map((DocumentSnapshot docSnapshot){
         return docSnapshot.documentID;
       }).toList();
-
+      print(list);
+      print("00 ");
 
 //    print("before testing print line !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 //      print(list);
@@ -251,7 +255,7 @@ class _lobbyState extends State<lobbyPage> {
 
 
   Future completeRoom(context) async {
-    print(getDocuments().then((value)=>(value.documents.length)));
+    print(getDocuments());
     print('h');
     Navigator.push(context, MaterialPageRoute(builder: (context) => MyGame()));
   }
