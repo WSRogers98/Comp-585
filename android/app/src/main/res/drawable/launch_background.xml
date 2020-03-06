@@ -7,6 +7,6 @@
    <item>
         <bitmap
             android:gravity="center"
-            android:src="@mipmap/template_symbol" />
+            android:src="@mipmap/symbol" />
     </item>
 </layer-list>
