@@ -6,7 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:test8/lobby.dart';
 
-String _email, _password;
+String _email, _password, _emailReg, _passwordReg;
 String currUser;
 var user = FirebaseUser;
 void main() => runApp(MyApp());
@@ -89,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
                 Container(
                  child: Align(
-                   alignment: Alignment(0,.9),
+                   alignment: Alignment(0.4,.9),
 
                     child:
                     user == null ? RaisedButton(
@@ -165,6 +165,85 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
           ),
                 ),
+                /////////////////////////////////////////////////////////////////////////////////////////Reg
+                Container(
+                  child: Align(
+                    alignment: Alignment(-.4,0.9),
+
+                    child:
+                    user == null ? RaisedButton(
+                      onPressed: () async {
+                        print('clicked');
+                      },
+                      child: Text('Register', style: TextStyle(fontSize: 10)),
+                      color: thiscolor.withOpacity(1),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(10.0),
+
+                      ),
+                      textColor: Colors.white,
+                      elevation: 15,
+
+                    )
+                        : RaisedButton(
+                      onPressed: () async {
+                        print('clicked');
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context){
+                              return AlertDialog(
+                                content: Form(
+                                  key: _formKey,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: TextFormField(
+                                          decoration: InputDecoration(
+                                            border: OutlineInputBorder(),
+                                            hintText: 'Enter Email Here',
+                                          ),
+                                          autofocus: true,
+                                          obscureText: false,
+                                          onSaved: (input) => _emailReg = input,),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: TextFormField(
+                                            decoration: InputDecoration(
+                                              border: OutlineInputBorder(),
+                                              hintText: 'Enter Password Here',
+                                            ),
+                                            autofocus: false,
+                                            obscureText: true,
+                                            onSaved: (input) => _passwordReg = input),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: RaisedButton(
+                                          child: Text("Submit"),
+                                          onPressed: register,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }
+                        );
+                      },
+                      child: Text('Register', style: TextStyle(fontSize: 10)),
+                      color: thiscolor.withOpacity(1),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(10.0),
+
+                      ),
+                      textColor: Colors.white,
+                      elevation: 15,
+                    ),
+                  ),
+                ),
               ]
             ),
           ),
@@ -177,6 +256,22 @@ class _MyHomePageState extends State<MyHomePage> {
       _formKey.currentState.save();
       try{
         FirebaseUser user = (await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)).user;
+        currUser = user.uid;
+        print(user);
+        print("success");
+        Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
+      }catch(e){
+        print("notFound");
+        print(e.message);
+      }
+    }
+  }
+  void register() async {
+
+    if(_formKey.currentState.validate()){
+      _formKey.currentState.save();
+      try{
+        FirebaseUser user = (await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailReg, password: _passwordReg)).user;
         currUser = user.uid;
         print(user);
         print("success");
