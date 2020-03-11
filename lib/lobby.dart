@@ -54,7 +54,20 @@ class _lobbyState extends State<lobbyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('lobby')),
+        appBar: AppBar(
+          title: Text("lobby"),
+          leading: Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () async {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
+                },
+                tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+              );
+            },
+          ),
+        ),
         body:
         Column(
             children: [

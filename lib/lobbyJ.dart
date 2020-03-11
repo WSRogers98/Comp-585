@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
 import 'package:test8/main.dart';
-import 'package:test8/room.dart';
+import 'package:test8/roomJ.dart';
 import 'package:test8/GameScreen.dart';
 import 'package:test8/lobby.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -29,7 +29,20 @@ class _lobbyJState extends State<lobbyJPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('lobby')),
+        appBar: AppBar(
+          title: Text("lobby"),
+          leading: Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () async {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
+                },
+                tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+              );
+            },
+          ),
+        ),
         body:
         Column(
             children: [
@@ -144,7 +157,7 @@ class _lobbyJState extends State<lobbyJPage> {
             trailing: Text("0"),
             onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => MyRoom()));
+                  context, MaterialPageRoute(builder: (context) => MyRoomJ()));
               joinRoomNum = record.name;
             }
         ),

@@ -53,8 +53,7 @@ class _roomState extends State<roomPage> {
                       }else{
                         Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyJPage()));
                       }
-                    }
-                    ;
+                    };
                   },
                   tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
                 );
@@ -75,6 +74,7 @@ class _roomState extends State<roomPage> {
       },
     )
                 ),
+
                 RaisedButton(
                   child: Text("Join a Room"),
                   onPressed: joinRoom,
