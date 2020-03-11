@@ -5,6 +5,9 @@ import 'package:test8/SizeConfig.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:test8/lobby.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:test8/lobbyO.dart';
+import 'package:test8/lobbyJ.dart';
 
 String _email, _password, _emailReg, _passwordReg;
 String currUser;
@@ -73,8 +76,20 @@ class _MyHomePageState extends State<MyHomePage> {
           alignment: Alignment(-.40,.70),
           child: RaisedButton(
             onPressed: () async {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyPage()));
-              print('clicked');
+//              Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyPage()));
+              var docSnap = await Firestore.instance.collection('users').document(currUser).get();
+              var room = docSnap.data["room"];
+              var owner = docSnap.data["owner"];
+              if(room==null){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyPage()));
+              }else{
+                if(owner==true){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyOPage()));
+                }else{
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyJPage()));
+                }
+              }
+              print("null");
             },
             child: Text('Play', style: TextStyle(fontSize: 10)),
             shape: RoundedRectangleBorder(
@@ -250,6 +265,29 @@ class _MyHomePageState extends State<MyHomePage> {
     ),
     );
   }
+
+  void navToLobby() async {
+    Firestore.instance.collection('users').document(currUser).get();
+    StreamBuilder<DocumentSnapshot>(
+      stream: Firestore.instance.collection('users').document(currUser).snapshots(),
+      builder: (context, snapshot) {
+        if(snapshot.data['room'] == null){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyPage()));
+        }else{
+          if(snapshot.data['owner'] == false){
+            Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyJPage()));
+          }else{
+            Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyOPage()));
+          }
+        }
+        return null;
+      },
+    );
+  }
+
+
+
+
   void signIn() async {
     print("signin");
     if(_formKey.currentState.validate()){
@@ -267,12 +305,18 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
   void register() async {
-
     if(_formKey.currentState.validate()){
       _formKey.currentState.save();
       try{
         FirebaseUser user = (await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailReg, password: _passwordReg)).user;
         currUser = user.uid;
+        Firestore.instance
+            .collection('users')
+            .document(currUser)
+            .setData({
+          'room': null,
+          'owner': false
+        });
         print(user);
         print("success");
         Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));

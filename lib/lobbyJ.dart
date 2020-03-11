@@ -11,13 +11,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:test8/lobbyO.dart';
 import 'package:test8/lobbyJ.dart';
 
-String joinRoomNum;
 
-class lobbyPage extends StatefulWidget {
+
+class lobbyJPage extends StatefulWidget {
   @override
-  _lobbyState createState() => _lobbyState();
+  _lobbyJState createState() => _lobbyJState();
 }
-class _lobbyState extends State<lobbyPage> {
+class _lobbyJState extends State<lobbyJPage> {
   int roomDocIndex;
   String player1;
   String player2;
@@ -25,31 +25,6 @@ class _lobbyState extends State<lobbyPage> {
   final myController = TextEditingController();
   int roomListLength;
 
-//  int room() async{
-//    var ran = await Firestore.instance
-//        .collection('gameSessions').getDocuments();
-//    int xx = ran.documents.length;
-//    return xx;
-//  }
-//  void initState(){
-//    int z;
-//    //var x = Firestore.instance
-//      //.collection('gameSessions').getDocuments().then((var y)=>z = y.documents.length);
-//    Firestore.instance
-//        .collection('gameSessions').getDocuments().then((var y)=>roomListLength = y.documents.length);
-//   // x.then((var y)=>z = y.documents.length);
-//    print("xx");
-//    z = await room();
-//   print(room());
-//   print('zz');
-//  }
-//  Widget roomList(BuildContext context){
-//    return ListView.builder(
-//
-//        itemCount: ,
-//        itemBuilder: (context, index) => Text(names[index])
-//    )
-//  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,40 +33,83 @@ class _lobbyState extends State<lobbyPage> {
         body:
         Column(
             children: [
+              Text('room number:'),
+              Flexible(
+                child:
+                StreamBuilder<DocumentSnapshot>(
+                  stream: Firestore.instance.collection('users').document(currUser).snapshots(),
+                  builder: (context, snapshot) {
+                    joinedRoom= snapshot.data['room'];
+                    print('jj');
+                    print(joinedRoom);
+                    if (!snapshot.hasData) return LinearProgressIndicator();
+                    return Text(snapshot.data['room']);
+                  },
+                ),
+              ),
+              Text('room member:'),
+              Flexible(
+                child:
+                StreamBuilder<DocumentSnapshot>(
+                  stream: Firestore.instance.collection('users').document(currUser).snapshots(),
+                  builder: (context, snapshot) {
+                    joinedRoom= snapshot.data['room'];
+                    print('jj');
+                    print(joinedRoom);
+                    if (!snapshot.hasData) return LinearProgressIndicator();
+                    return _buildMem(context,joinedRoom);
+                  },
+                ),
+              ),
               RaisedButton(
-                child: Text("Start a Room"),
+                child: Text("Exit Room"),
                 onPressed: () {
-                  startRoom();
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyOPage()));
+                  Firestore.instance
+                      .collection('gameSessions')
+                      .document(_roomNum)
+                      .delete();
+                  Firestore.instance
+                      .collection('users')
+                      .document(currUser)
+                      .updateData({
+                    'room': null
+                  });
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => lobbyPage()));
                 },
                 color: Colors.orangeAccent,
                 textColor: Colors.white,
-                padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+                padding: EdgeInsets.fromLTRB(35, 10, 35, 10),
                 splashColor: Colors.grey,
               ),
-              TextField(
-                controller: myController,
-              ),
-              RaisedButton(
-                child: Text("Join a Room"),
-                onPressed: () {
-                  joinRoom();
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyJPage()));
-                },
-                color: Colors.orangeAccent,
-                textColor: Colors.white,
-                padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
-                splashColor: Colors.grey,
-              ),
-
               Flexible(
                 child:
                 _buildBody(context),
-              ),
-              //roomList(context)
+              ), //roomList(context)
             ])
     );
-//    }
+  }
+  Widget _buildMem(BuildContext context, String joinedRoom) {
+    return StreamBuilder<QuerySnapshot>(
+        stream: Firestore.instance.collection('gameSessions').document(joinedRoom).collection('players').snapshots(),
+        builder: (context, snapshot) {
+          print("hh");
+          print(joinedRoom);
+          print(snapshot);
+          if (!snapshot.hasData) return LinearProgressIndicator();
+          return _buildCol(context, snapshot.data.documents.map((DocumentSnapshot docSnapshot){
+            return docSnapshot.documentID;
+          }).toList());
+        }
+    );
+  }
+
+  Widget _buildCol(BuildContext context, List snapshot) {
+    return Column(
+      children: <Widget>[
+        for(var item in snapshot ) Text(item)
+      ],
+    );
   }
 
   Widget _buildBody(BuildContext context) {
