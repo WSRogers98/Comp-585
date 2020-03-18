@@ -8,7 +8,9 @@ import 'package:test8/lobby.dart';
 import 'package:test8/GameScreen.dart';
 import 'package:test8/lobbyO.dart';
 import 'package:test8/lobbyJ.dart';
+
 void main() => runApp(MyRoomJ());
+
 class MyRoomJ extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -29,8 +31,8 @@ class MyRoomJ extends StatelessWidget {
 class roomJPage extends StatefulWidget {
   @override
   _roomJState createState() => _roomJState();
-
 }
+
 class _roomJState extends State<roomJPage> {
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,55 +44,68 @@ class _roomJState extends State<roomJPage> {
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () async {
 //              Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyPage()));
-                  var docSnap = await Firestore.instance.collection('users').document(currUser).get();
+                  var docSnap = await Firestore.instance
+                      .collection('users')
+                      .document(currUser)
+                      .get();
                   var room = docSnap.data["room"];
                   var owner = docSnap.data["owner"];
-                  if(room==null){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyPage()));
-                  }else{
-                    if(owner==true){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyOPage()));
-                    }else{
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyJPage()));
+                  if (room == null) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => lobbyPage()));
+                  } else {
+                    if (owner == true) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => lobbyOPage()));
+                    } else {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => lobbyJPage()));
                     }
-                  };
+                  }
+                  ;
                 },
                 tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
               );
             },
           ),
         ),
-        body:
-        Column(
-            children: [
-              Flexible(child:
-              StreamBuilder<QuerySnapshot>(
-                stream: Firestore.instance.collection('gameSessions').document(joinRoomNum).collection('players').snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) return LinearProgressIndicator();
-                  return _buildList(context, snapshot.data.documents.map((DocumentSnapshot docSnapshot){
+        body: Column(children: [
+          Flexible(
+              child: StreamBuilder<QuerySnapshot>(
+            stream: Firestore.instance
+                .collection('gameSessions')
+                .document(joinRoomNum)
+                .collection('players')
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) return LinearProgressIndicator();
+              return _buildList(
+                  context,
+                  snapshot.data.documents.map((DocumentSnapshot docSnapshot) {
                     return docSnapshot.documentID;
                   }).toList());
-                },
-              )
-              ),
-            ]
-        )
-    );
+            },
+          )),
+        ]));
   }
+
   Widget _buildList(BuildContext context, List snapshot) {
     return Column(
-      children: <Widget>[
-        for(var item in snapshot ) Text(item)
-      ],
+      children: <Widget>[for (var item in snapshot) Text(item)],
     );
   }
+
   void joinRoom() async {
     if (currUser != null) {
       Firestore.instance
           .collection('gameSessions')
           .document(joinRoomNum)
-          .collection('players').document(currUser)
+          .collection('players')
+          .document(currUser)
           .setData({
         'question': '',
         'answer': '',
@@ -98,10 +113,7 @@ class _roomJState extends State<roomJPage> {
       Firestore.instance
           .collection('users')
           .document(currUser)
-          .updateData({
-        'room': joinRoomNum,
-        'owner':false
-      });
+          .updateData({'room': joinRoomNum, 'owner': false});
     }
   }
 }

@@ -19,25 +19,25 @@ class DbPage extends StatefulWidget {
   @override
   _DbPageState createState() => _DbPageState();
 }
+
 class _DbPageState extends State<DbPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Answer Votes')),
-      body: Column(
-        children: [_buildBody(context),
-
-        TextFormField(
-          onSaved: (input) => qna = input,
-       ),
-    RaisedButton(
-                child: Text("submit"),
-                onPressed: submitQ,
-                color: Colors.red,
-                textColor: Colors.yellow,
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                splashColor: Colors.grey,
-              ),
+        appBar: AppBar(title: Text('Answer Votes')),
+        body: Column(children: [
+          _buildBody(context),
+          TextFormField(
+            onSaved: (input) => qna = input,
+          ),
+          RaisedButton(
+            child: Text("submit"),
+            onPressed: submitQ,
+            color: Colors.red,
+            textColor: Colors.yellow,
+            padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+            splashColor: Colors.grey,
+          ),
           RaisedButton(
             child: Text("submit"),
             onPressed: submitA,
@@ -45,9 +45,8 @@ class _DbPageState extends State<DbPage> {
             textColor: Colors.yellow,
             padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
             splashColor: Colors.grey,
-          )])
-      );
-
+          )
+        ]));
   }
 
   Widget _buildBody(BuildContext context) {
@@ -80,8 +79,8 @@ class _DbPageState extends State<DbPage> {
         child: ListTile(
             title: Text(record.name),
             trailing: Text(record.votes.toString()),
-            onTap: () => record.reference.updateData({'votes': FieldValue.increment(1)})
-        ),
+            onTap: () => record.reference
+                .updateData({'votes': FieldValue.increment(1)})),
       ),
     );
   }
@@ -105,20 +104,14 @@ class Record {
   String toString() => "Record<$name:$votes>";
 }
 
-void submitQ(){
-  Firestore.instance
-      .collection('users')
-      .document(currUser)
-      .setData({
+void submitQ() {
+  Firestore.instance.collection('users').document(currUser).setData({
     'question': qna,
   });
 }
 
-void submitA(){
-  Firestore.instance
-      .collection('users')
-      .document(currUser)
-      .updateData({
+void submitA() {
+  Firestore.instance.collection('users').document(currUser).updateData({
     'name': qna,
   });
 }

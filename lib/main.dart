@@ -11,7 +11,8 @@ import 'package:test8/lobbyJ.dart';
 
 String _email, _password, _emailReg, _passwordReg;
 String currUser;
-var user = FirebaseUser;
+var SignedIn = false;
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -22,8 +23,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         buttonTheme: ButtonThemeData(
-            height: 25,
-            minWidth: 65,
+          height: 25,
+          minWidth: 65,
         ),
       ),
       home: new MyHomePage(),
@@ -31,253 +32,249 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget{
+class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => new _MyHomePageState();
-
 }
+
 class _MyHomePageState extends State<MyHomePage> {
   @override
   final _formKey = GlobalKey<FormState>();
-  Widget build(BuildContext context){
+
+  Widget build(BuildContext context) {
     SizeConfig().init(context);
-    const thiscolor= const Color(0x6BA7B5);
+    const thiscolor = const Color(0x6BA7B5);
     return Scaffold(
       body: Container(
-          decoration: BoxDecoration(
-            image:  const DecorationImage(
-              image: AssetImage('assets/images/tempBackground.png'),
-              fit: BoxFit.fill,
-            ),
+        decoration: BoxDecoration(
+          // decoration box for background Image
+          image: const DecorationImage(
+            image: AssetImage('assets/images/tempBackground.png'),
+            fit: BoxFit.fill,
           ),
-          child:SafeArea(
-            child: Stack(
-              children: <Widget>[
+        ),
+        child: SafeArea(
+          child: Stack(children: <Widget>[
             Container(
-            child: Align(
-                alignment: Alignment(.40,.70),
-            child: RaisedButton(
-              onPressed: () async {
-                print('clicked');
-              },
-              child: Text('Learn', style: TextStyle(fontSize: 10)),
-              shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(10.0),
-
-              ),
-              textColor: Colors.white,
-              elevation: 15,
-              color: thiscolor.withOpacity(1),
-            ),
-          ),
-      ),
-      Container(
-        child: Align(
-          alignment: Alignment(-.40,.70),
-          child: RaisedButton(
-            onPressed: () async {
-//              Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyPage()));
-              var docSnap = await Firestore.instance.collection('users').document(currUser).get();
-              var room = docSnap.data["room"];
-              var owner = docSnap.data["owner"];
-              if(room==null){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyPage()));
-              }else{
-                if(owner==true){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyOPage()));
-                }else{
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyJPage()));
-                }
-              }
-              print("null");
-            },
-            child: Text('Play', style: TextStyle(fontSize: 10)),
-            shape: RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(10.0),
-
-            ),
-            textColor: Colors.white,
-            elevation: 15,
-            color: thiscolor.withOpacity(1),
-          ),
-        ),
-      ),
-                Container(
-                 child: Align(
-                   alignment: Alignment(0.4,.9),
-
-                    child:
-                    user == null ? RaisedButton(
-                    onPressed: () async {
-                     print('clicked');
-                      },
-              child: Text('Sign In', style: TextStyle(fontSize: 10)),
-              color: thiscolor.withOpacity(1),
-              shape: RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(10.0),
-
-              ),
-              textColor: Colors.white,
-              elevation: 15,
-
-            )
-            : RaisedButton(
-              onPressed: () async {
-        print('clicked');
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context){
-                    return AlertDialog(
-                      content: Form(
-                        key: _formKey,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: TextFormField(
-                            decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: 'Enter Email Here',
-                              ),
-                          autofocus: true,
-                          obscureText: false,
-                          onSaved: (input) => _email = input,),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: TextFormField(
-                            decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: 'Enter Password Here',
-                              ),
-                            autofocus: false,
-                            obscureText: true,
-                            onSaved: (input) => _password = input),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: RaisedButton(
-                          child: Text("Submit"),
-                          onPressed: signIn,
-                        ),
-                      )
-                          ],
-                        ),
-                      ),
-                    );
-                  }
-                );
-        },
-          child: Text('Sign In', style: TextStyle(fontSize: 10)),
-          color: thiscolor.withOpacity(1),
-          shape: RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(10.0),
-
-          ),
-          textColor: Colors.white,
-          elevation: 15,
-        ),
-          ),
+              child: Align(
+                alignment: Alignment(.40, .70),
+                child: RaisedButton(
+                  onPressed: () async {
+                    print('clicked');
+                  },
+                  // Learn Button
+                  child: Text('ᎭᏕᎶᏆ', style: TextStyle(fontSize: 10)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(10.0),
+                  ),
+                  textColor: Colors.white,
+                  elevation: 15,
+                  color: thiscolor.withOpacity(1),
                 ),
-                /////////////////////////////////////////////////////////////////////////////////////////Reg
-                Container(
-                  child: Align(
-                    alignment: Alignment(-.4,0.9),
-
-                    child:
-                    user == null ? RaisedButton(
-                      onPressed: () async {
-                        print('clicked');
-                      },
-                      child: Text('Register', style: TextStyle(fontSize: 10)),
-                      color: thiscolor.withOpacity(1),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(10.0),
-
-                      ),
-                      textColor: Colors.white,
-                      elevation: 15,
-
-                    )
-                        : RaisedButton(
-                      onPressed: () async {
-                        print('clicked');
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context){
-                              return AlertDialog(
-                                content: Form(
-                                  key: _formKey,
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: TextFormField(
-                                          decoration: InputDecoration(
-                                            border: OutlineInputBorder(),
-                                            hintText: 'Enter Email Here',
-                                          ),
-                                          autofocus: true,
-                                          obscureText: false,
-                                          onSaved: (input) => _emailReg = input,),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: TextFormField(
+              ),
+            ),
+            Container(
+              child: Align(
+                alignment: Alignment(-.40, .70),
+                child: RaisedButton(
+                  onPressed: () async {
+//              Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyPage()));
+                    var docSnap = await Firestore.instance
+                        .collection('users')
+                        .document(currUser)
+                        .get();
+                    var room = docSnap.data["room"];
+                    var owner = docSnap.data["owner"];
+                    if (room == null) {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => lobbyPage()));
+                    } else {
+                      if (owner == true) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => lobbyOPage()));
+                      } else {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => lobbyJPage()));
+                      }
+                    }
+                    print("null");
+                  },
+                  // Play Button
+                  child: Text('ᎭᏁᏟᏓ', style: TextStyle(fontSize: 10)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(10.0),
+                  ),
+                  textColor: Colors.white,
+                  elevation: 15,
+                  color: thiscolor.withOpacity(1),
+                ),
+              ),
+            ),
+            Container(
+              child: Align(
+                alignment: Alignment(0.4, .9),
+                child: SignedIn == false
+                    // conditional Switch Button Between Sign in and profile, dependent on if user is already signed in
+                    ? RaisedButton(
+                        onPressed: () async {},
+                        // sign in section of button
+                        child: Text('Sign In', style: TextStyle(fontSize: 10)),
+                        color: thiscolor.withOpacity(1),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(10.0),
+                        ),
+                        textColor: Colors.white,
+                        elevation: 15,
+                      )
+                    : RaisedButton(
+                        onPressed: () async {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  content: Form(
+                                    key: _formKey,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: TextFormField(
                                             decoration: InputDecoration(
                                               border: OutlineInputBorder(),
-                                              hintText: 'Enter Password Here',
+                                              hintText: 'Enter Email Here',
                                             ),
-                                            autofocus: false,
-                                            obscureText: true,
-                                            onSaved: (input) => _passwordReg = input),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: RaisedButton(
-                                          child: Text("Submit"),
-                                          onPressed: register,
+                                            autofocus: true,
+                                            obscureText: false,
+                                            onSaved: (input) => _email = input,
+                                          ),
                                         ),
-                                      )
-                                    ],
+                                        Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: TextFormField(
+                                              decoration: InputDecoration(
+                                                border: OutlineInputBorder(),
+                                                hintText: 'Enter Password Here',
+                                              ),
+                                              autofocus: false,
+                                              obscureText: true,
+                                              onSaved: (input) =>
+                                                  _password = input),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: RaisedButton(
+                                            child: Text("Submit"),
+                                            onPressed: signIn,
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              );
-                            }
-                        );
-                      },
-                      child: Text('Register', style: TextStyle(fontSize: 10)),
-                      color: thiscolor.withOpacity(1),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(10.0),
-
+                                );
+                              });
+                        },
+                        // profile section of button
+                        child: Text('Profile', style: TextStyle(fontSize: 10)),
+                        color: thiscolor.withOpacity(1),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(10.0),
+                        ),
+                        textColor: Colors.white,
+                        elevation: 15,
                       ),
-                      textColor: Colors.white,
-                      elevation: 15,
-                    ),
-                  ),
-                ),
-              ]
+              ),
             ),
-          ),
-    ),
+            // Button to Register New User
+            Container(
+              child: Align(
+                alignment: Alignment(-.4, 0.9),
+                // Switch register Button
+                child: RaisedButton(
+                  onPressed: () async {
+                    print('clicked');
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            content: Form(
+                              key: _formKey,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: TextFormField(
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        hintText: 'Enter Email Here',
+                                      ),
+                                      autofocus: true,
+                                      obscureText: false,
+                                      onSaved: (input) => _emailReg = input,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: TextFormField(
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          hintText: 'Enter Password Here',
+                                        ),
+                                        autofocus: false,
+                                        obscureText: true,
+                                        onSaved: (input) =>
+                                            _passwordReg = input),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: RaisedButton(
+                                      child: Text("Submit"),
+                                      onPressed: register,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        });
+                  },
+                  child: Text('Register', style: TextStyle(fontSize: 10)),
+                  color: thiscolor.withOpacity(1),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(10.0),
+                  ),
+                  textColor: Colors.white,
+                  elevation: 15,
+                ),
+              ),
+            ),
+          ]),
+        ),
+      ),
     );
   }
 
   void navToLobby() async {
     Firestore.instance.collection('users').document(currUser).get();
     StreamBuilder<DocumentSnapshot>(
-      stream: Firestore.instance.collection('users').document(currUser).snapshots(),
+      stream:
+          Firestore.instance.collection('users').document(currUser).snapshots(),
       builder: (context, snapshot) {
-        if(snapshot.data['room'] == null){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyPage()));
-        }else{
-          if(snapshot.data['owner'] == false){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyJPage()));
-          }else{
-            Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyOPage()));
+        if (snapshot.data['room'] == null) {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => lobbyPage()));
+        } else {
+          if (snapshot.data['owner'] == false) {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => lobbyJPage()));
+          } else {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => lobbyOPage()));
           }
         }
         return null;
@@ -285,63 +282,50 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-
-
-
+  // sign in a new account
   void signIn() async {
     print("signin");
-    if(_formKey.currentState.validate()){
+    if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      try{
-        FirebaseUser user = (await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)).user;
+      try {
+        FirebaseUser user = (await FirebaseAuth.instance
+                .signInWithEmailAndPassword(email: _email, password: _password))
+            .user;
         currUser = user.uid;
         print(user);
         print("success");
-        Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
-      }catch(e){
+        SignedIn = true;
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => MyApp()));
+      } catch (e) {
         print("notFound");
         print(e.message);
       }
     }
   }
+
+  // register a new account
   void register() async {
-    if(_formKey.currentState.validate()){
+    if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      try{
-        FirebaseUser user = (await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailReg, password: _passwordReg)).user;
+      try {
+        FirebaseUser user = (await FirebaseAuth.instance
+                .createUserWithEmailAndPassword(
+                    email: _emailReg, password: _passwordReg))
+            .user;
         currUser = user.uid;
         Firestore.instance
             .collection('users')
             .document(currUser)
-            .setData({
-          'room': null,
-          'owner': false
-        });
+            .setData({'room': null, 'owner': false});
         print(user);
         print("success");
-        Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
-      }catch(e){
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => MyApp()));
+      } catch (e) {
         print("notFound");
         print(e.message);
       }
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

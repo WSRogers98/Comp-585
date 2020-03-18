@@ -21,11 +21,11 @@ class MyGame extends StatelessWidget {
   }
 }
 
-class GamePage extends StatefulWidget{
+class GamePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => new _MyHomePageState();
-
 }
+
 class _MyHomePageState extends State<GamePage> {
   @override
   Widget build(BuildContext context) {
