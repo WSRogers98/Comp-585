@@ -120,7 +120,53 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: SignedIn == false
                     // conditional Switch Button Between Sign in and profile, dependent on if user is already signed in
                     ? RaisedButton(
-                        onPressed: () async {},
+                        onPressed: () async {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  content: Form(
+                                    key: _formKey,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: TextFormField(
+                                            decoration: InputDecoration(
+                                              border: OutlineInputBorder(),
+                                              hintText: 'Enter Email Here',
+                                            ),
+                                            autofocus: true,
+                                            obscureText: false,
+                                            onSaved: (input) => _email = input,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: TextFormField(
+                                              decoration: InputDecoration(
+                                                border: OutlineInputBorder(),
+                                                hintText: 'Enter Password Here',
+                                              ),
+                                              autofocus: false,
+                                              obscureText: true,
+                                              onSaved: (input) =>
+                                                  _password = input),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: RaisedButton(
+                                            child: Text("Submit"),
+                                            onPressed: signIn,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              });
+                        },
                         // sign in section of button
                         child: Text('Sign In', style: TextStyle(fontSize: 10)),
                         color: thiscolor.withOpacity(1),
