@@ -40,13 +40,168 @@ class GamePage extends StatefulWidget {
 
 class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
   @override
+  AnimationController controller;
 
+  String get timeString {
+    Duration duration = controller.duration * controller.value;
+    return '${(duration.inSeconds).toString().padLeft(2, '0')}';
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 30),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
+    const thiscolor = const Color(0x6BA7B5);
+    startTimer(controller);
     return Scaffold(
+      body: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Expanded(
+              child: Align(
+                alignment: FractionalOffset.center,
+                child: AspectRatio(
+                  aspectRatio: 1.0,
+                  child: Stack(
+                    children: <Widget>[
+                      Positioned.fill(
+                        child: AnimatedBuilder(
+                          animation: controller,
+                          builder: (BuildContext context, Widget child) {
+                            return CustomPaint(
+                                painter: TimerPainter(
+                              animation: controller,
+                              backgroundColor: Colors.white,
+                              color: themeData.indicatorColor,
+                            ));
+                          },
+                        ),
+                      ),
+                      Align(
+                        alignment: FractionalOffset.center,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              "Time Left",
+                              style: themeData.textTheme.subhead,
+                            ),
+                            AnimatedBuilder(
+                                animation: controller,
+                                builder: (BuildContext context, Widget child) {
+                                  return Text(
+                                    timeString,
+                                    style: themeData.textTheme.display4,
+                                  );
+                                }),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+//            Container(
+//              margin: EdgeInsets.all(25.0),
+//              child: Row(
+//                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                children: <Widget>[
+//                   Text(
+//                    "Current Phrase Goes Here",
+//
+//                  ),
+//                ],
+//              ),
+//            ),
+//
 
+//            Container(
+//              margin: EdgeInsets.all(8.0),
+//              child: Row(
+//                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                children: <Widget>[
+//                  FloatingActionButton(
+//                    child: AnimatedBuilder(
+//                      animation: controller,
+//                      builder: (BuildContext context, Widget child) {
+//                        return Icon(controller.isAnimating
+//                            ? Icons.pause
+//                            : Icons.play_arrow);
+//
+//                        // Icon(isPlaying
+//                        // ? Icons.pause
+//                        // : Icons.play_arrow);
+//                      },
+//                    ),
+//                    onPressed: () {
+//                      // setState(() => isPlaying = !isPlaying);
+//
+//                      if (controller.isAnimating) {
+//                        controller.stop(canceled: true);
+//                      } else {
+//                        controller.reverse(
+//                            from: controller.value == 0.0
+//                                ? 1.0
+//                                : controller.value);
+//                      }
+//                    },
+//                  )
+//                ],
+//              ),
+//            )
+            Container(
+              child: Align(
+                alignment: Alignment(-.4, 0.9),
+                // Switch register Button
+                child: Form(
+                  // TODO: make a response form for the round?
+                  // key: _formKey,
+
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Enter a Respose',
+                          ),
+                          autofocus: false,
+                          obscureText: true,
+
+                          // TODO: Change to a response submission
+                          // onSaved: (input) =>
+                          //  _passwordReg = input
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: RaisedButton(
+                          child: Text("Submit"),
+                          onPressed: respond,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -82,3 +237,9 @@ class TimerPainter extends CustomPainter {
         backgroundColor != old.backgroundColor;
   }
 }
+
+void startTimer(controller) {
+  controller.reverse(from: controller.value == 0.0 ? 1.0 : controller.value);
+}
+
+void respond() async {}
