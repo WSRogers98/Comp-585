@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:math' as math;
 
-
 // TODO: get timer to automatically start
-void main() => runApp(PCResponseTimer());
+// Should be just calling a function, want to connect
+// all the pieces before we set up timing
 
-class PCResponseTimer extends StatelessWidget {
+void main() => runApp(MyGame());
+
+class MyGame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const themeColor = const Color(0xffb77b);
@@ -57,6 +59,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
+    const thiscolor = const Color(0x6BA7B5);
     startTimer(controller);
     return Scaffold(
       body: Padding(
@@ -110,19 +113,19 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                 ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.all(25.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                   Text(
-                    "Current Phrase Goes Here",
-
-                  ),
-                ],
-              ),
-            ),
-
+//            Container(
+//              margin: EdgeInsets.all(25.0),
+//              child: Row(
+//                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                children: <Widget>[
+//                   Text(
+//                    "Current Phrase Goes Here",
+//
+//                  ),
+//                ],
+//              ),
+//            ),
+//
 
 //            Container(
 //              margin: EdgeInsets.all(8.0),
@@ -158,17 +161,49 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
 //                ],
 //              ),
 //            )
+            Container(
+              child: Align(
+                alignment: Alignment(-.4, 0.9),
+                // Switch register Button
+                child: Form(
+                  // TODO: make a response form for the round?
+                  // key: _formKey,
 
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Enter a Respose',
+                          ),
+                          autofocus: false,
+                          obscureText: true,
 
-
+                          // TODO: Change to a response submission
+                          // onSaved: (input) =>
+                          //  _passwordReg = input
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: RaisedButton(
+                          child: Text("Submit"),
+                          onPressed: respond,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
-}
-void startTimer(controller) {
-  controller.reverse(from: controller.value == 0.0 ? 1.0 : controller.value);
 }
 
 class TimerPainter extends CustomPainter {
@@ -202,3 +237,9 @@ class TimerPainter extends CustomPainter {
         backgroundColor != old.backgroundColor;
   }
 }
+
+void startTimer(controller) {
+  controller.reverse(from: controller.value == 0.0 ? 1.0 : controller.value);
+}
+
+void respond() async {}
