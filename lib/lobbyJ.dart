@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -12,6 +14,7 @@ import 'package:test8/lobbyO.dart';
 import 'package:test8/lobbyJ.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:test8/GameScreenW.dart';
 
 class lobbyJPage extends StatefulWidget {
   @override
@@ -31,6 +34,30 @@ class _lobbyJState extends State<lobbyJPage> {
   void initState() {
     super.initState();
     _audioCache = AudioCache(prefix: "audio/", fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
+    checkIfOpen();
+  }
+
+  void checkIfOpen() {
+    //this code is to periodically check if GameOpen has been set to true by the room owner, if it is true
+    //then move them to gamescreen
+    Timer.periodic(Duration(seconds: 2), (timer) async {
+      //print(DateTime.now());
+      var sessionQuery = Firestore.instance
+          .collection('gameSessions')
+          .where('roomNumber', isEqualTo: _roomNum)
+          .limit(1);
+      var querySnapshot = await sessionQuery.getDocuments();
+      var documents = querySnapshot.documents;
+      if (documents.length == 0) { /*room doesn't exist? */ return; }
+      var isGameOpen = documents[0].data['GameOpen'];
+
+      if(isGameOpen == true){
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => WaitTimer()));
+        timer.cancel();
+      }
+
+    });
   }
 
   @override
@@ -341,3 +368,5 @@ class Record {
   @override
   String toString() => "Record<$name>";
 }
+
+var timer = Timer(Duration(seconds: 2), () => print('----------------------- 2 seconds have passed ----------------------'));
