@@ -5,17 +5,22 @@ import 'package:flutter/widgets.dart';
 import 'dart:math' as math;
 import 'package:test8/lobby.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:test8/lobbyO.dart';
+import 'package:test8/GameScreenW.dart';
 import 'package:test8/main.dart';
+import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:math' as math;
 String _question;
-
+final myController = TextEditingController();
 void main() => runApp(MyGame());
 
 class MyGame extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     const themeColor = const Color(0xffb77b);
@@ -143,21 +148,36 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: 'Enter a Respose',
-                          ),
-                          autofocus: false,
-                          // TODO: Change to a response submission
-                          onSaved: (input) => _question = input
+//                        child: TextFormField(
+//                          decoration: InputDecoration(
+//                            border: OutlineInputBorder(),
+//                            hintText: 'Enter a Respose',
+//                          ),
+//                          autofocus: false,
+//                          // TODO: Change to a response submission
+//                          onSaved: (input) => _question = input
+//                        ),
+                        child:TextField(
+                          controller: myController,
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: RaisedButton(
                           child: Text("Submit"),
-                          onPressed: saveQuestion,
+                          onPressed: () async{
+
+                            Firestore.instance
+                                .collection('gameSessions')
+                                .document(joinedRoom)
+                                .collection('players')
+                                .document(currUser)
+                                .updateData({
+                              'question': myController.text,
+                            });
+                            Navigator.push(
+                                context, MaterialPageRoute(builder: (context) => WaitTimer()));
+                          },
                         ),
                       )
                     ],
@@ -204,20 +224,6 @@ class TimerPainter extends CustomPainter {
         backgroundColor != old.backgroundColor;
   }
 }
-
-void saveQuestion() async{
-    print(_question);
-    Firestore.instance
-        .collection('gameSessions')
-        .document("3156")
-        .collection('players')
-        .document(currUser)
-        .updateData({
-      'question': _question,
-    });
-
-}
-
 
 //void main() => runApp(MyGame());
 //

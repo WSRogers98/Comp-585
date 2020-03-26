@@ -14,12 +14,12 @@ import 'package:test8/GameScreenQ.dart';
 import 'package:test8/lobby.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:test8/lobbyO.dart';
+import 'package:test8/lobbyJ.dart';
 
-final myController = TextEditingController();
 // TODO: get timer to automatically start
-void main() => runApp(WaitTimer());
+void main() => runApp(WaitTimer1());
 
-class WaitTimer extends StatelessWidget {
+class WaitTimer1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const themeColor = const Color(0xffb77b);
@@ -62,33 +62,6 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: 30),
-    );
-  }
-
-
-
-  Widget buildN(var question){
-    return Column(
-      children: <Widget>[
-        Text(question),
-    TextField(
-      controller: myController,
-    ),
-    RaisedButton(
-        child: Text("Submit"),
-    onPressed: () async {
-      Firestore.instance
-          .collection('gameSessions')
-          .document(joinedRoom)
-          .collection('players')
-          .document(currUser)
-          .updateData({
-        'answer': myController.text,
-      });
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => WaitTimer()));
-    })
-    ]
     );
   }
 
@@ -141,21 +114,13 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                                 }),
                             ///////////////////////////////
                             StreamBuilder<QuerySnapshot>(
-                                 stream: Firestore.instance.collection('gameSessions').document(joinedRoom).collection('players').snapshots(),
-                                 builder: (context, snapshot) {
-                                   print(snapshot.data.documents[0].data["question"]);
-                                   bool ready = false;
-                                   if(snapshot.data.documents[0].data["question"]!=''){
-                                     print("ugh");
-                                     var question = snapshot.data.documents[0].data["question"];
-                                     ready = true;
-                                      return buildN(question);
-//                                     Navigator.push(
-//                                         context, MaterialPageRoute(builder: (context) => AnswerPage()));
-                                   }
-                                   print("emm");
-                                   return Text("Wait for the question...");
-                                  },
+                              stream: Firestore.instance.collection('gameSessions').document(joinedRoom).collection('players').snapshots(),
+                              builder: (context, snapshot) {
+                                print(snapshot.data.documents[0].data["question"]);
+                                print("emm");
+                                if (!snapshot.hasData) return LinearProgressIndicator();
+                                return null;
+                              },
                             )
                           ],
                         ),

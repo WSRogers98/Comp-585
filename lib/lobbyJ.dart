@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -12,10 +11,9 @@ import 'package:test8/lobby.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:test8/lobbyO.dart';
 import 'package:test8/lobbyJ.dart';
+import 'package:test8/GameScreenW.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:test8/GameScreenW.dart';
-
 class lobbyJPage extends StatefulWidget {
   @override
   _lobbyJState createState() => _lobbyJState();
@@ -56,7 +54,6 @@ class _lobbyJState extends State<lobbyJPage> {
             context, MaterialPageRoute(builder: (context) => WaitTimer()));
         timer.cancel();
       }
-
     });
   }
 
@@ -105,7 +102,6 @@ class _lobbyJState extends State<lobbyJPage> {
                   .snapshots(),
               builder: (context, snapshot) {
                 joinedRoom = snapshot.data['room'];
-                print('jj');
                 print(joinedRoom);
                 if (!snapshot.hasData) return LinearProgressIndicator();
                 return _buildMem(context, joinedRoom);
