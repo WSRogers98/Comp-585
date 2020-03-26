@@ -6,10 +6,9 @@ import 'dart:math' as math;
 
 
 // TODO: get timer to automatically start
+void main() => runApp(PCResponseTimer());
 
-void main() => runApp(ResponseTimer());
-
-class ResponseTimer extends StatelessWidget {
+class PCResponseTimer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const themeColor = const Color(0xffb77b);
@@ -58,7 +57,6 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
-    const thiscolor = const Color(0x6BA7B5);
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(8.0),
@@ -111,19 +109,6 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                 ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.all(25.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                   Text(
-                    "Current Phrase Goes Here",
-
-                  ),
-                ],
-              ),
-            ),
-
 
 //            Container(
 //              margin: EdgeInsets.all(8.0),
@@ -159,64 +144,8 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
 //                ],
 //              ),
 //            )
-            Container(
-              child: Align(
-                alignment: Alignment(-.4, 0.9),
-                // Switch register Button
-                child: RaisedButton(
-                  onPressed: () async {
-                    print('clicked');
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            content: Form(
 
-                              // TODO: make a response form for the round?
-                             // key: _formKey,
 
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: TextFormField(
-                                        decoration: InputDecoration(
-                                          border: OutlineInputBorder(),
-                                          hintText: 'Enter a Respose',
-                                        ),
-                                        autofocus: false,
-                                        obscureText: true,
-
-                                      // TODO: Change to a response submission
-                                        //onSaved: (input) =>
-                                       // _passwordReg = input
-
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: RaisedButton(
-                                      child: Text("Submit"),
-                                      onPressed: respond,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
-                        });
-                  },
-                  child: Text('Respond', style: TextStyle(fontSize: 10)),
-                  color: thiscolor.withOpacity(1),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(10.0),
-                  ),
-                  textColor: Colors.white,
-                  elevation: 15,
-                ),
-              ),
-            ),
 
           ],
         ),
@@ -256,5 +185,3 @@ class TimerPainter extends CustomPainter {
         backgroundColor != old.backgroundColor;
   }
 }
-
-void respond() async{}

@@ -111,19 +111,19 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                 ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.all(25.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                   Text(
-                    "Current Phrase Goes Here",
-
-                  ),
-                ],
-              ),
-            ),
-
+//            Container(
+//              margin: EdgeInsets.all(25.0),
+//              child: Row(
+//                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                children: <Widget>[
+//                   Text(
+//                    "Current Phrase Goes Here",
+//
+//                  ),
+//                ],
+//              ),
+//            ),
+//
 
 //            Container(
 //              margin: EdgeInsets.all(8.0),
@@ -183,7 +183,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                                     child: TextFormField(
                                         decoration: InputDecoration(
                                           border: OutlineInputBorder(),
-                                          hintText: 'Enter a Respose',
+                                          hintText: 'Enter a phrase',
                                         ),
                                         autofocus: false,
                                         obscureText: true,
@@ -207,7 +207,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                           );
                         });
                   },
-                  child: Text('Respond', style: TextStyle(fontSize: 10)),
+                  child: Text('Create a Phrase', style: TextStyle(fontSize: 10)),
                   color: thiscolor.withOpacity(1),
                   shape: RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(10.0),
