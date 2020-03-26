@@ -8,8 +8,8 @@ import 'package:test8/lobby.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:test8/lobbyO.dart';
 import 'package:test8/lobbyJ.dart';
-//import 'package:audioplayers/audio_cache.dart';
-//import 'package:audioplayers/audioplayers.dart';
+import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 String _email, _password, _emailReg, _passwordReg;
 String currUser;
@@ -40,12 +40,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-//  AudioCache _audioCache;
-//  @override
-//  void initState() {
-//    super.initState();
-//    _audioCache = AudioCache(prefix: "audio/", fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
-//  }
+  AudioCache _audioCache;
+  @override
+  void initState() {
+    super.initState();
+    _audioCache = AudioCache(prefix: "audio/", fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
+  }
 
   @override
   final _formKey = GlobalKey<FormState>();
@@ -68,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 alignment: Alignment(.40, .70),
                 child: RaisedButton(
                   onPressed: () async {
-                    //_audioCache.play('button.mp3');
+                    _audioCache.play('button.mp3');
                     print('clicked');
                   },
                   // Learn Button
@@ -88,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 alignment: Alignment(-.40, .70),
                 child: RaisedButton(
                   onPressed: () async {
-                    //_audioCache.play('button.mp3');
+                    _audioCache.play('button.mp3');
 //              Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyPage()));
                     var docSnap = await Firestore.instance
                         .collection('users')
@@ -132,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     // conditional Switch Button Between Sign in and profile, dependent on if user is already signed in
                     ? RaisedButton(
                         onPressed: () async {
-                          //_audioCache.play('button.mp3');
+                          _audioCache.play('button.mp3');
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
@@ -173,7 +173,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             onPressed: () async{
 
                                               signIn();
-                                              //_audioCache.play('button.mp3');
+                                              _audioCache.play('button.mp3');
                                               },
 
                                           ),
@@ -195,7 +195,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       )
                     : RaisedButton(
                         onPressed: () async {
-                          //_audioCache.play('button.mp3');
+                          _audioCache.play('button.mp3');
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
@@ -234,7 +234,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           child: RaisedButton(
                                             child: Text("Submit"),
                                             onPressed: () async{
-                                              //_audioCache.play('button.mp3');
+                                              _audioCache.play('button.mp3');
                                               signIn();},
                                           ),
                                         )
@@ -262,7 +262,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 // Switch register Button
                 child: RaisedButton(
                   onPressed: () async {
-                    //_audioCache.play('button.mp3');
+                    _audioCache.play('button.mp3');
                     print('clicked');
                     showDialog(
                         context: context,
@@ -302,7 +302,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     child: RaisedButton(
                                       child: Text("Submit"),
                                       onPressed: ()async{
-                                        //_audioCache.play('button.mp3');
+                                        _audioCache.play('button.mp3');
                                         register();
                                         },
                                     ),
