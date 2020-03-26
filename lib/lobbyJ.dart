@@ -68,7 +68,6 @@ class _lobbyJState extends State<lobbyJPage> {
                   .snapshots(),
               builder: (context, snapshot) {
                 joinedRoom = snapshot.data['room'];
-                print('jj');
                 print(joinedRoom);
                 if (!snapshot.hasData) return LinearProgressIndicator();
                 return _buildMem(context, joinedRoom);

@@ -167,7 +167,6 @@ class _lobbyState extends State<lobbyPage> {
     //print(_roomNum);
     if (currUser != null) {
       Firestore.instance.collection('gameSessions').document(_roomNum).setData({
-        'GameOpen': false,
         'roomNumber': _roomNum,
       });
       Firestore.instance
