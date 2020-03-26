@@ -3,9 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:math' as math;
+import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 
 // TODO: get timer to automatically start
+//done
 void main() => runApp(PCResponseTimer());
 
 class PCResponseTimer extends StatelessWidget {
@@ -45,9 +48,10 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     return '${(duration.inSeconds).toString().padLeft(2, '0')}';
   }
 
-  @override
+  AudioCache _audioCache;  @override
   void initState() {
     super.initState();
+    _audioCache = AudioCache(prefix: "audio/", fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
     controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: 30),

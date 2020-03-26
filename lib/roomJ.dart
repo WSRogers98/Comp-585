@@ -8,6 +8,8 @@ import 'package:test8/lobby.dart';
 import 'package:test8/GameScreenQ.dart';
 import 'package:test8/lobbyO.dart';
 import 'package:test8/lobbyJ.dart';
+import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 void main() => runApp(MyRoomJ());
 
@@ -34,6 +36,16 @@ class roomJPage extends StatefulWidget {
 }
 
 class _roomJState extends State<roomJPage> {
+  AudioCache _audioCache;
+
+  @override
+  void initState() {
+    super.initState();
+    _audioCache = AudioCache(
+        prefix: "audio/",
+        fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -43,6 +55,7 @@ class _roomJState extends State<roomJPage> {
               return IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () async {
+                  _audioCache.play('button.mp3');
 //              Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyPage()));
                   var docSnap = await Firestore.instance
                       .collection('users')
