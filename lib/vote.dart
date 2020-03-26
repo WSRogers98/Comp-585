@@ -6,7 +6,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
+import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:test8/main.dart';
 
 //enter question/answer
@@ -21,6 +22,12 @@ class DbPage extends StatefulWidget {
 }
 
 class _DbPageState extends State<DbPage> {
+  AudioCache _audioCache;
+  @override
+  void initState() {
+    super.initState();
+    _audioCache = AudioCache(prefix: "audio/", fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +39,10 @@ class _DbPageState extends State<DbPage> {
           ),
           RaisedButton(
             child: Text("submit"),
-            onPressed: submitQ,
+            onPressed: () {
+              _audioCache.play('my_audio.mp3');
+              submitQ();
+            },
             color: Colors.red,
             textColor: Colors.yellow,
             padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -40,7 +50,10 @@ class _DbPageState extends State<DbPage> {
           ),
           RaisedButton(
             child: Text("submit"),
-            onPressed: submitA,
+            onPressed: (){
+              _audioCache.play('my_audio.mp3');
+              submitA();
+              },
             color: Colors.red,
             textColor: Colors.yellow,
             padding: EdgeInsets.fromLTRB(10, 10, 10, 10),

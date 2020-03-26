@@ -10,6 +10,8 @@ import 'package:test8/lobby.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:test8/lobbyO.dart';
 import 'package:test8/lobbyJ.dart';
+import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 String joinRoomNum;
 
@@ -25,7 +27,12 @@ class _lobbyState extends State<lobbyPage> {
   String _roomNum;
   final myController = TextEditingController();
   int roomListLength;
-
+  AudioCache _audioCache;
+  @override
+  void initState() {
+    super.initState();
+    _audioCache = AudioCache(prefix: "audio/", fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
+  }
 //  int room() async{
 //    var ran = await Firestore.instance
 //        .collection('gameSessions').getDocuments();
@@ -62,6 +69,7 @@ class _lobbyState extends State<lobbyPage> {
               return IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () async {
+                  _audioCache.play('button.mp3');
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => MyApp()));
                 },
@@ -74,6 +82,7 @@ class _lobbyState extends State<lobbyPage> {
           RaisedButton(
             child: Text("Start a Room"),
             onPressed: () {
+              _audioCache.play('button.mp3');
               startRoom();
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => lobbyOPage()));
@@ -89,6 +98,7 @@ class _lobbyState extends State<lobbyPage> {
           RaisedButton(
             child: Text("Join a Room"),
             onPressed: () {
+              _audioCache.play('button.mp3');
               joinRoom();
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => lobbyJPage()));

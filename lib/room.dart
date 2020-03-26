@@ -8,6 +8,8 @@ import 'package:test8/lobby.dart';
 import 'package:test8/GameScreenQ.dart';
 import 'package:test8/lobbyO.dart';
 import 'package:test8/lobbyJ.dart';
+import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 void main() => runApp(MyRoom());
 
@@ -34,6 +36,13 @@ class roomPage extends StatefulWidget {
 }
 
 class _roomState extends State<roomPage> {
+  AudioCache _audioCache;
+
+  @override
+  void initState() {
+    super.initState();
+    _audioCache = AudioCache(prefix: "audio/", fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
+  }
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -43,6 +52,7 @@ class _roomState extends State<roomPage> {
               return IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () async {
+                  _audioCache.play('button.mp3');
 //              Navigator.push(context, MaterialPageRoute(builder: (context) => lobbyPage()));
                   var docSnap = await Firestore.instance
                       .collection('users')
@@ -92,7 +102,10 @@ class _roomState extends State<roomPage> {
           )),
           RaisedButton(
             child: Text("Join a Room"),
-            onPressed: joinRoom,
+            onPressed: (){
+              _audioCache.play('button.mp3');
+              joinRoom();
+              },
             color: Colors.orangeAccent,
             textColor: Colors.white,
             padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
