@@ -10,8 +10,8 @@ import 'package:test8/lobby.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:test8/lobbyO.dart';
 import 'package:test8/lobbyJ.dart';
-import 'package:audioplayers/audio_cache.dart';
-import 'package:audioplayers/audioplayers.dart';
+//import 'package:audioplayers/audio_cache.dart';
+//import 'package:audioplayers/audioplayers.dart';
 
 String joinedRoom;
 
@@ -27,13 +27,13 @@ class _lobbyOState extends State<lobbyOPage> {
   String _roomNum;
   final myController = TextEditingController();
   int roomListLength;
-  AudioCache _audioCache;
-
-  @override
-  void initState() {
-    super.initState();
-    _audioCache = AudioCache(prefix: "audio/", fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
-  }
+//  AudioCache _audioCache;
+//
+//  @override
+//  void initState() {
+//    super.initState();
+//    _audioCache = AudioCache(prefix: "audio/", fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
+//  }
 //  int room() async{
 //    var ran = await Firestore.instance
 //        .collection('gameSessions').getDocuments();
@@ -70,7 +70,7 @@ class _lobbyOState extends State<lobbyOPage> {
               return IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () async {
-                  _audioCache.play('button.mp3');
+                  //_audioCache.play('button.mp3');
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => MyApp()));
                 },
@@ -115,7 +115,7 @@ class _lobbyOState extends State<lobbyOPage> {
           RaisedButton(
             child: Text("Start Game"),
             onPressed: () {
-              _audioCache.play('button.mp3');
+              //_audioCache.play('button.mp3');
               Firestore.instance
                   .collection('gameSessions')
                   .document(joinedRoom)
@@ -130,7 +130,7 @@ class _lobbyOState extends State<lobbyOPage> {
           RaisedButton(
             child: Text("Delete Room"),
             onPressed: () {
-              _audioCache.play('button.mp3');
+              //_audioCache.play('button.mp3');
               Firestore.instance
                   .collection('gameSessions')
                   .document(joinedRoom)

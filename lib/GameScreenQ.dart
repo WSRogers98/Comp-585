@@ -164,7 +164,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                         child: RaisedButton(
                           child: Text("Submit"),
                           onPressed: () async{
-                            print(myController.text);
+
                             Firestore.instance
                                 .collection('gameSessions')
                                 .document(joinedRoom)
