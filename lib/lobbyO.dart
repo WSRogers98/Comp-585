@@ -109,7 +109,7 @@ class _lobbyOState extends State<lobbyOPage> {
               Firestore.instance
                   .collection('gameSessions')
                   .document(joinedRoom)
-                  .updateData({'GameOpen': false});
+                  .updateData({'GameOpen': true});
               completeRoom(context);
             },
             color: Colors.orangeAccent,
