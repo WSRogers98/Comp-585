@@ -163,57 +163,39 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
               child: Align(
                 alignment: Alignment(-.4, 0.9),
                 // Switch register Button
-                child: RaisedButton(
-                  onPressed: () async {
-                    print('clicked');
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            content: Form(
+                child: Form(
 
-                              // TODO: make a response form for the round?
-                             // key: _formKey,
+                  // TODO: make a response form for the round?
+                  // key: _formKey,
 
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: TextFormField(
-                                        decoration: InputDecoration(
-                                          border: OutlineInputBorder(),
-                                          hintText: 'Enter a Respose',
-                                        ),
-                                        autofocus: false,
-                                        obscureText: true,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Enter a Respose',
+                          ),
+                          autofocus: false,
+                          obscureText: true,
 
-                                      // TODO: Change to a response submission
-                                        //onSaved: (input) =>
-                                       // _passwordReg = input
+                          // TODO: Change to a response submission
+                          // onSaved: (input) =>
+                          //  _passwordReg = input
 
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: RaisedButton(
-                                      child: Text("Submit"),
-                                      onPressed: respond,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
-                        });
-                  },
-                  child: Text('Respond', style: TextStyle(fontSize: 10)),
-                  color: thiscolor.withOpacity(1),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(10.0),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: RaisedButton(
+                          child: Text("Submit"),
+                          onPressed: respond,
+                        ),
+                      )
+                    ],
                   ),
-                  textColor: Colors.white,
-                  elevation: 15,
                 ),
               ),
             ),
