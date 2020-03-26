@@ -6,9 +6,9 @@ import 'dart:math' as math;
 
 
 // TODO: get timer to automatically start
-void main() => runApp(PCResponseTimer());
+void main() => runApp(WaitTimer());
 
-class PCResponseTimer extends StatelessWidget {
+class WaitTimer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const themeColor = const Color(0xffb77b);
