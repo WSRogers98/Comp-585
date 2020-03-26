@@ -71,7 +71,7 @@ class _lobbyState extends State<lobbyPage> {
               return IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () async {
-//                  _audioCache.play('button.mp3');
+                  _audioCache.play('button.mp3');
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => MyApp()));
                 },
@@ -84,7 +84,7 @@ class _lobbyState extends State<lobbyPage> {
           RaisedButton(
             child: Text("Start a Room"),
             onPressed: () {
-//              _audioCache.play('button.mp3');
+              _audioCache.play('button.mp3');
               startRoom();
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => lobbyOPage()));
@@ -100,7 +100,7 @@ class _lobbyState extends State<lobbyPage> {
           RaisedButton(
             child: Text("Join a Room"),
             onPressed: () {
-//              _audioCache.play('button.mp3');
+              _audioCache.play('button.mp3');
               joinRoom();
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => lobbyJPage()));

@@ -70,7 +70,7 @@ class _lobbyOState extends State<lobbyOPage> {
               return IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () async {
-                  //_audioCache.play('button.mp3');
+                  _audioCache.play('button.mp3');
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => MyApp()));
                 },
@@ -115,7 +115,7 @@ class _lobbyOState extends State<lobbyOPage> {
           RaisedButton(
             child: Text("Start Game"),
             onPressed: () {
-              //_audioCache.play('button.mp3');
+              _audioCache.play('button.mp3');
               Firestore.instance
                   .collection('gameSessions')
                   .document(joinedRoom)
@@ -130,7 +130,7 @@ class _lobbyOState extends State<lobbyOPage> {
           RaisedButton(
             child: Text("Delete Room"),
             onPressed: () {
-              //_audioCache.play('button.mp3');
+              _audioCache.play('button.mp3');
               Firestore.instance
                   .collection('gameSessions')
                   .document(joinedRoom)
