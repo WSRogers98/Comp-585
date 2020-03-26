@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
 import 'package:test8/main.dart';
 import 'package:test8/room.dart';
-import 'package:test8/GameScreen.dart';
+import 'package:test8/GameScreenQ.dart';
 import 'package:test8/lobby.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:test8/lobbyO.dart';
