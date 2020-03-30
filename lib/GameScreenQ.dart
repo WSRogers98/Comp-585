@@ -128,7 +128,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Text(
-                    "Current Phrase Goes Here",
+                    "Enter a question",
 
                   ),
                 ],
@@ -173,7 +173,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                                 .collection('players')
                                 .document(currUser)
                                 .updateData({
-                              'question': myController.text,
+                              'phrase': myController.text,
                             });
                             Navigator.push(
                                 context, MaterialPageRoute(builder: (context) => WaitTimer()));

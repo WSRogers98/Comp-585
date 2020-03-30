@@ -3,20 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:math' as math;
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dart:math';
-import 'package:test8/main.dart';
-import 'package:test8/room.dart';
-import 'package:test8/GameScreenQ.dart';
-import 'package:test8/lobby.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:test8/lobbyO.dart';
+import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audioplayers.dart';
 
-final myController = TextEditingController();
+
 // TODO: get timer to automatically start
+//done
 void main() => runApp(WaitTimer());
 
 class WaitTimer extends StatelessWidget {
@@ -55,46 +47,23 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     Duration duration = controller.duration * controller.value;
     return '${(duration.inSeconds).toString().padLeft(2, '0')}';
   }
-
+  AudioCache _audioCache;
   @override
   void initState() {
     super.initState();
+    _audioCache = AudioCache(prefix: "audio/", fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
     controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: 30),
     );
-  }
 
-
-
-  Widget buildN(var question){
-    return Column(
-      children: <Widget>[
-        Text(question),
-    TextField(
-      controller: myController,
-    ),
-    RaisedButton(
-        child: Text("Submit"),
-    onPressed: () async {
-      Firestore.instance
-          .collection('gameSessions')
-          .document(joinedRoom)
-          .collection('players')
-          .document(currUser)
-          .updateData({
-        'answer': myController.text,
-      });
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => WaitTimer()));
-    })
-    ]
-    );
   }
 
   @override
   Widget build(BuildContext context) {
+    startTimer(controller);
     ThemeData themeData = Theme.of(context);
+    const thiscolor = const Color(0x6BA7B5);
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(8.0),
@@ -139,24 +108,6 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                                     style: themeData.textTheme.display4,
                                   );
                                 }),
-                            ///////////////////////////////
-                            StreamBuilder<QuerySnapshot>(
-                                 stream: Firestore.instance.collection('gameSessions').document(joinedRoom).collection('players').snapshots(),
-                                 builder: (context, snapshot) {
-                                   print(snapshot.data.documents[0].data["question"]);
-                                   bool ready = false;
-                                   if(snapshot.data.documents[0].data["question"]!=''){
-                                     print("ugh");
-                                     var question = snapshot.data.documents[0].data["question"];
-                                     ready = true;
-                                      return buildN(question);
-//                                     Navigator.push(
-//                                         context, MaterialPageRoute(builder: (context) => AnswerPage()));
-                                   }
-                                   print("emm");
-                                   return Text("Wait for the question...");
-                                  },
-                            )
                           ],
                         ),
                       ),
@@ -165,11 +116,38 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                 ),
               ),
             ),
+//
+          Text("Just wait"),
+
+
+            Container(
+              child: Align(
+                alignment: Alignment(-.4, 0.9),
+                // Switch register Button
+                child: Form(
+
+                  // TODO: make a response form for the round?
+                  // key: _formKey,
+
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+
+
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
           ],
         ),
       ),
     );
   }
+}
+void startTimer(controller) {
+  controller.reverse(from: controller.value == 0.0 ? 1.0 : controller.value);
 }
 
 class TimerPainter extends CustomPainter {
@@ -203,3 +181,5 @@ class TimerPainter extends CustomPainter {
         backgroundColor != old.backgroundColor;
   }
 }
+
+void respond() async{}

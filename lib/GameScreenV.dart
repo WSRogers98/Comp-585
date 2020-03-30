@@ -3,23 +3,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:math' as math;
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dart:math';
-import 'package:test8/main.dart';
-import 'package:test8/room.dart';
-import 'package:test8/GameScreenQ.dart';
-import 'package:test8/lobby.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:test8/lobbyO.dart';
-import 'package:test8/lobbyJ.dart';
+import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audioplayers.dart';
+
 
 // TODO: get timer to automatically start
-void main() => runApp(WaitTimer1());
+//done
+void main() => runApp(Vote());
 
-class WaitTimer1 extends StatelessWidget {
+class Vote extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const themeColor = const Color(0xffb77b);
@@ -55,10 +47,11 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     Duration duration = controller.duration * controller.value;
     return '${(duration.inSeconds).toString().padLeft(2, '0')}';
   }
-
+  AudioCache _audioCache;
   @override
   void initState() {
     super.initState();
+    _audioCache = AudioCache(prefix: "audio/", fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
     controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: 30),
@@ -67,7 +60,9 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    startTimer(controller);
     ThemeData themeData = Theme.of(context);
+    const thiscolor = const Color(0x6BA7B5);
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(8.0),
@@ -112,16 +107,6 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                                     style: themeData.textTheme.display4,
                                   );
                                 }),
-                            ///////////////////////////////
-                            StreamBuilder<QuerySnapshot>(
-                              stream: Firestore.instance.collection('gameSessions').document(joinedRoom).collection('players').snapshots(),
-                              builder: (context, snapshot) {
-                                print(snapshot.data.documents[0].data["question"]);
-                                print("emm");
-                                if (!snapshot.hasData) return LinearProgressIndicator();
-                                return null;
-                              },
-                            )
                           ],
                         ),
                       ),
@@ -130,11 +115,105 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                 ),
               ),
             ),
+            Container(
+              margin: EdgeInsets.all(25.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Text(
+                    "vote",
+
+                  ),
+                ],
+              ),
+            ),
+
+
+//            Container(
+//              margin: EdgeInsets.all(8.0),
+//              child: Row(
+//                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                children: <Widget>[
+//                  FloatingActionButton(
+//                    child: AnimatedBuilder(
+//                      animation: controller,
+//                      builder: (BuildContext context, Widget child) {
+//                        return Icon(controller.isAnimating
+//                            ? Icons.pause
+//                            : Icons.play_arrow);
+//
+//                        // Icon(isPlaying
+//                        // ? Icons.pause
+//                        // : Icons.play_arrow);
+//                      },
+//                    ),
+//                    onPressed: () {
+//                      // setState(() => isPlaying = !isPlaying);
+//
+//                      if (controller.isAnimating) {
+//                        controller.stop(canceled: true);
+//                      } else {
+//                        controller.reverse(
+//                            from: controller.value == 0.0
+//                                ? 1.0
+//                                : controller.value);
+//                      }
+//                    },
+//                  )
+//                ],
+//              ),
+//            )
+            Container(
+              child: Align(
+                alignment: Alignment(-.4, 0.9),
+                // Switch register Button
+                child: Form(
+
+                  // TODO: make a response form for the round?
+                  // key: _formKey,
+
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Enter a Respose',
+                          ),
+                          autofocus: false,
+                          obscureText: true,
+
+                          // TODO: Change to a response submission
+                          // onSaved: (input) =>
+                          //  _passwordReg = input
+
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: RaisedButton(
+                          child: Text("Submit"),
+                          onPressed: (){respond();
+                          _audioCache.play('button.mp3');
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
           ],
         ),
       ),
     );
   }
+}
+void startTimer(controller) {
+  controller.reverse(from: controller.value == 0.0 ? 1.0 : controller.value);
 }
 
 class TimerPainter extends CustomPainter {
@@ -168,3 +247,5 @@ class TimerPainter extends CustomPainter {
         backgroundColor != old.backgroundColor;
   }
 }
+
+void respond() async{}
