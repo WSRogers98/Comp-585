@@ -120,8 +120,9 @@ class _roomJState extends State<roomJPage> {
           .collection('players')
           .document(currUser)
           .setData({
-        'question': '',
-        'answer': '',
+        'phrase': null,
+        'vote': 0,
+        'score': 0,
       });
       Firestore.instance
           .collection('users')

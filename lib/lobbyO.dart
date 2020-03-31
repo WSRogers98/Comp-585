@@ -60,9 +60,12 @@ class _lobbyOState extends State<lobbyOPage> {
       if (documents.length == 0) { /*room doesn't exist? */ return; }
       var isGameOpen = documents[0].data['GameOpen'];
       var docs = await documents[0].reference.collection("players").getDocuments();
-      var firstUser = docs.documents[0].documentID;
+      var askUser = docs.documents[documents[0].data['ask']].documentID;
+      print(askUser);
+      print(currUser);
+      print("fuckplease");
       if(isGameOpen == true){
-        if(firstUser == currUser){
+        if(askUser == currUser){
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => MyGame()));
           timer.cancel();

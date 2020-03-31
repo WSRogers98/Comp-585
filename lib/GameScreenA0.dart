@@ -9,14 +9,18 @@ import 'package:flutter/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
 import 'package:test8/main.dart';
-
+import 'package:test8/GameScreenQ.dart';
 import 'package:test8/lobbyO.dart';
+import 'package:test8/GameScreenEnd.dart';
+import 'package:test8/temp.dart';
 String prompt = "Enter your answer:";
 bool ignore = false;
+int memNum;
 final myController = TextEditingController();
 // TODO: get timer to automatically start
 void main() => runApp(AnswerTimer());
-
+int ask;
+var askUID;
 class AnswerTimer extends StatelessWidget {
   @override
 
@@ -62,14 +66,23 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
       vsync: this,
       duration: Duration(seconds: 30),
     );
-
+    findAsk();
   }
+  void findAsk() async{
+    //this code is to periodically check if GameOpen has been set to true by the room owner, if it is true
+    //then move them to gamescreen
+    var sessionQuery = Firestore.instance
+        .collection('gameSessions')
+        .where('roomNumber', isEqualTo: joinedRoom)
+        .limit(1);
+    var querySnapshot = await sessionQuery.getDocuments();
+    var documents = querySnapshot.documents;
+    if (documents.length == 0) { /*room doesn't exist? */ return; }
 
-
-
-
-
-
+    ask = documents[0].data['ask'];
+    var docs = await documents[0].reference.collection('players').getDocuments();
+    askUID = docs.documents[ask].documentID;
+  }
 
   Widget buildV(BuildContext context, String question){
     return Scaffold(
@@ -95,29 +108,45 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
       children: snapshot.map((data) => _buildListItem(context, data)).toList(),
     );
   }
+
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
     final record = Record.fromSnapshot(data);
     return Padding(
       key: ValueKey(record.phrase),
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: IgnorePointer(
-        ignoring: ignore,
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey),
-            borderRadius: BorderRadius.circular(5.0),
-          ),
-          child: ListTile(
-            title: Text(record.phrase),
-            onTap: () {
-              record.reference.updateData({'vote': FieldValue.increment(1)});
-              setState(() {
-                ignore = true;
-              });
-            },
-          ),
-        ),
-      )
+
+      child: _buttonEnable(data),
+
+    );
+  }
+
+  Widget _buttonEnable(DocumentSnapshot data){
+    final record = Record.fromSnapshot(data);
+    if(record.reference.documentID != askUID){
+
+      if(record.reference.documentID != currUser){
+        return Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            child: ListTile(
+              title: Text(record.phrase),
+              onTap: () {
+                record.reference.updateData({'vote': FieldValue.increment(1)});
+                record.reference.updateData({'score': FieldValue.increment(1)});
+
+              },
+            )
+        );
+      }
+    }
+    return Text('');
+  }
+  Widget _buttonDisable(DocumentSnapshot data){
+    final record = Record.fromSnapshot(data);
+    return ListTile(
+      title: Text(record.phrase),
     );
   }
 
@@ -146,45 +175,63 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                   votes = snapshot.data.documents[i].data['vote'].toString();
                   score = snapshot.data.documents[i].data['score'].toString();
                   scoreBoard = scoreBoard + "\n"+userName + "\n" + "current round: " + votes + "\n" + "total score: " + score;
-
                 }
                 return Text(scoreBoard);
               }
           ),
-//          RaisedButton(
-//            child: Text("Go to the next round"),
-//            onPressed: () async {
+          RaisedButton(
+            child: Text("Go to the next round"),
+            onPressed: () async {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => temp()));
 //              var sessionQuery = Firestore.instance
 //                  .collection('gameSessions')
 //                  .where('roomNumber', isEqualTo: joinedRoom)
 //                  .limit(1);
 //              var querySnapshot = await sessionQuery.getDocuments();
 //              var documents = querySnapshot.documents;
+//              var docs = await documents[0].reference.collection("players").getDocuments();
+//              var length = docs.documents.length;
+//              Firestore.instance
+//                  .collection('gameSessions')
+//                  .document(joinedRoom)
+//                  .updateData({'ask': documents[0].data["ask"] + 1});
 //
-////              var length = documents.length;
-////              for(int i = 0; i < length; i )
-////              var docs = await documents[0].reference.collection("players").getDocuments();
-////              var firstUser = docs.documents[0].documentID;
-////              if(isGameOpen == true){
-////                if(firstUser == currUser){
-////                  Navigator.push(
-////                      context, MaterialPageRoute(builder: (context) => MyGame()));
-////                  timer.cancel();
-////                }else{
-////                  Navigator.push(
-////                      context, MaterialPageRoute(builder: (context) => AnswerTimer()));
-////                  timer.cancel();
-////                }
+////              for(int i = 0; i < length; i++){
+////                Firestore.instance
+////                    .collection('gameSessions')
+////                    .document(joinedRoom)
+////                    .collection("players")
+////                    .document(docs.documents[i].documentID)
+////                    .updateData({'vote': 0, 'phrase': null});
+////              }
+//              if(documents[0].data["ask"]+1 >= length){
+//                Firestore.instance
+//                    .collection('gameSessions')
+//                    .document(joinedRoom)
+//                    .updateData({'GameOpen': false});
+//                Navigator.push(
+//                    context, MaterialPageRoute(builder: (context) => GameEnd()));
 //              }
-////                votes toZero
-////                phrase toZero
-////              if(ask+1 < length)
-////                ask++
-////              else
-////                ask = 0;
-////              if ask = curdoc
-////                nav to gamescreenQ
-//          })
+//
+//              if(docs.documents[documents[0].data["ask"]+1].documentID==currUser){
+//                Navigator.push(
+//                    context, MaterialPageRoute(builder: (context) => MyGame()));
+//              }else{
+//                  for(int i = 0; i < length; i++){
+//                Firestore.instance
+//                    .collection('gameSessions')
+//                    .document(joinedRoom)
+//                    .collection("players")
+//                    .document(docs.documents[i].documentID)
+//                    .updateData({'vote': 0, 'phrase': null});
+//                  }
+//              }
+////              else{
+////                Navigator.push(
+////                    context, MaterialPageRoute(builder: (context) => AnswerTimer()));
+////              }
+          })
         ]
     );
   }
@@ -249,9 +296,10 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                                 ready = false;
                               }
                               totVote = totVote + snapshot.data.documents[i].data['vote'];
-
+                              //int score = snapshot.data.documents[i].data['vote'] + snapshot.data.documents[i].data['score'];
                           }
                           if(totVote==length){
+
                             return buildS();
                           }
                           if (ready == true) {
@@ -329,8 +377,8 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                                        }
                                      }
                                    }
-                                   if(snapshot.data.documents[0].data["phrase"]!=null){
-                                     var question = snapshot.data.documents[0].data["phrase"];
+                                   if(snapshot.data.documents[ask].data["phrase"]!=null){
+                                     var question = snapshot.data.documents[ask].data["phrase"];
                                       return buildN(question);
                                    }
                                    return Text("Wait for the question...");
@@ -386,17 +434,19 @@ class TimerPainter extends CustomPainter {
 class Record {
   final String phrase;
   final int votes;
+  final int score;
   final DocumentReference reference;
 
   Record.fromMap(Map<String, dynamic> map, {this.reference})
       : assert(map['phrase'] != null),
         assert(map['vote'] != null),
+        assert(map['score'] != null),
         phrase = map['phrase'],
-        votes = map['vote'];
-
+        votes = map['vote'],
+        score = map['score'];
   Record.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, reference: snapshot.reference);
 
   @override
-  String toString() => "Record<$phrase:$votes>";
+  String toString() => "Record<$phrase:$votes:$score>";
 }

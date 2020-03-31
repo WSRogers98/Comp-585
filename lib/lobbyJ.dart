@@ -47,8 +47,9 @@ class _lobbyJState extends State<lobbyJPage> {
       var documents = querySnapshot.documents;
       if (documents.length == 0) { /*room doesn't exist? */ return; }
       var isGameOpen = documents[0].data['GameOpen'];
+      var isAsk = documents[0].data['ask'];
       var docs = await documents[0].reference.collection("players").getDocuments();
-      var firstUser = docs.documents[0].documentID;
+      var firstUser = docs.documents[documents[0].data['ask']].documentID;
       if(isGameOpen == true){
         if(firstUser == currUser){
           Navigator.push(
