@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'dart:math' as math;
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
+<<<<<<< HEAD
 
 // TODO: get timer to automatically start
 // Should be just calling a function, want to connect
@@ -13,6 +14,39 @@ import 'package:audioplayers/audioplayers.dart';
 void main() => runApp(MyGame());
 
 class MyGame extends StatelessWidget {
+=======
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:async';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'dart:math' as math;
+import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:test8/lobbyO.dart';
+import 'dart:async';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'dart:math' as math;
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:math';
+import 'package:test8/main.dart';
+import 'package:test8/GameScreenQ.dart';
+import 'package:test8/GameScreenEnd.dart';
+import 'package:test8/temp.dart';
+import 'package:test8/GameScreenA0.dart';
+
+// TODO: get timer to automatically start
+//done
+void main() => runApp(temp());
+
+class temp extends StatelessWidget {
+>>>>>>> origin/master
   @override
   Widget build(BuildContext context) {
     const themeColor = const Color(0xffb77b);
@@ -48,14 +82,23 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     Duration duration = controller.duration * controller.value;
     return '${(duration.inSeconds).toString().padLeft(2, '0')}';
   }
+<<<<<<< HEAD
 
   @override
   void initState() {
     super.initState();
+=======
+  AudioCache _audioCache;
+  @override
+  void initState() {
+    super.initState();
+    _audioCache = AudioCache(prefix: "audio/", fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
+>>>>>>> origin/master
     controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: 30),
     );
+<<<<<<< HEAD
   }
 
   @override
@@ -63,6 +106,64 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     ThemeData themeData = Theme.of(context);
     const thiscolor = const Color(0x6BA7B5);
     startTimer(controller);
+=======
+    checkIfOpen();
+  }
+
+  void checkIfOpen() async{
+    var sessionQuery = Firestore.instance
+        .collection('gameSessions')
+        .where('roomNumber', isEqualTo: joinedRoom)
+        .limit(1);
+    var querySnapshot = await sessionQuery.getDocuments();
+    var documents = querySnapshot.documents;
+    var docs = await documents[0].reference.collection("players").getDocuments();
+    var length = docs.documents.length;
+    print("hereeeee1");
+    Firestore.instance
+        .collection('gameSessions')
+        .document(joinedRoom)
+        .updateData({'ask': documents[0].data["ask"] + 1});
+    print("hereeeee2");
+    for(int i = 0; i < length; i++){
+      Firestore.instance
+          .collection('gameSessions')
+          .document(joinedRoom)
+          .collection("players")
+          .document(docs.documents[i].documentID)
+          .updateData({'vote': 0, 'phrase': null});
+    }
+    print(docs.documents[documents[0].data["ask"]].documentID);
+    print(currUser);
+    print(documents[0].data["ask"]);
+    print("hereeeee");
+    if(documents[0].data["ask"]+1 >= length){
+      Firestore.instance
+          .collection('gameSessions')
+          .document(joinedRoom)
+          .updateData({'GameOpen': false});
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => GameEnd()));
+    }
+    if(docs.documents[documents[0].data["ask"]+1].documentID==currUser){
+      print(docs.documents[documents[0].data["ask"]].documentID);
+      print(currUser);
+      print("u");
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => MyGame()));
+    }else{
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => AnswerTimer()));
+    }
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    startTimer(controller);
+    ThemeData themeData = Theme.of(context);
+    const thiscolor = const Color(0x6BA7B5);
+>>>>>>> origin/master
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(8.0),
@@ -82,10 +183,17 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                           builder: (BuildContext context, Widget child) {
                             return CustomPaint(
                                 painter: TimerPainter(
+<<<<<<< HEAD
                               animation: controller,
                               backgroundColor: Colors.white,
                               color: themeData.indicatorColor,
                             ));
+=======
+                                  animation: controller,
+                                  backgroundColor: Colors.white,
+                                  color: themeData.indicatorColor,
+                                ));
+>>>>>>> origin/master
                           },
                         ),
                       ),
@@ -115,6 +223,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                 ),
               ),
             ),
+<<<<<<< HEAD
 //            Container(
 //              margin: EdgeInsets.all(25.0),
 //              child: Row(
@@ -128,6 +237,21 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
 //              ),
 //            ),
 //
+=======
+            Container(
+              margin: EdgeInsets.all(25.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Text(
+                    "Current Phrase Goes Here",
+
+                  ),
+                ],
+              ),
+            ),
+
+>>>>>>> origin/master
 
 //            Container(
 //              margin: EdgeInsets.all(8.0),
@@ -168,6 +292,10 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                 alignment: Alignment(-.4, 0.9),
                 // Switch register Button
                 child: Form(
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
                   // TODO: make a response form for the round?
                   // key: _formKey,
 
@@ -187,13 +315,23 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                           // TODO: Change to a response submission
                           // onSaved: (input) =>
                           //  _passwordReg = input
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: RaisedButton(
                           child: Text("Submit"),
+<<<<<<< HEAD
                           onPressed: respond,
+=======
+                          onPressed: (){respond();
+                          _audioCache.play('button.mp3');
+                          },
+>>>>>>> origin/master
                         ),
                       )
                     ],
@@ -201,12 +339,22 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                 ),
               ),
             ),
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
           ],
         ),
       ),
     );
   }
 }
+<<<<<<< HEAD
+=======
+void startTimer(controller) {
+  controller.reverse(from: controller.value == 0.0 ? 1.0 : controller.value);
+}
+>>>>>>> origin/master
 
 class TimerPainter extends CustomPainter {
   TimerPainter({
@@ -240,8 +388,13 @@ class TimerPainter extends CustomPainter {
   }
 }
 
+<<<<<<< HEAD
 void startTimer(controller) {
   controller.reverse(from: controller.value == 0.0 ? 1.0 : controller.value);
 }
 
 void respond() async {}
+=======
+void respond() async{}
+
+>>>>>>> origin/master

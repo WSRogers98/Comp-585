@@ -181,6 +181,7 @@ class _lobbyState extends State<lobbyPage> {
       Firestore.instance.collection('gameSessions').document(_roomNum).setData({
         'GameOpen' : false,
         'roomNumber': _roomNum,
+        "ask": 0,
       });
       Firestore.instance
           .collection('gameSessions')
@@ -188,8 +189,9 @@ class _lobbyState extends State<lobbyPage> {
           .collection('players')
           .document(currUser)
           .setData({
-        'question': '',
-        'answer': '',
+        'vote': 0,
+        'score': 0,
+        'phrase': null,
       });
       Firestore.instance
           .collection('users')
@@ -253,14 +255,14 @@ class _lobbyState extends State<lobbyPage> {
           .collection('players')
           .document(currUser)
           .setData({
-        'question': '',
-        'answer': '',
+        'phrase': null,
+        'vote': 0,
+        'score': 0,
       });
       Firestore.instance
           .collection('users')
           .document(currUser)
           .updateData({'room': _roomNum, 'owner': false});
-      print(_roomNum + "ii");
     }
   }
 

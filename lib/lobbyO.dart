@@ -12,6 +12,12 @@ import 'package:test8/lobbyO.dart';
 import 'package:test8/lobbyJ.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'dart:async';
+import 'package:test8/GameScreenA0.dart';
+import 'package:test8/lobbyO.dart';
+import 'package:test8/lobbyJ.dart';
+import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 String joinedRoom;
 
@@ -29,11 +35,50 @@ class _lobbyOState extends State<lobbyOPage> {
   int roomListLength;
   AudioCache _audioCache;
 
+
+
   @override
   void initState() {
     super.initState();
     _audioCache = AudioCache(prefix: "audio/", fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
+    checkIfOpen();
   }
+
+  void checkIfOpen() {
+    //this code is to periodically check if GameOpen has been set to true by the room owner, if it is true
+    //then move them to gamescreen
+    Timer.periodic(Duration(seconds: 2), (timer) async {
+      //print(DateTime.now());
+      print(joinedRoom);
+      print('kk');
+      var sessionQuery = Firestore.instance
+          .collection('gameSessions')
+          .where('roomNumber', isEqualTo: joinedRoom)
+          .limit(1);
+      var querySnapshot = await sessionQuery.getDocuments();
+      var documents = querySnapshot.documents;
+      if (documents.length == 0) { /*room doesn't exist? */ return; }
+      var isGameOpen = documents[0].data['GameOpen'];
+      var docs = await documents[0].reference.collection("players").getDocuments();
+      var askUser = docs.documents[documents[0].data['ask']].documentID;
+      print(askUser);
+      print(currUser);
+      print("fuckplease");
+      if(isGameOpen == true){
+        if(askUser == currUser){
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MyGame()));
+          timer.cancel();
+        }else{
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => AnswerTimer()));
+          timer.cancel();
+        }
+      }
+    });
+  }
+
+
 //  int room() async{
 //    var ran = await Firestore.instance
 //        .collection('gameSessions').getDocuments();
@@ -231,99 +276,6 @@ class _lobbyOState extends State<lobbyOPage> {
     return z;
     //print(z);
   }
-
-  void startRoom() {
-    var randNum = new Random();
-    //print(currUser);
-    _roomNum = randNum.nextInt(10000).toString();
-
-    //print(_roomNum);
-    if (currUser != null) {
-      Firestore.instance.collection('gameSessions').document(_roomNum).setData({
-        'roomNumber': _roomNum,
-      });
-      Firestore.instance
-          .collection('gameSessions')
-          .document(_roomNum)
-          .collection('players')
-          .document(currUser)
-          .setData({
-        'question': '',
-        'answer': '',
-      });
-      Firestore.instance
-          .collection('users')
-          .document(currUser)
-          .updateData({'room': _roomNum, 'owner': true});
-    }
-  }
-
-  void joinRoom() async {
-    _roomNum = myController.text;
-
-    //print(getPlayers().then((onValue)=>print(onValue)));
-    // print(getPlayers());
-    //print("ii");
-    //print(_roomNum);
-
-//      List<DocumentSnapshot> templist;
-//
-//      var players = Firestore.instance.collection('gameSessions').getDocuments().toString();
-
-    //List<String> players = (List<String>) Firestore.instance.collection('gameSessions').
-    //List<String> group = (List<String>) document.get("dungeon_group");
-    //var testing =  players.docs.map(doc => doc.data());
-
-//      var list = templist.map((DocumentSnapshot players){
-//        return players.data;
-//      }).toList();
-
-//    List<DocumentSnapshot> templist;
-//    List<Map<dynamic, dynamic>> list = new List();
-//    CollectionReference collectionRef = Firestore.instance.collection(
-//        "gameSessions");
-//    QuerySnapshot collectionSnapshot = await collectionRef.getDocuments();
-//
-//    templist = collectionSnapshot.documents;
-//
-//    list = templist.map((DocumentSnapshot docSnapshot) {
-//      return docSnapshot.data;
-//    }).toList();
-//
-//    var room;
-//
-//    for (var i = 0; i < list.length; i++) {
-//      print(_roomNum);
-//      if (list[i]["roomNumber"] == _roomNum) {
-//        room = list[i];
-//      }
-//    }
-//
-//    int numPlayers = 1;
-//    for (var key in room.keys) {
-//      if (key.startsWith("player")) numPlayers++;
-//    }
-///////////////////////////////////////////
-    //   var playerNumString = "player" + numPlayers.toString();
-
-    if (currUser != null) {
-      Firestore.instance
-          .collection('gameSessions')
-          .document(_roomNum)
-          .collection('players')
-          .document(currUser)
-          .setData({
-        'question': '',
-        'answer': '',
-      });
-      Firestore.instance
-          .collection('users')
-          .document(currUser)
-          .updateData({'room': _roomNum, 'owner': false});
-      print(_roomNum + "ii");
-    }
-  }
-
   // this function grabs and returns a list of players in a specified gameSession
   Future<List<String>> getPlayers() async {
 //      var grabtest = Firestore.instance.collection('gameSessions').document(_roomNum).collection('players').getDocuments();
@@ -357,7 +309,27 @@ class _lobbyOState extends State<lobbyOPage> {
   }
 
   Future completeRoom(context) async {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => MyGame()));
+    var sessionQuery = Firestore.instance
+        .collection('gameSessions')
+        .where('roomNumber', isEqualTo: joinedRoom)
+        .limit(1);
+    var querySnapshot = await sessionQuery.getDocuments();
+    var documents = querySnapshot.documents;
+    if (documents.length == 0) {
+      /*room doesn't exist? */ return;
+    }
+    var docs = await documents[0].reference.collection("players")
+        .getDocuments();
+    var firstUser = docs.documents[0].documentID;
+    if (firstUser == currUser) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => MyGame()));
+      timer.cancel();
+    } else {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => AnswerTimer()));
+      timer.cancel();
+    }
   }
 
   Future<QuerySnapshot> getDocuments() async {
@@ -384,3 +356,4 @@ class Record {
   @override
   String toString() => "Record<$name>";
 }
+var timer = Timer(Duration(seconds: 2), () => print('----------------------- 2 seconds have passed ----------------------'));
