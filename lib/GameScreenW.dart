@@ -244,6 +244,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
 
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
+    startTimer(controller);
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(8.0),

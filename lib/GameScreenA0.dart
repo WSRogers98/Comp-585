@@ -321,6 +321,8 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
 
   Widget buildA(BuildContext context) {
     ThemeData themeData = Theme.of(context);
+    startTimer(controller);
+    const thiscolor = const Color(0x6BA7B5);
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(8.0),
@@ -430,7 +432,9 @@ class TimerPainter extends CustomPainter {
         backgroundColor != old.backgroundColor;
   }
 }
-
+void startTimer(controller) {
+  controller.reverse(from: controller.value == 0.0 ? 1.0 : controller.value);
+}
 class Record {
   final String phrase;
   final int votes;
