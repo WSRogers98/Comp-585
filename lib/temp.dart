@@ -5,16 +5,6 @@ import 'package:flutter/widgets.dart';
 import 'dart:math' as math;
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
-<<<<<<< HEAD
-
-// TODO: get timer to automatically start
-// Should be just calling a function, want to connect
-// all the pieces before we set up timing
-
-void main() => runApp(MyGame());
-
-class MyGame extends StatelessWidget {
-=======
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
@@ -46,7 +36,6 @@ import 'package:test8/GameScreenA0.dart';
 void main() => runApp(temp());
 
 class temp extends StatelessWidget {
->>>>>>> origin/master
   @override
   Widget build(BuildContext context) {
     const themeColor = const Color(0xffb77b);
@@ -82,31 +71,15 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     Duration duration = controller.duration * controller.value;
     return '${(duration.inSeconds).toString().padLeft(2, '0')}';
   }
-<<<<<<< HEAD
-
-  @override
-  void initState() {
-    super.initState();
-=======
   AudioCache _audioCache;
   @override
   void initState() {
     super.initState();
     _audioCache = AudioCache(prefix: "audio/", fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
->>>>>>> origin/master
     controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: 30),
     );
-<<<<<<< HEAD
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    ThemeData themeData = Theme.of(context);
-    const thiscolor = const Color(0x6BA7B5);
-    startTimer(controller);
-=======
     checkIfOpen();
   }
 
@@ -163,7 +136,6 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     startTimer(controller);
     ThemeData themeData = Theme.of(context);
     const thiscolor = const Color(0x6BA7B5);
->>>>>>> origin/master
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(8.0),
@@ -183,17 +155,10 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                           builder: (BuildContext context, Widget child) {
                             return CustomPaint(
                                 painter: TimerPainter(
-<<<<<<< HEAD
-                              animation: controller,
-                              backgroundColor: Colors.white,
-                              color: themeData.indicatorColor,
-                            ));
-=======
                                   animation: controller,
                                   backgroundColor: Colors.white,
                                   color: themeData.indicatorColor,
                                 ));
->>>>>>> origin/master
                           },
                         ),
                       ),
@@ -223,21 +188,6 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                 ),
               ),
             ),
-<<<<<<< HEAD
-//            Container(
-//              margin: EdgeInsets.all(25.0),
-//              child: Row(
-//                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                children: <Widget>[
-//                   Text(
-//                    "Current Phrase Goes Here",
-//
-//                  ),
-//                ],
-//              ),
-//            ),
-//
-=======
             Container(
               margin: EdgeInsets.all(25.0),
               child: Row(
@@ -251,7 +201,6 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
               ),
             ),
 
->>>>>>> origin/master
 
 //            Container(
 //              margin: EdgeInsets.all(8.0),
@@ -292,10 +241,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                 alignment: Alignment(-.4, 0.9),
                 // Switch register Button
                 child: Form(
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/master
                   // TODO: make a response form for the round?
                   // key: _formKey,
 
@@ -315,23 +261,16 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                           // TODO: Change to a response submission
                           // onSaved: (input) =>
                           //  _passwordReg = input
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/master
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: RaisedButton(
                           child: Text("Submit"),
-<<<<<<< HEAD
-                          onPressed: respond,
-=======
                           onPressed: (){respond();
                           _audioCache.play('button.mp3');
                           },
->>>>>>> origin/master
                         ),
                       )
                     ],
@@ -339,22 +278,16 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                 ),
               ),
             ),
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/master
           ],
         ),
       ),
     );
   }
 }
-<<<<<<< HEAD
-=======
 void startTimer(controller) {
   controller.reverse(from: controller.value == 0.0 ? 1.0 : controller.value);
 }
->>>>>>> origin/master
 
 class TimerPainter extends CustomPainter {
   TimerPainter({
@@ -388,13 +321,4 @@ class TimerPainter extends CustomPainter {
   }
 }
 
-<<<<<<< HEAD
-void startTimer(controller) {
-  controller.reverse(from: controller.value == 0.0 ? 1.0 : controller.value);
-}
-
-void respond() async {}
-=======
 void respond() async{}
-
->>>>>>> origin/master
