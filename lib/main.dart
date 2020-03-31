@@ -69,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: RaisedButton(
                   onPressed: () async {
                     _audioCache.play('button.mp3');
-                    print('clicked');
+
                   },
                   // Learn Button
                   child: Text('ᎭᏕᎶᏆ', style: TextStyle(fontSize: 10)),
@@ -112,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 builder: (context) => lobbyJPage()));
                       }
                     }
-                    print("null");
+
                   },
                   // Play Button
                   child: Text('ᎭᏁᏟᏓ', style: TextStyle(fontSize: 10)),
@@ -263,7 +263,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: RaisedButton(
                   onPressed: () async {
                     _audioCache.play('button.mp3');
-                    print('clicked');
+
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -354,7 +354,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   // sign in a new account
   void signIn() async {
-    print("signin");
+
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       try {
@@ -362,14 +362,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 .signInWithEmailAndPassword(email: _email, password: _password))
             .user;
         currUser = user.uid;
-        print(user);
-        print("success");
+
         SignedIn = true;
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => MyApp()));
       } catch (e) {
-        print("notFound");
-        print(e.message);
+
       }
     }
   }
@@ -388,13 +386,11 @@ class _MyHomePageState extends State<MyHomePage> {
             .collection('users')
             .document(currUser)
             .setData({'room': null, 'owner': false});
-        print(user);
-        print("success");
+
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => MyApp()));
       } catch (e) {
-        print("notFound");
-        print(e.message);
+
       }
     }
   }
