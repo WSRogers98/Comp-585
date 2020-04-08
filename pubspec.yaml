@@ -27,7 +27,7 @@ dependencies:
   firebase_analytics: ^5.0.2
   firebase_auth: ^0.14.0+5
   audioplayers: any
-
+  google_fonts: ^0.4.0
   google_sign_in: ^4.1.1
 
 dev_dependencies:
@@ -43,6 +43,7 @@ flutter:
   assets:
     - assets/images/tempBackground.png
     - assets/audio/button.mp3
+
 
   uses-material-design: true
   # The following line ensures that the Material Icons font is

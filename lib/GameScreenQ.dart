@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:test8/lobbyO.dart';
 import 'package:test8/GameScreenW.dart';
 import 'package:test8/main.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'dart:async';
@@ -73,7 +74,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     startTimer(controller);
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(15.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -99,20 +100,30 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                       ),
                       Align(
                         alignment: FractionalOffset.center,
+
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Text(
                               "Time Left",
-                              style: themeData.textTheme.subhead,
+                              style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+                               fontWeight: FontWeight.w400,
+                                fontSize: 30,
+                              ),
+                              ),
                             ),
                             AnimatedBuilder(
                                 animation: controller,
                                 builder: (BuildContext context, Widget child) {
                                   return Text(
                                     timeString,
-                                    style: themeData.textTheme.display4,
+                                    style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+                                      fontWeight: FontWeight.w100,
+                                      letterSpacing: 0.0,
+                                      fontSize: 112,
+                                    ),
+                                    ),
                                   );
                                 }),
                           ],
@@ -121,18 +132,6 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                     ],
                   ),
                 ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.all(25.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Text(
-                    "Enter a question",
-
-                  ),
-                ],
               ),
             ),
             Container(
@@ -160,12 +159,30 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
 //                        ),
                         child:TextField(
                           controller: myController,
+                          style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 15,
+                          )),
+                          decoration: new InputDecoration(
+                            labelText: "Enter Your Question Here!",
+                            fillColor: Colors.white,
+                            border: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(20.0),
+                              borderSide: new BorderSide(
+                              ),
+                            ),
+                            //fillColor: Colors.green
+                          ),
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: RaisedButton(
-                          child: Text("Submit"),
+                          child: Text("Submit", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+                          fontWeight: FontWeight.w400,
+                            fontSize: 15,
+                          )),
+                          ),
                           onPressed: () async{
 
                             Firestore.instance
@@ -179,6 +196,12 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                             Navigator.push(
                                 context, MaterialPageRoute(builder: (context) => WaitTimer()));
                           },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(7.0),
+                          ),
+                          textColor: Colors.white,
+                          elevation: 15,
+                          color: thiscolor.withOpacity(1),
                         ),
                       )
                     ],
