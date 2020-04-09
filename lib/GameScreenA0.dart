@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:math' as math;
@@ -136,6 +137,16 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
               onTap: () {
                 record.reference.updateData({'vote': FieldValue.increment(1)});
                 record.reference.updateData({'score': FieldValue.increment(1)});
+
+                Fluttertoast.showToast(
+                    msg: "You voted",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 10,
+                    backgroundColor: Colors.black26,
+                    textColor: Colors.white,
+                    fontSize: 16.0
+                );
 
               },
             )
