@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
 import 'package:Cherokee/main.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:Cherokee/room.dart';
 import 'package:Cherokee/GameScreenQ.dart';
 import 'package:Cherokee/lobby.dart';
@@ -66,9 +67,20 @@ class _lobbyState extends State<lobbyPage> {
 
   @override
   Widget build(BuildContext context) {
+    const thiscolor = const Color(0x6BA7B5);
+    const themeColor = const Color(0xffb77b);
     return Scaffold(
+      backgroundColor: themeColor.withOpacity(1),
         appBar: AppBar(
-          title: Text("lobby"),
+          title: Text(
+            "lobby",
+            style: GoogleFonts.bubblegumSans(
+              textStyle: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 20,
+              ),
+            ),
+          ),
           leading: Builder(
             builder: (BuildContext context) {
               return IconButton(
@@ -83,42 +95,63 @@ class _lobbyState extends State<lobbyPage> {
             },
           ),
         ),
-        body: Column(children: [
-          RaisedButton(
-            child: Text("Start a Room"),
-            onPressed: () {
-              _audioCache.play('button.mp3');
-              startRoom();
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => lobbyOPage()));
-            },
-            color: Colors.orangeAccent,
-            textColor: Colors.white,
-            padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
-            splashColor: Colors.grey,
-          ),
-          TextField(
-            controller: myController,
-          ),
-          RaisedButton(
-            child: Text("Join a Room"),
-            onPressed: () {
-              _audioCache.play('button.mp3');
-              joinRoom();
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => lobbyJPage()));
-            },
-            color: Colors.orangeAccent,
-            textColor: Colors.white,
-            padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
-            splashColor: Colors.grey,
-          ),
+        body: Container(
+            child: SafeArea(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+              RaisedButton(
+                child: Text(
+                  "Start a Room",
+                  style: GoogleFonts.bubblegumSans(
+                    textStyle: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 30,
+                    ),
+                  ),
+                ),
+                onPressed: () {
+                  _audioCache.play('button.mp3');
+                  startRoom();
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => lobbyOPage()));
+                },
+                color: thiscolor.withOpacity(1),
+                textColor: Colors.white,
+                padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+                splashColor: Colors.grey,
+              ),
+              TextField(
+                controller: myController,
+              ),
+              RaisedButton(
+                child: Text(
+                  "Join a Room",
+                  style: GoogleFonts.bubblegumSans(
+                    textStyle: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 30,
+                    ),
+                  ),
+                ),
+                onPressed: () {
+                  _audioCache.play('button.mp3');
+                  joinRoom();
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => lobbyJPage()));
+                },
+                color:thiscolor.withOpacity(1),
+                textColor: Colors.white,
+                padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+                splashColor: Colors.grey,
+              ),
 
-          Flexible(
-            child: _buildBody(context),
-          ),
-          //roomList(context)
-        ]));
+              Flexible(
+                child: _buildBody(context),
+              ),
+              //roomList(context)
+            ]))));
 //    }
   }
 
