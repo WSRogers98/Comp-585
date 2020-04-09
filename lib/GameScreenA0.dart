@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:math' as math;
@@ -14,7 +15,6 @@ import 'package:Cherokee/GameScreenQ.dart';
 import 'package:Cherokee/lobbyO.dart';
 import 'package:Cherokee/GameScreenEnd.dart';
 import 'package:Cherokee/temp.dart';
-
 String prompt = "Enter your answer:";
 bool ignore = false;
 int memNum;
@@ -23,9 +23,9 @@ final myController = TextEditingController();
 void main() => runApp(AnswerTimer());
 int ask;
 var askUID;
-
 class AnswerTimer extends StatelessWidget {
   @override
+
   Widget build(BuildContext context) {
     const themeColor = const Color(0xffb77b);
     return new MaterialApp(
@@ -70,8 +70,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     );
     findAsk();
   }
-
-  void findAsk() async {
+  void findAsk() async{
     //this code is to periodically check if GameOpen has been set to true by the room owner, if it is true
     //then move them to gamescreen
     var sessionQuery = Firestore.instance
@@ -80,50 +79,31 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
         .limit(1);
     var querySnapshot = await sessionQuery.getDocuments();
     var documents = querySnapshot.documents;
-    if (documents.length == 0) {
-      /*room doesn't exist? */ return;
-    }
+    if (documents.length == 0) { /*room doesn't exist? */ return; }
 
     ask = documents[0].data['ask'];
-    var docs =
-        await documents[0].reference.collection('players').getDocuments();
+    var docs = await documents[0].reference.collection('players').getDocuments();
     askUID = docs.documents[ask].documentID;
   }
 
-  Widget buildV(BuildContext context, String question) {
+  Widget buildV(BuildContext context, String question){
     return Scaffold(
-        body: Column(
-      children: <Widget>[
-        Text(
-          question,
-          style: GoogleFonts.bubblegumSans(
-            textStyle: TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: 30,
-            ),
-          ),
-        ),
-        Flexible(
-          child: _buildBody(context),
-        ),
-      ],
-    ));
+      body:
+          Column(children: <Widget>[
+            Text(question),
+            Flexible(child: _buildBody(context),),
+          ],)
+    );
   }
-
   Widget _buildBody(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance
-          .collection('gameSessions')
-          .document(joinedRoom)
-          .collection("players")
-          .snapshots(),
+      stream: Firestore.instance.collection('gameSessions').document(joinedRoom).collection("players").snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
         return _buildList(context, snapshot.data.documents);
       },
     );
   }
-
   Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
     return ListView(
       padding: const EdgeInsets.only(top: 20.0),
@@ -136,100 +116,96 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     return Padding(
       key: ValueKey(record.phrase),
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+
       child: _buttonEnable(data),
+
     );
   }
 
-  Widget _buttonEnable(DocumentSnapshot data) {
+  Widget _buttonEnable(DocumentSnapshot data){
     final record = Record.fromSnapshot(data);
-    if (record.reference.documentID != askUID) {
-      if (record.reference.documentID != currUser) {
+    if(record.reference.documentID != askUID){
+
+      if(record.reference.documentID != currUser){
         return Container(
             decoration: BoxDecoration(
               border: Border.all(color: Colors.grey),
               borderRadius: BorderRadius.circular(5.0),
             ),
             child: ListTile(
-              title: Text(record.phrase, style: GoogleFonts.bubblegumSans(
-                textStyle: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 30,
-                ),
-              ),),
+              title: Text(record.phrase),
               onTap: () {
                 record.reference.updateData({'vote': FieldValue.increment(1)});
                 record.reference.updateData({'score': FieldValue.increment(1)});
+
+                Fluttertoast.showToast(
+                    msg: "You Voted",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 10,
+                    backgroundColor: Colors.black26,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
               },
-            ));
+            )
+        );
       }
     }
     return Text('');
   }
-
-  Widget _buttonDisable(DocumentSnapshot data) {
+  Widget _buttonDisable(DocumentSnapshot data){
     final record = Record.fromSnapshot(data);
     return ListTile(
       title: Text(record.phrase),
     );
   }
 
-  Widget buildScore(var scoreBoard) {
+  Widget buildScore(var scoreBoard){
     return Column(
       children: <Widget>[
         Text(scoreBoard),
+
       ],
     );
   }
 
-  Widget buildS() {
+  Widget buildS(){
     const thiscolor = const Color(0x6BA7B5);
-    return Column(children: <Widget>[
-      StreamBuilder<QuerySnapshot>(
-          stream: Firestore.instance
-              .collection('gameSessions')
-              .document(joinedRoom)
-              .collection('players')
-              .snapshots(),
-          builder: (context, snapshot) {
-            var userName;
-            var votes;
-            var score;
-            String scoreBoard = '';
-            var length = snapshot.data.documents.length;
-            for (int i = 0; i < length; i++) {
-              userName = snapshot.data.documents[i].documentID;
-              votes = snapshot.data.documents[i].data['vote'].toString();
-              score = snapshot.data.documents[i].data['score'].toString();
-              scoreBoard = scoreBoard +
-                  "\n" +
-                  userName +
-                  "\n" +
-                  "current round: " +
-                  votes +
-                  "\n" +
-                  "total score: " +
-                  score;
-            }
-            return Text(scoreBoard);
-          }),
-      RaisedButton(
-          child: Text(
-            "Go to the next round",
-            style: GoogleFonts.bubblegumSans(
-                textStyle: TextStyle(
+    return Column(
+        children: <Widget>[
+          StreamBuilder<QuerySnapshot>(
+              stream: Firestore.instance.collection('gameSessions').document(joinedRoom).collection('players').snapshots(),
+              builder: (context, snapshot) {
+                var userName;
+                var votes;
+                var score;
+                String scoreBoard = '';
+                var length = snapshot.data.documents.length;
+                for (int i = 0; i < length; i++) {
+                  userName = snapshot.data.documents[i].documentID;
+                  votes = snapshot.data.documents[i].data['vote'].toString();
+                  score = snapshot.data.documents[i].data['score'].toString();
+                  scoreBoard = scoreBoard + "\n"+userName + "\n" + "current round: " + votes + "\n" + "total score: " + score;
+                }
+                return Text(scoreBoard);
+              }
+          ),
+          RaisedButton(
+            child: Text("Go to the next round", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
               fontWeight: FontWeight.w100,
               fontSize: 15,
             )),
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(7.0),
-          ),
-          textColor: Colors.white,
-          elevation: 15,
-          color: thiscolor.withOpacity(1),
-          onPressed: () async {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => temp()));
+            ),
+              shape: RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(7.0),
+              ),
+              textColor: Colors.white,
+              elevation: 15,
+              color: thiscolor.withOpacity(1),
+            onPressed: () async {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => temp()));
 //              var sessionQuery = Firestore.instance
 //                  .collection('gameSessions')
 //                  .where('roomNumber', isEqualTo: joinedRoom)
@@ -278,59 +254,56 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
 ////                    context, MaterialPageRoute(builder: (context) => AnswerTimer()));
 ////              }
           })
-    ]);
+        ]
+    );
   }
 
-  Widget buildW() {
-    return Column(children: <Widget>[
-      Text(
-        "Waiting for others to answer...",
-        style: GoogleFonts.bubblegumSans(
-            textStyle: TextStyle(
-          fontWeight: FontWeight.w100,
-          fontSize: 15,
-        )),
-      ),
-    ]);
+
+  Widget buildW(){
+    return Column(
+        children: <Widget>[
+          Text("Waiting for others to answer...", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+            fontWeight: FontWeight.w100,
+            fontSize: 15,
+          )),),
+        ]
+    );
   }
 
-  Widget buildN(var question) {
+  Widget buildN(var question){
     const thiscolor = const Color(0x6BA7B5);
-    return Column(children: <Widget>[
-      Text(question),
-      Text(prompt),
-      TextField(
-        controller: myController,
-      ),
-      RaisedButton(
-          child: Text(
-            "Submit",
-            style: GoogleFonts.bubblegumSans(
-              textStyle: TextStyle(
-                fontWeight: FontWeight.w100,
-                fontSize: 15,
-              ),
+    return Column(
+      children: <Widget>[
+        Text(question),
+        Text(prompt),
+        TextField(
+          controller: myController,
+        ),
+        RaisedButton(
+            child: Text("Submit", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+              fontWeight: FontWeight.w100,
+              fontSize: 15,
             ),
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(7.0),
-          ),
-          textColor: Colors.white,
-          elevation: 15,
-          color: thiscolor.withOpacity(1),
-          onPressed: () async {
-            Firestore.instance
-                .collection('gameSessions')
-                .document(joinedRoom)
-                .collection('players')
-                .document(currUser)
-                .updateData({
-              'phrase': myController.text,
-            });
-          })
-    ]);
+            ),),
+            shape: RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(7.0),
+            ),
+            textColor: Colors.white,
+            elevation: 15,
+            color: thiscolor.withOpacity(1),
+        onPressed: () async {
+              Firestore.instance
+          .collection('gameSessions')
+          .document(joinedRoom)
+          .collection('players')
+          .document(currUser)
+          .updateData({
+        'phrase': myController.text,
+        });
+    })
+    ]
+    );
   }
-
   @override
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
@@ -348,39 +321,34 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                   child: Stack(
                     children: <Widget>[
                       StreamBuilder<QuerySnapshot>(
-                          stream: Firestore.instance
-                              .collection('gameSessions')
-                              .document(joinedRoom)
-                              .collection('players')
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            var totVote = 0;
-                            bool ready = true;
-                            String question =
-                                snapshot.data.documents[0].data['phrase'];
-                            var length = snapshot.data.documents.length;
-                            for (int i = 0; i < length; i++) {
-                              if (snapshot.data.documents[i].data['phrase'] ==
-                                  null) {
+                        stream: Firestore.instance.collection('gameSessions').document(joinedRoom).collection('players').snapshots(),
+                        builder: (context, snapshot) {
+                          var totVote = 0;
+                          bool ready = true;
+                          String question = snapshot.data.documents[0].data['phrase'];
+                          var length = snapshot.data.documents.length;
+                          for (int i = 0; i < length; i++) {
+                              if (snapshot.data.documents[i].data['phrase'] == null) {
                                 ready = false;
                               }
-                              totVote = totVote +
-                                  snapshot.data.documents[i].data['vote'];
+                              totVote = totVote + snapshot.data.documents[i].data['vote'];
                               //int score = snapshot.data.documents[i].data['vote'] + snapshot.data.documents[i].data['score'];
-                            }
-                            if (totVote == length) {
-                              return buildS();
-                            }
-                            if (ready == true) {
-                              return buildV(context, question);
-                            }
-                            return buildA(context);
-                          })
-                    ],
+                          }
+                          if(totVote==length){
+
+                            return buildS();
+                          }
+                          if (ready == true) {
+                           return buildV(context, question);
+                          }
+                          return buildA(context);
+                        }
+                            )
+                          ],
+                        ),
+                      ),
                   ),
                 ),
-              ),
-            ),
           ],
         ),
       ),
@@ -410,10 +378,10 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                           builder: (BuildContext context, Widget child) {
                             return CustomPaint(
                                 painter: TimerPainter(
-                              animation: controller,
-                              backgroundColor: Colors.white,
-                              color: themeData.indicatorColor,
-                            ));
+                                  animation: controller,
+                                  backgroundColor: Colors.white,
+                                  color: themeData.indicatorColor,
+                                ));
                           },
                         ),
                       ),
@@ -425,11 +393,10 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                           children: <Widget>[
                             Text(
                               "Time Left",
-                              style: GoogleFonts.bubblegumSans(
-                                textStyle: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 30,
-                                ),
+                              style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 30,
+                              ),
                               ),
                             ),
                             AnimatedBuilder(
@@ -437,50 +404,35 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                                 builder: (BuildContext context, Widget child) {
                                   return Text(
                                     timeString,
-                                    style: GoogleFonts.bubblegumSans(
-                                      textStyle: TextStyle(
-                                        fontWeight: FontWeight.w100,
-                                        letterSpacing: 0.0,
-                                        fontSize: 112,
-                                      ),
-                                    ),
+                                    style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+                                  fontWeight: FontWeight.w100,
+                                    letterSpacing: 0.0,
+                                    fontSize: 112,
+                                  ),
+                                  ),
                                   );
                                 }),
                             ///////////////////////////////
                             StreamBuilder<QuerySnapshot>(
-                              stream: Firestore.instance
-                                  .collection('gameSessions')
-                                  .document(joinedRoom)
-                                  .collection('players')
-                                  .snapshots(),
-                              builder: (context, snapshot) {
-                                var length = snapshot.data.documents.length;
-                                for (int i = 0; i < length; i++) {
-                                  if (currUser ==
-                                      snapshot.data.documents[i].documentID) {
-                                    if (snapshot
-                                            .data.documents[i].data['phrase'] !=
-                                        null) {
-                                      return buildW();
-                                    }
-                                  }
-                                }
-                                if (snapshot
-                                        .data.documents[ask].data["phrase"] !=
-                                    null) {
-                                  var question = snapshot
-                                      .data.documents[ask].data["phrase"];
-                                  return buildN(question);
-                                }
-                                return Text(
-                                  "Wait for the question...",
-                                  style: GoogleFonts.bubblegumSans(
-                                      textStyle: TextStyle(
-                                    fontWeight: FontWeight.w100,
-                                    fontSize: 15,
-                                  )),
-                                );
-                              },
+                                 stream: Firestore.instance.collection('gameSessions').document(joinedRoom).collection('players').snapshots(),
+                                 builder: (context, snapshot) {
+                                   var length = snapshot.data.documents.length;
+                                   for(int i = 0; i < length; i++){
+                                     if(currUser == snapshot.data.documents[i].documentID){
+                                       if(snapshot.data.documents[i].data['phrase'] != null){
+                                         return buildW();
+                                       }
+                                     }
+                                   }
+                                   if(snapshot.data.documents[ask].data["phrase"]!=null){
+                                     var question = snapshot.data.documents[ask].data["phrase"];
+                                      return buildN(question);
+                                   }
+                                   return Text("Wait for the question...",  style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+                                     fontWeight: FontWeight.w100,
+                                     fontSize: 15,
+                                   )),);
+                                  },
                             )
                           ],
                         ),
@@ -528,11 +480,9 @@ class TimerPainter extends CustomPainter {
         backgroundColor != old.backgroundColor;
   }
 }
-
 void startTimer(controller) {
   controller.reverse(from: controller.value == 0.0 ? 1.0 : controller.value);
 }
-
 class Record {
   final String phrase;
   final int votes;
@@ -546,7 +496,6 @@ class Record {
         phrase = map['phrase'],
         votes = map['vote'],
         score = map['score'];
-
   Record.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, reference: snapshot.reference);
 

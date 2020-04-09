@@ -14,6 +14,7 @@ import 'package:audioplayers/audioplayers.dart';
 
 String _email, _password, _emailReg, _passwordReg;
 String currUser;
+String email;
 var SignedIn = false;
 
 void main() => runApp(MyApp());
@@ -363,6 +364,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 .signInWithEmailAndPassword(email: _email, password: _password))
             .user;
         currUser = user.uid;
+
+        email = _email;
 
         SignedIn = true;
 
