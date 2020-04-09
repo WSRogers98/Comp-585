@@ -42,14 +42,18 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   AudioCache _audioCache;
+
   @override
   void initState() {
     super.initState();
-    _audioCache = AudioCache(prefix: "audio/", fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
+    _audioCache = AudioCache(
+        prefix: "audio/",
+        fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
   }
 
   @override
   final _formKey = GlobalKey<FormState>();
+
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     const thiscolor = const Color(0x6BA7B5);
@@ -70,7 +74,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: RaisedButton(
                   onPressed: () async {
                     _audioCache.play('button.mp3');
-
                   },
                   // Learn Button
                   child: Text('ᎭᏕᎶᏆ', style: TextStyle(fontSize: 10)),
@@ -113,7 +116,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                 builder: (context) => lobbyJPage()));
                       }
                     }
-
                   },
                   // Play Button
                   child: Text('ᎭᏁᏟᏓ', style: TextStyle(fontSize: 10)),
@@ -171,12 +173,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                           padding: const EdgeInsets.all(8.0),
                                           child: RaisedButton(
                                             child: Text("Submit"),
-                                            onPressed: () async{
-
+                                            onPressed: () async {
                                               signIn();
                                               _audioCache.play('button.mp3');
-                                              },
-
+                                            },
                                           ),
                                         )
                                       ],
@@ -234,10 +234,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                           padding: const EdgeInsets.all(8.0),
                                           child: RaisedButton(
                                             child: Text("Submit"),
-                                            onPressed: () async{
+                                            onPressed: () async {
                                               _audioCache.play('button.mp3');
                                               signIn();
-                                              },
+                                            },
                                           ),
                                         )
                                       ],
@@ -303,10 +303,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: RaisedButton(
                                       child: Text("Submit"),
-                                      onPressed: ()async{
+                                      onPressed: () async {
                                         _audioCache.play('button.mp3');
                                         register();
-                                        },
+                                      },
                                     ),
                                   )
                                 ],
@@ -356,7 +356,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   // sign in a new account
   void signIn() async {
-
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       try {
@@ -374,8 +373,7 @@ class _MyHomePageState extends State<MyHomePage> {
             timeInSecForIosWeb: 1,
             backgroundColor: Colors.black26,
             textColor: Colors.white,
-            fontSize: 16.0
-        );
+            fontSize: 16.0);
 
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => MyApp()));
@@ -387,8 +385,7 @@ class _MyHomePageState extends State<MyHomePage> {
             timeInSecForIosWeb: 2,
             backgroundColor: Colors.black26,
             textColor: Colors.white,
-            fontSize: 16.0
-        );
+            fontSize: 16.0);
       }
     }
   }
@@ -415,8 +412,7 @@ class _MyHomePageState extends State<MyHomePage> {
             timeInSecForIosWeb: 2,
             backgroundColor: Colors.black26,
             textColor: Colors.white,
-            fontSize: 16.0
-        );
+            fontSize: 16.0);
 
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => MyApp()));
@@ -428,8 +424,7 @@ class _MyHomePageState extends State<MyHomePage> {
             timeInSecForIosWeb: 2,
             backgroundColor: Colors.black26,
             textColor: Colors.white,
-            fontSize: 16.0
-        );
+            fontSize: 16.0);
       }
     }
   }

@@ -6,7 +6,6 @@ import 'dart:math' as math;
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 
-
 // TODO: get timer to automatically start
 //done
 void main() => runApp(PCResponseTimer());
@@ -148,9 +147,6 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
 //                ],
 //              ),
 //            )
-
-
-
           ],
         ),
       ),

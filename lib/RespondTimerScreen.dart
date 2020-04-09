@@ -6,7 +6,6 @@ import 'dart:math' as math;
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 
-
 // TODO: get timer to automatically start
 //done
 void main() => runApp(ResponseTimer());
@@ -47,11 +46,15 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     Duration duration = controller.duration * controller.value;
     return '${(duration.inSeconds).toString().padLeft(2, '0')}';
   }
+
   AudioCache _audioCache;
+
   @override
   void initState() {
     super.initState();
-    _audioCache = AudioCache(prefix: "audio/", fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
+    _audioCache = AudioCache(
+        prefix: "audio/",
+        fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
     controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: 30),
@@ -120,14 +123,12 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                   Text(
+                  Text(
                     "Current Phrase Goes Here",
-
                   ),
                 ],
               ),
             ),
-
 
 //            Container(
 //              margin: EdgeInsets.all(8.0),
@@ -168,7 +169,6 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                 alignment: Alignment(-.4, 0.9),
                 // Switch register Button
                 child: Form(
-
                   // TODO: make a response form for the round?
                   // key: _formKey,
 
@@ -188,15 +188,15 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                           // TODO: Change to a response submission
                           // onSaved: (input) =>
                           //  _passwordReg = input
-
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: RaisedButton(
                           child: Text("Submit"),
-                          onPressed: (){respond();
-                          _audioCache.play('button.mp3');
+                          onPressed: () {
+                            respond();
+                            _audioCache.play('button.mp3');
                           },
                         ),
                       )
@@ -205,13 +205,13 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                 ),
               ),
             ),
-
           ],
         ),
       ),
     );
   }
 }
+
 void startTimer(controller) {
   controller.reverse(from: controller.value == 0.0 ? 1.0 : controller.value);
 }
@@ -248,4 +248,4 @@ class TimerPainter extends CustomPainter {
   }
 }
 
-void respond() async{}
+void respond() async {}

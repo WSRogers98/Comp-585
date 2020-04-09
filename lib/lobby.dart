@@ -29,10 +29,13 @@ class _lobbyState extends State<lobbyPage> {
   final myController = TextEditingController();
   int roomListLength;
   AudioCache _audioCache;
+
   @override
   void initState() {
     super.initState();
-    _audioCache = AudioCache(prefix: "audio/", fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
+    _audioCache = AudioCache(
+        prefix: "audio/",
+        fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
   }
 
 //  int room() async{
@@ -179,7 +182,7 @@ class _lobbyState extends State<lobbyPage> {
     //print(_roomNum);
     if (currUser != null) {
       Firestore.instance.collection('gameSessions').document(_roomNum).setData({
-        'GameOpen' : false,
+        'GameOpen': false,
         'roomNumber': _roomNum,
         "ask": 0,
       });
@@ -325,15 +328,4 @@ class Record {
 
   @override
   String toString() => "Record<$name>";
-
 }
-
-
-
-
-
-
-
-
-
-

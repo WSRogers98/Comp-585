@@ -14,6 +14,7 @@ import 'package:Cherokee/lobbyJ.dart';
 import 'package:Cherokee/GameScreenA0.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
+
 class lobbyJPage extends StatefulWidget {
   @override
   _lobbyJState createState() => _lobbyJState();
@@ -31,7 +32,9 @@ class _lobbyJState extends State<lobbyJPage> {
   @override
   void initState() {
     super.initState();
-    _audioCache = AudioCache(prefix: "audio/", fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
+    _audioCache = AudioCache(
+        prefix: "audio/",
+        fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
     checkIfOpen();
   }
 
@@ -45,17 +48,20 @@ class _lobbyJState extends State<lobbyJPage> {
           .limit(1);
       var querySnapshot = await sessionQuery.getDocuments();
       var documents = querySnapshot.documents;
-      if (documents.length == 0) { /*room doesn't exist? */ return; }
+      if (documents.length == 0) {
+        /*room doesn't exist? */ return;
+      }
       var isGameOpen = documents[0].data['GameOpen'];
       var isAsk = documents[0].data['ask'];
-      var docs = await documents[0].reference.collection("players").getDocuments();
+      var docs =
+          await documents[0].reference.collection("players").getDocuments();
       var firstUser = docs.documents[documents[0].data['ask']].documentID;
-      if(isGameOpen == true){
-        if(firstUser == currUser){
+      if (isGameOpen == true) {
+        if (firstUser == currUser) {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => MyGame()));
           timer.cancel();
-        }else{
+        } else {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => AnswerTimer()));
           timer.cancel();
@@ -280,4 +286,7 @@ class Record {
   String toString() => "Record<$name>";
 }
 
-var timer = Timer(Duration(seconds: 2), () => print('----------------------- 2 seconds have passed ----------------------'));
+var timer = Timer(
+    Duration(seconds: 2),
+    () => print(
+        '----------------------- 2 seconds have passed ----------------------'));
