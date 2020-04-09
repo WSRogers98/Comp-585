@@ -134,6 +134,7 @@ class _roomState extends State<roomPage> {
         'phrase': null,
         'vote': 0,
         'score': 0,
+        'nextRound': true
       });
       Firestore.instance
           .collection('users')
