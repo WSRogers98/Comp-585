@@ -6,7 +6,7 @@ import 'dart:math' as math;
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:test8/lobbyO.dart';
+import 'package:Cherokee/lobbyO.dart';
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,11 +17,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
-import 'package:test8/main.dart';
-import 'package:test8/GameScreenQ.dart';
-import 'package:test8/GameScreenEnd.dart';
-import 'package:test8/temp.dart';
-import 'package:test8/GameScreenA0.dart';
+import 'package:Cherokee/main.dart';
+import 'package:Cherokee/GameScreenQ.dart';
+import 'package:Cherokee/GameScreenEnd.dart';
+import 'package:Cherokee/temp.dart';
+import 'package:Cherokee/GameScreenA0.dart';
 // TODO: get timer to automatically start
 //done
 int ask;
