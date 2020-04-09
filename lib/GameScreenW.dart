@@ -10,6 +10,7 @@ import 'package:Cherokee/lobbyO.dart';
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:math' as math;
 import 'package:flutter/cupertino.dart';
@@ -325,19 +326,28 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                       Align(
                         alignment: FractionalOffset.center,
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Text(
                               "Time Left",
-                              style: themeData.textTheme.subhead,
+                              style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 30,
+                              ),
+                              ),
                             ),
                             AnimatedBuilder(
                                 animation: controller,
                                 builder: (BuildContext context, Widget child) {
                                   return Text(
                                     timeString,
-                                    style: themeData.textTheme.display4,
+                                    style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+                                      fontWeight: FontWeight.w100,
+                                      letterSpacing: 0.0,
+                                      fontSize: 112,
+                                    ),
+                                    ),
                                   );
                                 }),
                           ],
@@ -349,9 +359,13 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
               ),
             ),
 //
-          Text("Just wait"),
-
-
+          Text("Just wait", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+            fontWeight: FontWeight.w100,
+            letterSpacing: 0.0,
+            fontSize: 15,
+          ),
+          ),
+          ),
             Container(
               child: Align(
                 alignment: Alignment(-.4, 0.9),

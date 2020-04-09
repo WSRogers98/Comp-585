@@ -407,7 +407,7 @@ class _MyHomePageState extends State<MyHomePage> {
             .collection('users')
             .document(currUser)
             .setData({'room': null, 'owner': false});
-
+        SignedIn = true;
         Fluttertoast.showToast(
             msg: "Registration Successful, you are now signed in",
             toastLength: Toast.LENGTH_SHORT,

@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'dart:math' as math;
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 
 // TODO: get timer to automatically start
@@ -92,19 +93,28 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                       Align(
                         alignment: FractionalOffset.center,
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Text(
                               "Time Left",
-                              style: themeData.textTheme.subhead,
+                              style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+                        fontWeight: FontWeight.w400,
+                          fontSize: 30,
+                        ),
+                      ),
                             ),
                             AnimatedBuilder(
                                 animation: controller,
                                 builder: (BuildContext context, Widget child) {
                                   return Text(
                                     timeString,
-                                    style: themeData.textTheme.display4,
+                                    style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+                                      fontWeight: FontWeight.w100,
+                                      letterSpacing: 0.0,
+                                      fontSize: 112,
+                                    ),
+                                    ),
                                   );
                                 }),
                           ],
@@ -178,9 +188,15 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                       Padding(
                         padding: EdgeInsets.all(8.0),
                         child: TextFormField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: 'Enter a Respose',
+                          decoration:  new InputDecoration(
+                            labelText: "Enter Your Response Here!",
+                            fillColor: Colors.white,
+                            border: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(20.0),
+                              borderSide: new BorderSide(
+                              ),
+                            ),
+                            //fillColor: Colors.green
                           ),
                           autofocus: false,
                           obscureText: true,
@@ -194,10 +210,20 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: RaisedButton(
-                          child: Text("Submit"),
+                          child: Text("Submit", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 15,
+                          )),
+                          ),
                           onPressed: (){respond();
                           _audioCache.play('button.mp3');
                           },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(7.0),
+                          ),
+                          textColor: Colors.white,
+                          elevation: 15,
+                          color: thiscolor.withOpacity(1),
                         ),
                       )
                     ],

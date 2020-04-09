@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:math' as math;
 import 'package:flutter/cupertino.dart';
@@ -160,6 +161,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
   }
 
   Widget buildS(){
+    const thiscolor = const Color(0x6BA7B5);
     return Column(
         children: <Widget>[
           StreamBuilder<QuerySnapshot>(
@@ -180,7 +182,17 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
               }
           ),
           RaisedButton(
-            child: Text("Go to the next round"),
+            child: Text("Go to the next round", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+              fontWeight: FontWeight.w100,
+              fontSize: 15,
+            )),
+            ),
+              shape: RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(7.0),
+              ),
+              textColor: Colors.white,
+              elevation: 15,
+              color: thiscolor.withOpacity(1),
             onPressed: () async {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => temp()));
@@ -240,12 +252,16 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
   Widget buildW(){
     return Column(
         children: <Widget>[
-          Text("Waiting for others to answer..."),
+          Text("Waiting for others to answer...", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+            fontWeight: FontWeight.w100,
+            fontSize: 15,
+          )),),
         ]
     );
   }
 
   Widget buildN(var question){
+    const thiscolor = const Color(0x6BA7B5);
     return Column(
       children: <Widget>[
         Text(question),
@@ -254,7 +270,17 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
           controller: myController,
         ),
         RaisedButton(
-            child: Text("Submit"),
+            child: Text("Submit", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+              fontWeight: FontWeight.w100,
+              fontSize: 15,
+            ),
+            ),),
+            shape: RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(7.0),
+            ),
+            textColor: Colors.white,
+            elevation: 15,
+            color: thiscolor.withOpacity(1),
         onPressed: () async {
               Firestore.instance
           .collection('gameSessions')
@@ -352,19 +378,28 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                       Align(
                         alignment: FractionalOffset.center,
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Text(
                               "Time Left",
-                              style: themeData.textTheme.subhead,
+                              style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 30,
+                              ),
+                              ),
                             ),
                             AnimatedBuilder(
                                 animation: controller,
                                 builder: (BuildContext context, Widget child) {
                                   return Text(
                                     timeString,
-                                    style: themeData.textTheme.display4,
+                                    style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+                                  fontWeight: FontWeight.w100,
+                                    letterSpacing: 0.0,
+                                    fontSize: 112,
+                                  ),
+                                  ),
                                   );
                                 }),
                             ///////////////////////////////
@@ -383,7 +418,10 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                                      var question = snapshot.data.documents[ask].data["phrase"];
                                       return buildN(question);
                                    }
-                                   return Text("Wait for the question...");
+                                   return Text("Wait for the question...",  style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+                                     fontWeight: FontWeight.w100,
+                                     fontSize: 15,
+                                   )),);
                                   },
                             )
                           ],
