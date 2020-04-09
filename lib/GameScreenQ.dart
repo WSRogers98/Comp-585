@@ -80,9 +80,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     );
   }
 
-  Widget buildNextRound() {
-    return Text("Wait for the next round to start.");
-  }
+
 
   Widget buildQ() {
     ThemeData themeData = Theme.of(context);
@@ -241,12 +239,8 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                         var nextRound = snapshot.data['nextRound'];
                         print(nextRound);
                         print("yyyyyy");
-                        if (nextRound == false) {
-                          return buildNextRound();
-                        }
-                        if (nextRound == true) {
-                          return buildQ();
-                        }
+                        return buildQ();
+
                         return Text("");
                       }
                   ),

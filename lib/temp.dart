@@ -69,73 +69,76 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
   @override
   AnimationController controller;
 
-  String get timeString {
-    Duration duration = controller.duration * controller.value;
-    return '${(duration.inSeconds).toString().padLeft(2, '0')}';
+//  String get timeString {
+//    Duration duration = controller.duration * controller.value;
+//    return '${(duration.inSeconds).toString().padLeft(2, '0')}';
+//  }
+//
+//  AudioCache _audioCache;
+  void initState(){
+    print("klklkl");
   }
 
-  AudioCache _audioCache;
+//  @override
+//  void initState() {
+//    super.initState();
+//    _audioCache = AudioCache(
+//        prefix: "audio/",
+//        fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
+//    controller = AnimationController(
+//      vsync: this,
+//      duration: Duration(seconds: 30),
+//    );
+//
+//  }
 
-  @override
-  void initState() {
-    super.initState();
-    _audioCache = AudioCache(
-        prefix: "audio/",
-        fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
-    controller = AnimationController(
-      vsync: this,
-      duration: Duration(seconds: 30),
-    );
-    checkIfOpen();
-  }
-
-  void checkIfOpen() async {
-    var sessionQuery = Firestore.instance
-        .collection('gameSessions')
-        .where('roomNumber', isEqualTo: joinedRoom)
-        .limit(1);
-    var querySnapshot = await sessionQuery.getDocuments();
-    var documents = querySnapshot.documents;
-    var docs =
-        await documents[0].reference.collection("players").getDocuments();
-    var length = docs.documents.length;
-    print("hereeeee1");
-    Firestore.instance
-        .collection('gameSessions')
-        .document(joinedRoom)
-        .updateData({'ask': documents[0].data["ask"] + 1});
-    print("hereeeee2");
-    for (int i = 0; i < length; i++) {
-      Firestore.instance
-          .collection('gameSessions')
-          .document(joinedRoom)
-          .collection("players")
-          .document(docs.documents[i].documentID)
-          .updateData({'vote': 0, 'phrase': null});
-    }
-    print(docs.documents[documents[0].data["ask"]].documentID);
-    print(currUser);
-    print(documents[0].data["ask"]);
-    print("hereeeee");
-    if (documents[0].data["ask"] + 1 >= length) {
-      Firestore.instance
-          .collection('gameSessions')
-          .document(joinedRoom)
-          .updateData({'GameOpen': false});
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => GameEnd()));
-    }
-    if (docs.documents[documents[0].data["ask"] + 1].documentID == currUser) {
-      print(docs.documents[documents[0].data["ask"]].documentID);
-      print(currUser);
-      print("u");
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => MyGame()));
-    } else {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => AnswerTimer()));
-    }
-  }
+//  void checkIfOpen() async {
+//    var sessionQuery = Firestore.instance
+//        .collection('gameSessions')
+//        .where('roomNumber', isEqualTo: joinedRoom)
+//        .limit(1);
+//    var querySnapshot = await sessionQuery.getDocuments();
+//    var documents = querySnapshot.documents;
+//    var docs =
+//        await documents[0].reference.collection("players").getDocuments();
+//    var length = docs.documents.length;
+//    print("hereeeee1");
+//    Firestore.instance
+//        .collection('gameSessions')
+//        .document(joinedRoom)
+//        .updateData({'ask': documents[0].data["ask"] + 1});
+//    print("hereeeee2");
+//    for (int i = 0; i < length; i++) {
+//      Firestore.instance
+//          .collection('gameSessions')
+//          .document(joinedRoom)
+//          .collection("players")
+//          .document(docs.documents[i].documentID)
+//          .updateData({'vote': 0, 'phrase': null});
+//    }
+//    print(docs.documents[documents[0].data["ask"]].documentID);
+//    print(currUser);
+//    print(documents[0].data["ask"]);
+//    print("hereeeee");
+//    if (documents[0].data["ask"] + 1 >= length) {
+//      Firestore.instance
+//          .collection('gameSessions')
+//          .document(joinedRoom)
+//          .updateData({'GameOpen': false});
+//      Navigator.push(
+//          context, MaterialPageRoute(builder: (context) => GameEnd()));
+//    }
+//    if (docs.documents[documents[0].data["ask"] + 1].documentID == currUser) {
+//      print(docs.documents[documents[0].data["ask"]].documentID);
+//      print(currUser);
+//      print("u");
+//      Navigator.push(
+//          context, MaterialPageRoute(builder: (context) => MyGame()));
+//    } else {
+//      Navigator.push(
+//          context, MaterialPageRoute(builder: (context) => AnswerTimer()));
+//    }
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -168,6 +171,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                           elevation: 15,
                           color: thiscolor.withOpacity(1),
                           onPressed: () async {
+                            print("ppppppppppppppppppppppppppppppppppppppppppppppppp");
                             var sessionQuery = Firestore.instance
                                 .collection('gameSessions')
                                 .where('roomNumber', isEqualTo: joinedRoom)
@@ -196,7 +200,10 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                                   .document(currUser)
                                   .updateData({'nextRound': true});
                             }
+
                             int asknum = documents[0].data['ask'];
+                            print(asknum);
+                            print("askkkkkk");
                             Firestore.instance
                                 .collection('gameSessions')
                                 .document(joinedRoom)

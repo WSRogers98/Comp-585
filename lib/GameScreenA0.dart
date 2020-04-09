@@ -216,7 +216,6 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
               if (documents.length == 0) {
                 /*room doesn't exist? */ return;
               }
-
               var docs = await documents[0].reference.collection("players").getDocuments();
               print("???????");
               int topVoter;
@@ -230,8 +229,12 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                 }
               }
               print("!!!!");
+              print(topVoter);
               var topVoterUID = docs.documents[topVoter].documentID;
+              print(topVoterUID);
+              print(currUser);
               if(topVoterUID == currUser){
+                print("if");
                 Navigator.push(
                     context, MaterialPageRoute(builder: (context) => temp()));
               }
