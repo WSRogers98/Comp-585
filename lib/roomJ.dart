@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
-import 'package:test8/main.dart';
-import 'package:test8/lobby.dart';
-import 'package:test8/GameScreenQ.dart';
-import 'package:test8/lobbyO.dart';
-import 'package:test8/lobbyJ.dart';
+import 'package:Cherokee/main.dart';
+import 'package:Cherokee/lobby.dart';
+import 'package:Cherokee/GameScreenQ.dart';
+import 'package:Cherokee/lobbyO.dart';
+import 'package:Cherokee/lobbyJ.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 

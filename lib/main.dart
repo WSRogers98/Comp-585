@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:test8/SizeConfig.dart';
+import 'package:Cherokee/SizeConfig.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:test8/lobby.dart';
+import 'package:Cherokee/lobby.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:test8/lobbyO.dart';
-import 'package:test8/lobbyJ.dart';
+import 'package:Cherokee/lobbyO.dart';
+import 'package:Cherokee/lobbyJ.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 
@@ -235,7 +236,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                             child: Text("Submit"),
                                             onPressed: () async{
                                               _audioCache.play('button.mp3');
-                                              signIn();},
+                                              signIn();
+                                              },
                                           ),
                                         )
                                       ],
@@ -364,10 +366,29 @@ class _MyHomePageState extends State<MyHomePage> {
         currUser = user.uid;
 
         SignedIn = true;
+
+        Fluttertoast.showToast(
+            msg: "Sign In Successful",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black26,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => MyApp()));
       } catch (e) {
-
+        Fluttertoast.showToast(
+            msg: "Sign In Failed - Please Retry",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 2,
+            backgroundColor: Colors.black26,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
       }
     }
   }
@@ -387,10 +408,28 @@ class _MyHomePageState extends State<MyHomePage> {
             .document(currUser)
             .setData({'room': null, 'owner': false});
 
+        Fluttertoast.showToast(
+            msg: "Registration Successful, you are now signed in",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 2,
+            backgroundColor: Colors.black26,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => MyApp()));
       } catch (e) {
-
+        Fluttertoast.showToast(
+            msg: "Register Failed - Please Retry",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 2,
+            backgroundColor: Colors.black26,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
       }
     }
   }
