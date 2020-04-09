@@ -6,7 +6,6 @@ import 'dart:math' as math;
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 
-
 // TODO: get timer to automatically start
 //done
 void main() => runApp(ResponseTimer());
@@ -47,12 +46,15 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     Duration duration = controller.duration * controller.value;
     return '${(duration.inSeconds).toString().padLeft(2, '0')}';
   }
+
   AudioCache _audioCache;
 
   @override
   void initState() {
     super.initState();
-    _audioCache = AudioCache(prefix: "audio/", fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
+    _audioCache = AudioCache(
+        prefix: "audio/",
+        fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
     controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: 30),
@@ -169,7 +171,6 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                 alignment: Alignment(-.4, 0.9),
                 // Switch register Button
                 child: Form(
-
                   // TODO: make a response form for the round?
                   // key: _formKey,
 
@@ -189,7 +190,6 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                           // TODO: Change to a response submission
                           // onSaved: (input) =>
                           //  _passwordReg = input
-
                         ),
                       ),
                       Padding(
@@ -207,7 +207,6 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                 ),
               ),
             ),
-
           ],
         ),
       ),
@@ -251,4 +250,4 @@ class TimerPainter extends CustomPainter {
   }
 }
 
-void respond() async{}
+void respond() async {}

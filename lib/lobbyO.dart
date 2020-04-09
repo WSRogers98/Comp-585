@@ -35,12 +35,12 @@ class _lobbyOState extends State<lobbyOPage> {
   int roomListLength;
   AudioCache _audioCache;
 
-
-
   @override
   void initState() {
     super.initState();
-    _audioCache = AudioCache(prefix: "audio/", fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
+    _audioCache = AudioCache(
+        prefix: "audio/",
+        fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
     checkIfOpen();
   }
 
@@ -57,19 +57,22 @@ class _lobbyOState extends State<lobbyOPage> {
           .limit(1);
       var querySnapshot = await sessionQuery.getDocuments();
       var documents = querySnapshot.documents;
-      if (documents.length == 0) { /*room doesn't exist? */ return; }
+      if (documents.length == 0) {
+        /*room doesn't exist? */ return;
+      }
       var isGameOpen = documents[0].data['GameOpen'];
-      var docs = await documents[0].reference.collection("players").getDocuments();
+      var docs =
+          await documents[0].reference.collection("players").getDocuments();
       var askUser = docs.documents[documents[0].data['ask']].documentID;
       print(askUser);
       print(currUser);
       print("fuckplease");
-      if(isGameOpen == true){
-        if(askUser == currUser){
+      if (isGameOpen == true) {
+        if (askUser == currUser) {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => MyGame()));
           timer.cancel();
-        }else{
+        } else {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => AnswerTimer()));
           timer.cancel();
@@ -77,7 +80,6 @@ class _lobbyOState extends State<lobbyOPage> {
       }
     });
   }
-
 
 //  int room() async{
 //    var ran = await Firestore.instance
@@ -276,6 +278,7 @@ class _lobbyOState extends State<lobbyOPage> {
     return z;
     //print(z);
   }
+
   // this function grabs and returns a list of players in a specified gameSession
   Future<List<String>> getPlayers() async {
 //      var grabtest = Firestore.instance.collection('gameSessions').document(_roomNum).collection('players').getDocuments();
@@ -318,8 +321,8 @@ class _lobbyOState extends State<lobbyOPage> {
     if (documents.length == 0) {
       /*room doesn't exist? */ return;
     }
-    var docs = await documents[0].reference.collection("players")
-        .getDocuments();
+    var docs =
+        await documents[0].reference.collection("players").getDocuments();
     var firstUser = docs.documents[0].documentID;
     if (firstUser == currUser) {
       Navigator.push(
@@ -356,4 +359,8 @@ class Record {
   @override
   String toString() => "Record<$name>";
 }
-var timer = Timer(Duration(seconds: 2), () => print('----------------------- 2 seconds have passed ----------------------'));
+
+var timer = Timer(
+    Duration(seconds: 2),
+    () => print(
+        '----------------------- 2 seconds have passed ----------------------'));

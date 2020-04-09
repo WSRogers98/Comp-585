@@ -6,7 +6,6 @@ import 'dart:math' as math;
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 
-
 // TODO: get timer to automatically start
 //done
 void main() => runApp(PCResponseTimer());
@@ -48,10 +47,14 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     return '${(duration.inSeconds).toString().padLeft(2, '0')}';
   }
 
-  AudioCache _audioCache;  @override
+  AudioCache _audioCache;
+
+  @override
   void initState() {
     super.initState();
-    _audioCache = AudioCache(prefix: "audio/", fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
+    _audioCache = AudioCache(
+        prefix: "audio/",
+        fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
     controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: 30),
@@ -119,14 +122,12 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                   Text(
+                  Text(
                     "Current Phrase Goes Here",
-
                   ),
                 ],
               ),
             ),
-
 
 //            Container(
 //              margin: EdgeInsets.all(8.0),
@@ -162,15 +163,13 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
 //                ],
 //              ),
 //            )
-
-
-
           ],
         ),
       ),
     );
   }
 }
+
 void startTimer(controller) {
   controller.reverse(from: controller.value == 0.0 ? 1.0 : controller.value);
 }

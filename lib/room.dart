@@ -41,8 +41,11 @@ class _roomState extends State<roomPage> {
   @override
   void initState() {
     super.initState();
-    _audioCache = AudioCache(prefix: "audio/", fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
+    _audioCache = AudioCache(
+        prefix: "audio/",
+        fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
   }
+
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -102,10 +105,10 @@ class _roomState extends State<roomPage> {
           )),
           RaisedButton(
             child: Text("Join a Room"),
-            onPressed: (){
-             _audioCache.play('button.mp3');
+            onPressed: () {
+              _audioCache.play('button.mp3');
               joinRoom();
-              },
+            },
             color: Colors.orangeAccent,
             textColor: Colors.white,
             padding: EdgeInsets.fromLTRB(30, 10, 30, 10),

@@ -7,7 +7,6 @@ import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 // TODO: get timer to automatically start
 //done
 void main() => runApp(Vote());
@@ -48,11 +47,15 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     Duration duration = controller.duration * controller.value;
     return '${(duration.inSeconds).toString().padLeft(2, '0')}';
   }
+
   AudioCache _audioCache;
+
   @override
   void initState() {
     super.initState();
-    _audioCache = AudioCache(prefix: "audio/", fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
+    _audioCache = AudioCache(
+        prefix: "audio/",
+        fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
     controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: 30),
@@ -83,10 +86,10 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                           builder: (BuildContext context, Widget child) {
                             return CustomPaint(
                                 painter: TimerPainter(
-                                  animation: controller,
-                                  backgroundColor: Colors.white,
-                                  color: themeData.indicatorColor,
-                                ));
+                              animation: controller,
+                              backgroundColor: Colors.white,
+                              color: themeData.indicatorColor,
+                            ));
                           },
                         ),
                       ),
@@ -98,22 +101,24 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                           children: <Widget>[
                             Text(
                               "Time Left",
-                              style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
-                        fontWeight: FontWeight.w400,
-                          fontSize: 30,
-                        ),
-                      ),
+                              style: GoogleFonts.bubblegumSans(
+                                textStyle: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 30,
+                                ),
+                              ),
                             ),
                             AnimatedBuilder(
                                 animation: controller,
                                 builder: (BuildContext context, Widget child) {
                                   return Text(
                                     timeString,
-                                    style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
-                                      fontWeight: FontWeight.w100,
-                                      letterSpacing: 0.0,
-                                      fontSize: 112,
-                                    ),
+                                    style: GoogleFonts.bubblegumSans(
+                                      textStyle: TextStyle(
+                                        fontWeight: FontWeight.w100,
+                                        letterSpacing: 0.0,
+                                        fontSize: 112,
+                                      ),
                                     ),
                                   );
                                 }),
@@ -132,12 +137,16 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                 children: <Widget>[
                   Text(
                     "vote",
-
+                    style: GoogleFonts.bubblegumSans(
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 20,
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
-
 
 //            Container(
 //              margin: EdgeInsets.all(8.0),
@@ -178,7 +187,6 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                 alignment: Alignment(-.4, 0.9),
                 // Switch register Button
                 child: Form(
-
                   // TODO: make a response form for the round?
                   // key: _formKey,
 
@@ -188,13 +196,12 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                       Padding(
                         padding: EdgeInsets.all(8.0),
                         child: TextFormField(
-                          decoration:  new InputDecoration(
+                          decoration: new InputDecoration(
                             labelText: "Enter Your Response Here!",
                             fillColor: Colors.white,
                             border: new OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(20.0),
-                              borderSide: new BorderSide(
-                              ),
+                              borderSide: new BorderSide(),
                             ),
                             //fillColor: Colors.green
                           ),
@@ -204,19 +211,22 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                           // TODO: Change to a response submission
                           // onSaved: (input) =>
                           //  _passwordReg = input
-
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: RaisedButton(
-                          child: Text("Submit", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 15,
-                          )),
+                          child: Text(
+                            "Submit",
+                            style: GoogleFonts.bubblegumSans(
+                                textStyle: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 15,
+                            )),
                           ),
-                          onPressed: (){respond();
-                          _audioCache.play('button.mp3');
+                          onPressed: () {
+                            respond();
+                            _audioCache.play('button.mp3');
                           },
                           shape: RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(7.0),
@@ -231,13 +241,13 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                 ),
               ),
             ),
-
           ],
         ),
       ),
     );
   }
 }
+
 void startTimer(controller) {
   controller.reverse(from: controller.value == 0.0 ? 1.0 : controller.value);
 }
@@ -274,4 +284,4 @@ class TimerPainter extends CustomPainter {
   }
 }
 
-void respond() async{}
+void respond() async {}

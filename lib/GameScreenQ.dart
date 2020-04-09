@@ -16,12 +16,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:math' as math;
+
 String _question;
 final myController = TextEditingController();
+
 void main() => runApp(MyGame());
 
 class MyGame extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     const themeColor = const Color(0xffb77b);
@@ -91,26 +92,26 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                           builder: (BuildContext context, Widget child) {
                             return CustomPaint(
                                 painter: TimerPainter(
-                                  animation: controller,
-                                  backgroundColor: Colors.white,
-                                  color: themeData.indicatorColor,
-                                ));
+                              animation: controller,
+                              backgroundColor: Colors.white,
+                              color: themeData.indicatorColor,
+                            ));
                           },
                         ),
                       ),
                       Align(
                         alignment: FractionalOffset.center,
-
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Text(
                               "Time Left",
-                              style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
-                               fontWeight: FontWeight.w400,
-                                fontSize: 30,
-                              ),
+                              style: GoogleFonts.bubblegumSans(
+                                textStyle: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 30,
+                                ),
                               ),
                             ),
                             AnimatedBuilder(
@@ -118,11 +119,12 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                                 builder: (BuildContext context, Widget child) {
                                   return Text(
                                     timeString,
-                                    style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
-                                      fontWeight: FontWeight.w100,
-                                      letterSpacing: 0.0,
-                                      fontSize: 112,
-                                    ),
+                                    style: GoogleFonts.bubblegumSans(
+                                      textStyle: TextStyle(
+                                        fontWeight: FontWeight.w100,
+                                        letterSpacing: 0.0,
+                                        fontSize: 112,
+                                      ),
                                     ),
                                   );
                                 }),
@@ -139,7 +141,6 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                 alignment: Alignment(-.4, 0.9),
                 // Switch register Button
                 child: Form(
-
                   // TODO: make a response form for the round?
                   // key: _formKey,
 
@@ -157,9 +158,10 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
 //                          // TODO: Change to a response submission
 //                          onSaved: (input) => _question = input
 //                        ),
-                        child:TextField(
+                        child: TextField(
                           controller: myController,
-                          style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+                          style: GoogleFonts.bubblegumSans(
+                              textStyle: TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 15,
                           )),
@@ -168,8 +170,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                             fillColor: Colors.white,
                             border: new OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(20.0),
-                              borderSide: new BorderSide(
-                              ),
+                              borderSide: new BorderSide(),
                             ),
                             //fillColor: Colors.green
                           ),
@@ -178,13 +179,15 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: RaisedButton(
-                          child: Text("Submit", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
-                          fontWeight: FontWeight.w400,
-                            fontSize: 15,
-                          )),
+                          child: Text(
+                            "Submit",
+                            style: GoogleFonts.bubblegumSans(
+                                textStyle: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 15,
+                            )),
                           ),
-                          onPressed: () async{
-
+                          onPressed: () async {
                             Firestore.instance
                                 .collection('gameSessions')
                                 .document(joinedRoom)
@@ -194,7 +197,9 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                               'phrase': myController.text,
                             });
                             Navigator.push(
-                                context, MaterialPageRoute(builder: (context) => WaitTimer()));
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => WaitTimer()));
                           },
                           shape: RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(7.0),
@@ -209,13 +214,13 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                 ),
               ),
             ),
-
           ],
         ),
       ),
     );
   }
 }
+
 void startTimer(controller) {
   controller.reverse(from: controller.value == 0.0 ? 1.0 : controller.value);
 }
