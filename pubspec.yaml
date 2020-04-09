@@ -42,7 +42,7 @@ dev_dependencies:
 flutter:
 
   assets:
-    - assets/images/tempBackground.png
+    - assets/images/tempbackground.png
     - assets/audio/button.mp3
 
   uses-material-design: true
