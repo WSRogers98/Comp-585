@@ -131,7 +131,11 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Text(
-                    "vote",
+                    "vote", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 20,
+                  ),
+                  ),
 
                   ),
                 ],

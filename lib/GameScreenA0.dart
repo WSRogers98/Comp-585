@@ -89,7 +89,12 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     return Scaffold(
       body:
           Column(children: <Widget>[
-            Text(question),
+            Text(question, style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 30,
+            ),
+            ),
+            ),
             Flexible(child: _buildBody(context),),
           ],)
     );

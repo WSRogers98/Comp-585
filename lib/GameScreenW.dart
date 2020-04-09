@@ -177,7 +177,11 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     return Scaffold(
         body:
         Column(children: <Widget>[
-          Text(question),
+          Text(question, style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+            fontWeight: FontWeight.w400,
+            fontSize: 30,
+          ),
+          ),),
           Flexible(child: _buildBody(context),),
         ],)
     );
@@ -358,15 +362,16 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                 ),
               ),
             ),
-//
-          Text("Just wait", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+          Container(
+            child: Text("Just wait", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
             fontWeight: FontWeight.w100,
             letterSpacing: 0.0,
             fontSize: 15,
           ),
           ),
           ),
-            Container(
+          ),
+          Container(
               child: Align(
                 alignment: Alignment(-.4, 0.9),
                 // Switch register Button
