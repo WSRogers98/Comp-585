@@ -150,7 +150,12 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
               borderRadius: BorderRadius.circular(5.0),
             ),
             child: ListTile(
-              title: Text(record.phrase),
+              title: Text(record.phrase, style: GoogleFonts.bubblegumSans(
+                textStyle: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 30,
+                ),
+              ),),
               onTap: () {
                 record.reference.updateData({'vote': FieldValue.increment(1)});
                 record.reference.updateData({'score': FieldValue.increment(1)});
