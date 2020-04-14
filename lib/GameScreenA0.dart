@@ -271,10 +271,28 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     const thiscolor = const Color(0x6BA7B5);
     return Column(
       children: <Widget>[
-        Text(question),
-        Text(prompt),
+        Text(question,
+          style: GoogleFonts.bubblegumSans(
+              textStyle: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 15,
+              )),),
         TextField(
           controller: myController,
+          style: GoogleFonts.bubblegumSans(
+              textStyle: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 15,
+              )),
+            decoration: new InputDecoration(
+              labelText: "Enter Your Response Here!",
+              fillColor: Colors.white,
+              border: new OutlineInputBorder(
+                borderRadius: new BorderRadius.circular(20.0),
+                borderSide: new BorderSide(),
+              ),
+              //fillColor: Colors.green
+            )
         ),
         RaisedButton(
             child: Text("Submit", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
@@ -393,6 +411,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
 
   Widget buildA(BuildContext context) {
     ThemeData themeData = Theme.of(context);
+    initState();
     startTimer(controller);
     const thiscolor = const Color(0x6BA7B5);
     return Scaffold(
