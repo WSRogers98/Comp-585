@@ -64,7 +64,6 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    initState();
     startTimer(controller);
     ThemeData themeData = Theme.of(context);
     const thiscolor = const Color(0x6BA7B5);
