@@ -174,9 +174,15 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
   }
 
   Widget buildS(){
+    var docLength;
+    var dscore = new List(3);
+    var userarr= new List();
+    var votearr=new List();
+    var scorearr=new List();
     const thiscolor = const Color(0x6BA7B5);
     return Column(
         children: <Widget>[
+
           StreamBuilder<QuerySnapshot>(
               stream: Firestore.instance.collection('gameSessions').document(joinedRoom).collection('players').snapshots(),
               builder: (context, snapshot) {
@@ -185,14 +191,51 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                 var score;
                 String scoreBoard = '';
                 var length = snapshot.data.documents.length;
+                docLength = length;
                 for (int i = 0; i < length; i++) {
                   userName = snapshot.data.documents[i].documentID;
+                  userarr.add(userName);
                   votes = snapshot.data.documents[i].data['vote'].toString();
+                  votearr.add(votes);
                   score = snapshot.data.documents[i].data['score'].toString();
+                  scorearr.add(score);
                   scoreBoard = scoreBoard + "\n"+userName + "\n" + "current round: " + votes + "\n" + "total score: " + score;
                 }
+                dscore[0]=userarr;
+                dscore[1]=votearr;
+                dscore[2]=scorearr;
                 return Text(scoreBoard);
               }
+          ),
+          GridView.count(
+            crossAxisCount: 3,
+            // Generate 100 widgets that display their index in the List.
+            children: List.generate(docLength, (index) {
+              return Center(
+                child: Column(
+                  children: <Widget>[
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                //    for ( var i in userarr ) Text(i.toString())
+                  ]
+                ),
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                 //         for ( var i in votearr ) Text(i.toString())
+                        ]
+                    ),
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                   //       for ( var i in scorearr ) Text(i.toString())
+                        ]
+                    )
+                    ]
+                ),
+              );
+            }),
           ),
           RaisedButton(
             child: Text("Go to the next round", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
@@ -353,6 +396,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                           String question = snapshot.data.documents[ask].data['phrase'];
                           var length = snapshot.data.documents.length;
                           int currIndex;
+                          print(length);
                           for(int i = 0; i < length; i++){
                             if(currUser == snapshot.data.documents[i].documentID){
                               currIndex = i;
