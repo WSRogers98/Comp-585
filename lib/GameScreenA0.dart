@@ -191,6 +191,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                 var score;
                 String scoreBoard = '';
                 var length = snapshot.data.documents.length;
+                print("length "+ length.toString());
                 docLength = length;
                 for (int i = 0; i < length; i++) {
                   userName = snapshot.data.documents[i].documentID;
