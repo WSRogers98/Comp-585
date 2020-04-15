@@ -188,7 +188,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
               builder: (context, snapshot) {
                 var userName;
                 var votes;
-                var score;
+                var score ;
                 String scoreBoard = '';
                 var length = snapshot.data.documents.length;
                 print("length "+ length.toString());
