@@ -216,7 +216,7 @@ class _lobbyOState extends State<lobbyOPage> {
           return _buildCol(
               context,
               snapshot.data.documents.map((DocumentSnapshot docSnapshot) {
-                return docSnapshot.data['email'];;
+                return docSnapshot.data['email'];
               }).toList());
         });
   }
