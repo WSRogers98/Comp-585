@@ -5,7 +5,6 @@ import 'package:flutter/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
 import 'package:Cherokee/main.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:Cherokee/room.dart';
 import 'package:Cherokee/GameScreenQ.dart';
 import 'package:Cherokee/lobby.dart';
@@ -30,10 +29,13 @@ class _lobbyState extends State<lobbyPage> {
   final myController = TextEditingController();
   int roomListLength;
   AudioCache _audioCache;
+
   @override
   void initState() {
     super.initState();
-    _audioCache = AudioCache(prefix: "audio/", fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
+    _audioCache = AudioCache(
+        prefix: "audio/",
+        fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
   }
 
 //  int room() async{
@@ -64,20 +66,9 @@ class _lobbyState extends State<lobbyPage> {
 
   @override
   Widget build(BuildContext context) {
-    const thiscolor = const Color(0x6BA7B5);
-    const themeColor = const Color(0xffb77b);
     return Scaffold(
-      backgroundColor: themeColor.withOpacity(1),
         appBar: AppBar(
-          title: Text(
-            "lobby",
-            style: GoogleFonts.bubblegumSans(
-              textStyle: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: 20,
-              ),
-            ),
-          ),
+          title: Text("lobby"),
           leading: Builder(
             builder: (BuildContext context) {
               return IconButton(
@@ -92,63 +83,42 @@ class _lobbyState extends State<lobbyPage> {
             },
           ),
         ),
-        body: Container(
-            child: SafeArea(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-              RaisedButton(
-                child: Text(
-                  "Start a Room",
-                  style: GoogleFonts.bubblegumSans(
-                    textStyle: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 30,
-                    ),
-                  ),
-                ),
-                onPressed: () {
-                  _audioCache.play('button.mp3');
-                  startRoom();
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => lobbyOPage()));
-                },
-                color: thiscolor.withOpacity(1),
-                textColor: Colors.white,
-                padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
-                splashColor: Colors.grey,
-              ),
-              TextField(
-                controller: myController,
-              ),
-              RaisedButton(
-                child: Text(
-                  "Join a Room",
-                  style: GoogleFonts.bubblegumSans(
-                    textStyle: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 30,
-                    ),
-                  ),
-                ),
-                onPressed: () {
-                  _audioCache.play('button.mp3');
-                  joinRoom();
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => lobbyJPage()));
-                },
-                color:thiscolor.withOpacity(1),
-                textColor: Colors.white,
-                padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
-                splashColor: Colors.grey,
-              ),
+        body: Column(children: [
+          RaisedButton(
+            child: Text("Start a Room"),
+            onPressed: () {
+              _audioCache.play('button.mp3');
+              startRoom();
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => lobbyOPage()));
+            },
+            color: Colors.orangeAccent,
+            textColor: Colors.white,
+            padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+            splashColor: Colors.grey,
+          ),
+          TextField(
+            controller: myController,
+          ),
+          RaisedButton(
+            child: Text("Join a Room"),
+            onPressed: () {
+              _audioCache.play('button.mp3');
+              joinRoom();
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => lobbyJPage()));
+            },
+            color: Colors.orangeAccent,
+            textColor: Colors.white,
+            padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+            splashColor: Colors.grey,
+          ),
 
-              Flexible(
-                child: _buildBody(context),
-              ),
-              //roomList(context)
-            ]))));
+          Flexible(
+            child: _buildBody(context),
+          ),
+          //roomList(context)
+        ]));
 //    }
   }
 
@@ -212,7 +182,7 @@ class _lobbyState extends State<lobbyPage> {
     //print(_roomNum);
     if (currUser != null) {
       Firestore.instance.collection('gameSessions').document(_roomNum).setData({
-        'GameOpen' : false,
+        'GameOpen': false,
         'roomNumber': _roomNum,
         "ask": 0,
       });
@@ -225,7 +195,7 @@ class _lobbyState extends State<lobbyPage> {
         'vote': 0,
         'score': 0,
         'phrase': null,
-        'nextRound': true
+        'email': email,
       });
       Firestore.instance
           .collection('users')
@@ -292,7 +262,7 @@ class _lobbyState extends State<lobbyPage> {
         'phrase': null,
         'vote': 0,
         'score': 0,
-        "nextRound": true
+        'email': email,
       });
       Firestore.instance
           .collection('users')
@@ -360,15 +330,4 @@ class Record {
 
   @override
   String toString() => "Record<$name>";
-
 }
-
-
-
-
-
-
-
-
-
-

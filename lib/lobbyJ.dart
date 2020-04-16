@@ -70,6 +70,27 @@ class _lobbyJState extends State<lobbyJPage> {
     });
   }
 
+//  void getEmails() {
+//    //this code is to periodically check if GameOpen has been set to true by the room owner, if it is true
+//    //then move them to gamescreen
+//    Timer.periodic(Duration(seconds: 2), (timer) async {
+//      var sessionQuery = Firestore.instance.collection('gameSessions').document(joinedRoom).collection('players')
+//          .where('roomNumber', isEqualTo: joinedRoom)
+//          .limit(1);
+//      var querySnapshot = await sessionQuery.getDocuments();
+//      var documents = querySnapshot.documents;
+//      if (documents.length == 0) {
+//        /*room doesn't exist? */ return;
+//      }
+//      var isGameOpen = documents[0].data['GameOpen'];
+//      var isAsk = documents[0].data['ask'];
+//      var docs =
+//      await documents[0].reference.collection("players").getDocuments();
+//      var firstUser = docs.documents[documents[0].data['ask']].documentID;
+//
+//    });
+//  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -162,7 +183,7 @@ class _lobbyJState extends State<lobbyJPage> {
           return _buildCol(
               context,
               snapshot.data.documents.map((DocumentSnapshot docSnapshot) {
-                return docSnapshot.documentID;
+                return docSnapshot.data['email'];
               }).toList());
         });
   }
