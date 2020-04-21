@@ -21,31 +21,29 @@ var quiz = new CherokeeQuiz();
 class CherokeeQuiz {
   var questions = [
     //
-    "your face",
+    "TV",
     //
-    "your finger",
+    "fart",
     //
-    "ᏗᎦᏆᎵᎢ ᏣᏤᎵᎢ",
+    "ᎤᏛᏐᏅ",
     //
-    "your nose",
-    //
-    "ᎯᎰᎵ",
+    "ᎠᏣᏗ",
   ];
 
   var choices = [
     //
-    ["ᏣᎬᏔ", "ᏗᎦᏆᎵᎢ ᏣᏤᎵᎢ", "ᎯᏴᏐᎵ", "ᎯᏰᏌᏛ"],
+    ["ᎠᏓᏴᎳᏘᏍᎩ", "ᎠᏣᏗ", "ᎠᏌᎩᏍᏗ", "ᎤᏛᏐᏅ"],
     //
-    ["ᎯᏴᏐᎵ", "ᎯᏰᏌᏛ", "ᎯᎰᎵ", "ᏗᎦᏆᎵᎢ ᏣᏤᎵᎢ"],
+    ["ᎠᏌᎩᏍᏗ", "ᎤᏛᏐᏅ", "ᎠᏓᏴᎳᏘᏍᎩ", "ᎠᏣᏗ"],
     //
-    ["your finger", "your face", "your butt", "your nose"],
+    ["TV", "fart", "fish", "old man"],
     //
-    ["ᎯᎰᎵ", "ᎯᏰᏌᏛ", "ᎯᏴᏐᎵ", "ᏗᎦᏆᎵᎢ ᏣᏤᎵᎢ"],
+    ["old man", "fish", "TV", "fart"],
     //
-    ["your mouth", "your finger", "your nose", "your face"]
+
   ];
 
-  var correctAnswers = ["ᏣᎬᏔ", "ᎯᏰᏌᏛ", "your butt", "ᎯᏴᏐᎵ", "your mouth"];
+  var correctAnswers = ["ᎠᏓᏴᎳᏘᏍᎩ", "ᎠᏌᎩᏍᏗ", "old man", "fish"];
 }
 
 class LessonTwo extends StatelessWidget {
@@ -364,30 +362,42 @@ class Summary extends StatelessWidget {
               new Padding(padding: EdgeInsets.all(30.0)),
               Row(
                 children: <Widget>[
-                  new MaterialButton(
-                    color: Colors.red,
-                    onPressed: () {
-                      questionNumber = 0;
-                      finalScore = 0;
-                      Navigator.pop(context);
-                    },
-                    child: new Text(
-                      "Reset Quiz",
-                      style: new TextStyle(fontSize: 20.0, color: Colors.white),
-                    ),
+                  new Padding(padding: EdgeInsets.all(30.0)),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      new MaterialButton(
+                        color: Colors.red,
+                        onPressed: () {
+                          questionNumber = 0;
+                          finalScore = 0;
+                          Navigator.pop(context);
+                        },
+                        child: new Text(
+                          "Reset Quiz",
+                          style: new TextStyle(fontSize: 20.0, color: Colors.white),
+                        ),
+                      ),
+                    ],
                   ),
-                  new MaterialButton(
-                    color: Colors.red,
-                    onPressed: () {
-                      questionNumber = 0;
-                      finalScore = 0;
-                      Navigator.pop(context);
-                    },
-                    child: new Text(
-                      "Quit",
-                      style: new TextStyle(fontSize: 20.0, color: Colors.white),
-                    ),
-                  )
+                  new Padding(padding: EdgeInsets.all(40.0)),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      new MaterialButton(
+                        color: Colors.red,
+                        onPressed: () {
+                          questionNumber = 0;
+                          finalScore = 0;
+                          Navigator.pop(context);
+                        },
+                        child: new Text(
+                          "Quit",
+                          style: new TextStyle(fontSize: 20.0, color: Colors.white),
+                        ),
+                      )
+                    ],
+                  ),
                 ],
               ),
             ],

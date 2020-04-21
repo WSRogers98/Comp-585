@@ -364,6 +364,10 @@ class Summary extends StatelessWidget {
               new Padding(padding: EdgeInsets.all(30.0)),
               Row(
                 children: <Widget>[
+                  new Padding(padding: EdgeInsets.all(30.0)),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
                   new MaterialButton(
                     color: Colors.red,
                     onPressed: () {
@@ -376,6 +380,12 @@ class Summary extends StatelessWidget {
                       style: new TextStyle(fontSize: 20.0, color: Colors.white),
                     ),
                   ),
+          ],
+                  ),
+                  new Padding(padding: EdgeInsets.all(40.0)),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
                   new MaterialButton(
                     color: Colors.red,
                     onPressed: () {
@@ -388,6 +398,8 @@ class Summary extends StatelessWidget {
                       style: new TextStyle(fontSize: 20.0, color: Colors.white),
                     ),
                   )
+                      ],
+                    ),
                 ],
               ),
             ],
