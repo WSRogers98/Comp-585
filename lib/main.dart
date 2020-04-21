@@ -371,9 +371,9 @@ class _MyHomePageState extends State<MyHomePage> {
             .user;
         currUser = user.uid;
 
-        email = _email;
-
         SignedIn = true;
+
+        email = _email;
 
         Fluttertoast.showToast(
             msg: "Sign In Successful",
@@ -422,6 +422,8 @@ class _MyHomePageState extends State<MyHomePage> {
             backgroundColor: Colors.black26,
             textColor: Colors.white,
             fontSize: 16.0);
+
+        email = _email;
 
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => MyApp()));
