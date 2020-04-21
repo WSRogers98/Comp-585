@@ -208,36 +208,36 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                 return Text(scoreBoard);
               }
           ),
-          GridView.count(
-            crossAxisCount: 3,
-            // Generate 100 widgets that display their index in the List.
-            children: List.generate(docLength, (index) {
-              return Center(
-                child: Column(
-                  children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                //    for ( var i in userarr ) Text(i.toString())
-                  ]
-                ),
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                 //         for ( var i in votearr ) Text(i.toString())
-                        ]
-                    ),
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                   //       for ( var i in scorearr ) Text(i.toString())
-                        ]
-                    )
-                    ]
-                ),
-              );
-            }),
-          ),
+//          GridView.count(
+//            crossAxisCount: 3,
+//            // Generate 100 widgets that display their index in the List.
+//            children: List.generate(docLength, (index) {
+//              return Center(
+//                child: Column(
+//                  children: <Widget>[
+//                Column(
+//                  crossAxisAlignment: CrossAxisAlignment.start,
+//                  children: [
+//                    for ( var i in userarr ) Text(i.toString())
+//                  ]
+//                ),
+//                    Column(
+//                        crossAxisAlignment: CrossAxisAlignment.center,
+//                        children: [
+//                          for ( var i in votearr ) Text(i.toString())
+//                        ]
+//                    ),
+//                    Column(
+//                        crossAxisAlignment: CrossAxisAlignment.end,
+//                        children: [
+//                          for ( var i in scorearr ) Text(i.toString())
+//                        ]
+//                    )
+//                    ]
+//                ),
+//              );
+//            }),
+//          ),
           RaisedButton(
             child: Text("Go to the next round", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
               fontWeight: FontWeight.w100,

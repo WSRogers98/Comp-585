@@ -9,6 +9,7 @@ import 'package:Cherokee/lobby.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:Cherokee/lobbyO.dart';
 import 'package:Cherokee/lobbyJ.dart';
+import 'package:Cherokee/LearnMenu.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 
@@ -75,6 +76,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: RaisedButton(
                   onPressed: () async {
                     _audioCache.play('button.mp3');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SecondRoute()),
+                    );
                   },
                   // Learn Button
                   child: Text('ᎭᏕᎶᏆ', style: TextStyle(fontSize: 10)),
@@ -186,8 +191,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 );
                               });
                         },
-                        // sign in section of button
-                        child: Text('Sign In', style: TextStyle(fontSize: 10)),
+                        // log in section of button
+                        child: Text('ᎯᏴᎭ', style: TextStyle(fontSize: 10)),
                         color: thiscolor.withOpacity(1),
                         shape: RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(10.0),
@@ -316,7 +321,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           );
                         });
                   },
-                  child: Text('Register', style: TextStyle(fontSize: 10)),
+                  // register/ sign up account button
+                  child: Text('ᏕᏣᏙᎥ ᎰᏪᎸᎦ', style: TextStyle(fontSize: 10)),
                   color: thiscolor.withOpacity(1),
                   shape: RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(10.0),

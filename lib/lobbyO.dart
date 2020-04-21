@@ -62,7 +62,7 @@ class _lobbyOState extends State<lobbyOPage> {
       }
       var isGameOpen = documents[0].data['GameOpen'];
       var docs =
-          await documents[0].reference.collection("players").getDocuments();
+      await documents[0].reference.collection("players").getDocuments();
       var askUser = docs.documents[documents[0].data['ask']].documentID;
       print(askUser);
       print(currUser);
@@ -216,7 +216,7 @@ class _lobbyOState extends State<lobbyOPage> {
           return _buildCol(
               context,
               snapshot.data.documents.map((DocumentSnapshot docSnapshot) {
-                return docSnapshot.documentID;
+                return docSnapshot.data['email'];
               }).toList());
         });
   }
@@ -322,7 +322,7 @@ class _lobbyOState extends State<lobbyOPage> {
       /*room doesn't exist? */ return;
     }
     var docs =
-        await documents[0].reference.collection("players").getDocuments();
+    await documents[0].reference.collection("players").getDocuments();
     var firstUser = docs.documents[0].documentID;
     if (firstUser == currUser) {
       Navigator.push(
@@ -362,5 +362,5 @@ class Record {
 
 var timer = Timer(
     Duration(seconds: 2),
-    () => print(
+        () => print(
         '----------------------- 2 seconds have passed ----------------------'));
