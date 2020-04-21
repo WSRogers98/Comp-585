@@ -103,7 +103,7 @@ class _MyLearnPageState extends State<GamePage> with TickerProviderStateMixin {
                   _audioCache.play('button.mp3');
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MyHomePage()),
+                    MaterialPageRoute(builder: (context) => LessonTwo()),
                   );
                 },
                 child: Text('Lesson Two', style: TextStyle(fontSize: 35)),
@@ -119,7 +119,7 @@ class _MyLearnPageState extends State<GamePage> with TickerProviderStateMixin {
                   _audioCache.play('button.mp3');
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MyHomePage()),
+                    MaterialPageRoute(builder: (context) => LessonThree()),
                   );
                 },
                 child: Text('Lesson Three', style: TextStyle(fontSize: 35)),
@@ -138,7 +138,7 @@ class _MyLearnPageState extends State<GamePage> with TickerProviderStateMixin {
                     MaterialPageRoute(builder: (context) => MyHomePage()),
                   );
                 },
-                child: Text('Main Menu', style: TextStyle(fontSize: 35)),
+                child: Text('Return To Main Menu', style: TextStyle(fontSize: 35)),
                 textColor: Colors.white,
                 elevation: 15,
                 color: buttoncolor.withOpacity(1),
