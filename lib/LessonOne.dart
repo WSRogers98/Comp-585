@@ -16,9 +16,9 @@ import 'package:audioplayers/audioplayers.dart';
 //wat
 var finalScore = 0;
 var questionNumber = 0;
-var quiz = new AnimalQuiz();
+var quiz = new CherokeeQuiz();
 
-class AnimalQuiz {
+class CherokeeQuiz {
   var questions = [
     //
     "your face",
