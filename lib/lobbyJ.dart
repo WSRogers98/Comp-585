@@ -54,7 +54,7 @@ class _lobbyJState extends State<lobbyJPage> {
       var isGameOpen = documents[0].data['GameOpen'];
       var isAsk = documents[0].data['ask'];
       var docs =
-          await documents[0].reference.collection("players").getDocuments();
+      await documents[0].reference.collection("players").getDocuments();
       var firstUser = docs.documents[documents[0].data['ask']].documentID;
       if (isGameOpen == true) {
         if (firstUser == currUser) {
@@ -309,5 +309,5 @@ class Record {
 
 var timer = Timer(
     Duration(seconds: 2),
-    () => print(
+        () => print(
         '----------------------- 2 seconds have passed ----------------------'));
