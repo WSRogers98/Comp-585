@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:Cherokee/GameScreenA0.dart';
 import 'package:Cherokee/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -122,13 +123,16 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                   ind = false;
                   var isAsk = documents[0].data['ask'];
                   print("kkkkkkkkkkkkkkkkkkkkkkkk");
+                  print("isAsk");
+                  print(isAsk);
+                  print(documents[0].data["ask"] + 1);
                   if(docs.documents[isAsk].documentID == currUser){
                     Navigator.push(
                         context, MaterialPageRoute(builder: (context) => MyGame()));
                   }
                   else{
                     Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => MyGame()));
+                        context, MaterialPageRoute(builder: (context) => AnswerTimer()));
                   }
                 }
 

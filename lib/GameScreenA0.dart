@@ -78,22 +78,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
           .updateData({'nextRound': false});
       ind = false;
     }
-    findAsk();
-  }
-  void findAsk() async{
-    //this code is to periodically check if GameOpen has been set to true by the room owner, if it is true
-    //then move them to gamescreen
-    var sessionQuery = Firestore.instance
-        .collection('gameSessions')
-        .where('roomNumber', isEqualTo: joinedRoom)
-        .limit(1);
-    var querySnapshot = await sessionQuery.getDocuments();
-    var documents = querySnapshot.documents;
-    if (documents.length == 0) { /*room doesn't exist? */ return; }
-
-    ask = documents[0].data['ask'];
-    var docs = await documents[0].reference.collection('players').getDocuments();
-    askUID = docs.documents[ask].documentID;
+    //findAsk();
   }
 
   Widget buildV(BuildContext context, String question){
@@ -333,38 +318,16 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                   aspectRatio: 1.0,
                   child: Stack(
                     children: <Widget>[
-                      StreamBuilder<QuerySnapshot>(
-                        stream: Firestore.instance.collection('gameSessions').document(joinedRoom).collection('players').snapshots(),
+                      StreamBuilder<DocumentSnapshot>(
+                        stream: Firestore.instance.collection('gameSessions').document(joinedRoom).snapshots(),
                         builder: (context, snapshot) {
-                          var totVote = 0;
-                          bool ready = true;
-                          String question = snapshot.data.documents[0].data['phrase'];
-                          var length = snapshot.data.documents.length;
-                          for (int i = 0; i < length; i++) {
-                              if (snapshot.data.documents[i].data['phrase'] == null) {
-                                ready = false;
-                              }
-                              totVote = totVote + snapshot.data.documents[i].data['vote'];
-                          }
-                          var currI;
-                          for(int i = 0; i < length; i++){
-                            if(currUser == snapshot.data.documents[i].documentID){
-                              currI = i;
-                            }
-                          }
-                          var nextRound = snapshot.data.documents[currI].data['nextRound'];
-                          if(nextRound==false){
-                            return buildI();
-                          }
-                          if(totVote==length){
-                            return buildS();
-                          }
-                          if (ready == true) {
-                           return buildV(context, question);
-                          }
-                          return buildA(context);
-                        }
-                            )
+                          ask = snapshot.data["ask"];
+                          print("askkkkkkkkk");
+                          print(ask);
+                          return streamBuilder(ask);
+                        },
+                      ),
+
                           ],
                         ),
                       ),
@@ -375,6 +338,44 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
       ),
     );
   }
+  Widget streamBuilder(int ask){
+    return StreamBuilder<QuerySnapshot>(
+        stream: Firestore.instance.collection('gameSessions').document(joinedRoom).collection('players').snapshots(),
+        builder: (context, snapshot) {
+          var totVote = 0;
+          bool ready = true;
+          print("aaaaaaaaaaaaask");
+          print(ask);
+          String question = snapshot.data.documents[ask].data['phrase'];
+          var length = snapshot.data.documents.length;
+          askUID = snapshot.data.documents[ask].documentID;
+          for (int i = 0; i < length; i++) {
+            if (snapshot.data.documents[i].data['phrase'] == null) {
+              ready = false;
+            }
+            totVote = totVote + snapshot.data.documents[i].data['vote'];
+          }
+          var currI;
+          for(int i = 0; i < length; i++){
+            if(currUser == snapshot.data.documents[i].documentID){
+              currI = i;
+            }
+          }
+          var nextRound = snapshot.data.documents[currI].data['nextRound'];
+          if(nextRound==false){
+            return buildI();
+          }
+          if(totVote==length){
+            return buildS();
+          }
+          if (ready == true) {
+            return buildV(context, question);
+          }
+          return buildA(context);
+        }
+    );
+  }
+
 
   Widget buildA(BuildContext context) {
     ThemeData themeData = Theme.of(context);
@@ -434,6 +435,14 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                                   );
                                 }),
                             ///////////////////////////////
+                            StreamBuilder<DocumentSnapshot>(
+                              stream: Firestore.instance.collection('gameSessions').document(joinedRoom).snapshots(),
+                              builder: (context, snapshot) {
+                                ask = snapshot.data["ask"];
+                                return Text("");
+
+                              },
+                            ),
                             StreamBuilder<QuerySnapshot>(
                                  stream: Firestore.instance.collection('gameSessions').document(joinedRoom).collection('players').snapshots(),
                                  builder: (context, snapshot) {
@@ -445,6 +454,9 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                                        }
                                      }
                                    }
+                                   print("LLLLLLLLLLLLLL");
+                                   print(ask);
+
                                    if(snapshot.data.documents[ask].data["phrase"]!=null){
                                      var question = snapshot.data.documents[ask].data["phrase"];
                                       return buildN(question);
