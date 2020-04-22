@@ -62,7 +62,7 @@ class _MyLearnPageState extends State<GamePage> {
     const backgroundColor = const Color(0xffb77b);
     const buttoncolor = const Color(0x6BA7B5);
     var randomizer = new Random();
-    var num = randomizer.nextInt(10);
+    var num = randomizer.nextInt(1);
     return Scaffold(
       backgroundColor: backgroundColor.withOpacity(1),
       body: Container(
