@@ -195,6 +195,7 @@ class _lobbyState extends State<lobbyPage> {
         'vote': 0,
         'score': 0,
         'phrase': null,
+        'nextRound': true,
         'email': email,
       });
       Firestore.instance
@@ -262,6 +263,7 @@ class _lobbyState extends State<lobbyPage> {
         'phrase': null,
         'vote': 0,
         'score': 0,
+        'nextRound': true,
         'email': email,
       });
       Firestore.instance
@@ -288,7 +290,7 @@ class _lobbyState extends State<lobbyPage> {
     templist = collectionSnapshot.documents; // <--- ERROR
 
     list = templist.map((DocumentSnapshot docSnapshot) {
-      return docSnapshot.documentID;
+      return docSnapshot.data['email'];;
     }).toList();
     //print(list);
     //print("00 ");

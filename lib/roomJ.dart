@@ -99,7 +99,7 @@ class _roomJState extends State<roomJPage> {
               return _buildList(
                   context,
                   snapshot.data.documents.map((DocumentSnapshot docSnapshot) {
-                    return docSnapshot.documentID;
+                    return docSnapshot.data['email'];
                   }).toList());
             },
           )),
@@ -123,7 +123,8 @@ class _roomJState extends State<roomJPage> {
         'phrase': null,
         'vote': 0,
         'score': 0,
-        'nextRound': true
+        'nextRound': true,
+        'email': email,
       });
       Firestore.instance
           .collection('users')
