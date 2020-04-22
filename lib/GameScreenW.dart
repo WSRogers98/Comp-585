@@ -28,6 +28,7 @@ import 'package:Cherokee/GameScreenA0.dart';
 // TODO: get timer to automatically start
 //done
 int ask;
+bool ind = false;
 void main() => runApp(WaitTimer());
 
 class WaitTimer extends StatelessWidget {

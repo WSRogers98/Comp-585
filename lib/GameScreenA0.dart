@@ -14,6 +14,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:Cherokee/main.dart';
 import 'package:Cherokee/GameScreenQ.dart';
 import 'package:Cherokee/lobbyO.dart';
+import 'package:Cherokee/GameScreenW.dart';
 import 'package:Cherokee/GameScreenEnd.dart';
 import 'package:Cherokee/temp.dart';
 import 'package:Cherokee/main.dart';
@@ -293,6 +294,9 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     );
   }
 
+  Widget buildI(){
+    return Text("A0wait for the winner to start next round");
+  }
 
   Widget buildW(){
     return Column(

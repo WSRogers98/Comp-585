@@ -44,7 +44,7 @@ flutter:
   assets:
     - assets/images/tempbackground.png
     - assets/audio/button.mp3
-    - assets/animations
+    - assets/animations/0.gif
 
   uses-material-design: true
   # The following line ensures that the Material Icons font is
