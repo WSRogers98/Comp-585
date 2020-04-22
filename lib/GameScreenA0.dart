@@ -182,7 +182,6 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     const thiscolor = const Color(0x6BA7B5);
     return Column(
         children: <Widget>[
-
           StreamBuilder<QuerySnapshot>(
               stream: Firestore.instance.collection('gameSessions').document(joinedRoom).collection('players').snapshots(),
               builder: (context, snapshot) {
