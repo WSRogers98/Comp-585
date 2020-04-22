@@ -195,11 +195,7 @@ class _lobbyState extends State<lobbyPage> {
         'vote': 0,
         'score': 0,
         'phrase': null,
-<<<<<<< HEAD
         'email': email,
-=======
-        "nextRound": true
->>>>>>> ruthnew
       });
       Firestore.instance
           .collection('users')
