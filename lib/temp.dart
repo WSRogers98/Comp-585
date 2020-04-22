@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:Cherokee/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -12,26 +13,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:math' as math;
-import 'package:audioplayers/audio_cache.dart';
-import 'package:audioplayers/audioplayers.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:Cherokee/lobbyO.dart';
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'dart:math' as math;
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dart:math';
-import 'package:Cherokee/main.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import 'package:Cherokee/lobbyO.dart';
 import 'package:Cherokee/GameScreenQ.dart';
 import 'package:Cherokee/GameScreenEnd.dart';
 import 'package:Cherokee/temp.dart';
+<<<<<<< HEAD
 import 'package:Cherokee/GameScreenA0.dart';
 import 'package:Cherokee/main.dart';
+=======
+import 'package:Cherokee/GameScreenW.dart';
+>>>>>>> ruthnew
 
 // TODO: get timer to automatically start
 //done
@@ -79,6 +76,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     print("klklkl");
   }
 
+<<<<<<< HEAD
 //  @override
 //  void initState() {
 //    super.initState();
@@ -139,18 +137,27 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
 //          context, MaterialPageRoute(builder: (context) => AnswerTimer()));
 //    }
 //  }
+=======
+  AudioCache _audioCache;
+
+  @override
+  void initState() {
+
+  }
+>>>>>>> ruthnew
+
+
 
   @override
   Widget build(BuildContext context) {
-    startTimer(controller);
-    ThemeData themeData = Theme.of(context);
-    const thiscolor = const Color(0x6BA7B5);
+
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
+<<<<<<< HEAD
             Expanded(
               child: Align(
                 alignment: FractionalOffset.center,
@@ -310,46 +317,62 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
 //              ),
 //            ),
           ],
+=======
+            Text("you are the winner"),
+            RaisedButton(
+                child: Text("Start the next round", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+                  fontWeight: FontWeight.w100,
+                  fontSize: 15,
+                ),
+                ),),
+                shape: RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(7.0),
+                ),
+                textColor: Colors.white,
+                elevation: 15,
+                //color: thiscolor.withOpacity(1),
+                onPressed: () async {
+                  var sessionQuery = Firestore.instance
+                      .collection('gameSessions')
+                      .where('roomNumber', isEqualTo: joinedRoom)
+                      .limit(1);
+                  var querySnapshot = await sessionQuery.getDocuments();
+                  var documents = querySnapshot.documents;
+                  var docs = await documents[0].reference.collection("players")
+                      .getDocuments();
+                  var length = docs.documents.length;
+                  Firestore.instance
+                      .collection('gameSessions')
+                      .document(joinedRoom)
+                      .updateData({'ask': documents[0].data["ask"] + 1});
+                  for (int i = 0; i < length; i++) {
+                    Firestore.instance
+                        .collection('gameSessions')
+                        .document(joinedRoom)
+                        .collection('players')
+                        .document(docs.documents[i].documentID)
+                        .updateData(
+                        {'vote': 0, 'phrase': null, 'nextRound': true});
+                  }
+                  ind = false;
+                  var isAsk = documents[0].data['ask'];
+                  print("kkkkkkkkkkkkkkkkkkkkkkkk");
+                  if(docs.documents[isAsk].documentID == currUser){
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => MyGame()));
+                  }
+                  else{
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => MyGame()));
+                  }
+                }
+
+            )],
+>>>>>>> ruthnew
         ),
       ),
     );
   }
 }
 
-void startTimer(controller) {
-  controller.reverse(from: controller.value == 0.0 ? 1.0 : controller.value);
-}
 
-class TimerPainter extends CustomPainter {
-  TimerPainter({
-    this.animation,
-    this.backgroundColor,
-    this.color,
-  }) : super(repaint: animation);
-  final Animation<double> animation;
-  final Color backgroundColor;
-  final Color color;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()
-      ..color = backgroundColor
-      ..strokeWidth = 5
-      ..strokeCap = StrokeCap.round
-      ..style = PaintingStyle.stroke;
-    canvas.drawCircle(size.center(Offset.zero), size.width / 2.0, paint);
-    paint.color = color;
-    double progress = (1.0 - animation.value) * 2 * math.pi;
-    canvas.drawArc(Offset.zero & size, math.pi * 1.5, -progress, false, paint);
-  }
-
-  @override
-  bool shouldRepaint(TimerPainter old) {
-    // TODO: implement repaint
-    return animation.value != old.animation.value ||
-        color != old.color ||
-        backgroundColor != old.backgroundColor;
-  }
-}
-
-void respond() async {}
