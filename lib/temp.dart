@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:Cherokee/GameScreenA0.dart';
+import 'package:Cherokee/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -254,62 +256,49 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                     ],
                   ),
                 ),
-              ),
-            ),
-//            Container(
-//              margin: EdgeInsets.all(25.0),
-//              child: Row(
-//                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                children: <Widget>[
-//                  Text(
-//                    "Current Phrase Goes Here",
-//                  ),
-//                ],
-//              ),
-//            ),
+                textColor: Colors.white,
+                elevation: 15,
+                //color: thiscolor.withOpacity(1),
+                onPressed: () async {
+                  var sessionQuery = Firestore.instance
+                      .collection('gameSessions')
+                      .where('roomNumber', isEqualTo: joinedRoom)
+                      .limit(1);
+                  var querySnapshot = await sessionQuery.getDocuments();
+                  var documents = querySnapshot.documents;
+                  var docs = await documents[0].reference.collection("players")
+                      .getDocuments();
+                  var length = docs.documents.length;
+                  Firestore.instance
+                      .collection('gameSessions')
+                      .document(joinedRoom)
+                      .updateData({'ask': documents[0].data["ask"] + 1});
+                  for (int i = 0; i < length; i++) {
+                    Firestore.instance
+                        .collection('gameSessions')
+                        .document(joinedRoom)
+                        .collection('players')
+                        .document(docs.documents[i].documentID)
+                        .updateData(
+                        {'vote': 0, 'phrase': null, 'nextRound': true});
+                  }
+                  ind = false;
+                  var isAsk = documents[0].data['ask'];
+                  print("kkkkkkkkkkkkkkkkkkkkkkkk");
+                  print("isAsk");
+                  print(isAsk);
+                  print(documents[0].data["ask"] + 1);
+                  if(docs.documents[isAsk].documentID == currUser){
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => MyGame()));
+                  }
+                  else{
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => AnswerTimer()));
+                  }
+                }
 
-//            Container(
-//              child: Align(
-//                alignment: Alignment(-.4, 0.9),
-//                // Switch register Button
-//                child: Form(
-//                  // TODO: make a response form for the round?
-//                  // key: _formKey,
-//
-//                  child: Column(
-//                    mainAxisSize: MainAxisSize.min,
-//                    children: <Widget>[
-//                      Padding(
-//                        padding: EdgeInsets.all(8.0),
-//                        child: TextFormField(
-//                          decoration: InputDecoration(
-//                            border: OutlineInputBorder(),
-//                            hintText: 'Enter a Respose',
-//                          ),
-//                          autofocus: false,
-//                          obscureText: true,
-//
-//                          // TODO: Change to a response submission
-//                          // onSaved: (input) =>
-//                          //  _passwordReg = input
-//                        ),
-//                      ),
-//                      Padding(
-//                        padding: const EdgeInsets.all(8.0),
-//                        child: RaisedButton(
-//                          child: Text("Submit"),
-//                          onPressed: () {
-//                            respond();
-//                            _audioCache.play('button.mp3');
-//                          },
-//                        ),
-//                      )
-//                    ],
-//                  ),
-//                ),
-//              ),
-//            ),
-          ],
+            )],
         ),
       ),
     );
