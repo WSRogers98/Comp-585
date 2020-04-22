@@ -66,10 +66,22 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
       vsync: this,
       duration: Duration(seconds: 30),
     );
+    if (ind){
+      Firestore.instance
+          .collection('gameSessions')
+          .document(joinedRoom)
+          .collection("players")
+          .document(currUser)
+          .updateData({'nextRound': false});
+      ind = false;
+    }
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget buildI() {
+    return Text("Qwait for the winner to start next round");
+  }
+
+  Widget buildQ(BuildContext context) {
     ThemeData themeData = Theme.of(context);
     const thiscolor = const Color(0x6BA7B5);
     startTimer(controller);
@@ -92,10 +104,10 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                           builder: (BuildContext context, Widget child) {
                             return CustomPaint(
                                 painter: TimerPainter(
-                              animation: controller,
-                              backgroundColor: Colors.white,
-                              color: themeData.indicatorColor,
-                            ));
+                                  animation: controller,
+                                  backgroundColor: Colors.white,
+                                  color: themeData.indicatorColor,
+                                ));
                           },
                         ),
                       ),
@@ -162,9 +174,9 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                           controller: myController,
                           style: GoogleFonts.bubblegumSans(
                               textStyle: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 15,
-                          )),
+                                fontWeight: FontWeight.w400,
+                                fontSize: 15,
+                              )),
                           decoration: new InputDecoration(
                             labelText: "Enter Your Question Here!",
                             fillColor: Colors.white,
@@ -183,9 +195,9 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                             "Submit",
                             style: GoogleFonts.bubblegumSans(
                                 textStyle: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 15,
-                            )),
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 15,
+                                )),
                           ),
                           onPressed: () async {
                             Firestore.instance
@@ -219,7 +231,65 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
       ),
     );
   }
-}
+  @override
+  Widget build(BuildContext context) {
+    ThemeData themeData = Theme.of(context);
+    const thiscolor = const Color(0x6BA7B5);
+    startTimer(controller);
+    return Scaffold(
+      body: Padding(
+        padding: EdgeInsets.all(15.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Flexible(
+                child:
+                StreamBuilder<QuerySnapshot>(
+                    stream: Firestore.instance.collection(
+                        'gameSessions')
+                        .document(joinedRoom)
+                        .collection('players')
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      var totVote = 0;
+                      bool ready = true;
+                      String question = snapshot.data.documents[0]
+                          .data['phrase'];
+                      var length = snapshot.data.documents.length;
+                      for (int i = 0; i < length; i++) {
+                        if (snapshot.data.documents[i]
+                            .data['phrase'] == null) {
+                          ready = false;
+                        }
+                        totVote = totVote +
+                            snapshot.data.documents[i].data['vote'];
+                      }
+                      var currI;
+                      for (int i = 0; i < length; i++) {
+                        if (currUser ==
+                            snapshot.data.documents[i].documentID) {
+                          currI = i;
+                        }
+                      }
+                      var nextRound = snapshot.data.documents[currI]
+                          .data['nextRound'];
+                      if (nextRound == false) {
+                        return buildI();
+                      }
+                      return buildQ(context);
+                    }
+                )
+
+            )
+
+          ],
+        ),
+      ),
+    );
+  }
+  }
+
+
 
 void startTimer(controller) {
   controller.reverse(from: controller.value == 0.0 ? 1.0 : controller.value);

@@ -14,6 +14,7 @@ import 'package:Cherokee/main.dart';
 import 'package:Cherokee/GameScreenQ.dart';
 import 'package:Cherokee/lobbyO.dart';
 import 'package:Cherokee/GameScreenEnd.dart';
+import 'package:Cherokee/GameScreenW.dart';
 import 'package:Cherokee/temp.dart';
 String prompt = "Enter your answer:";
 bool ignore = false;
@@ -68,6 +69,15 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
       vsync: this,
       duration: Duration(seconds: 30),
     );
+    if (ind){
+      Firestore.instance
+          .collection('gameSessions')
+          .document(joinedRoom)
+          .collection("players")
+          .document(currUser)
+          .updateData({'nextRound': false});
+      ind = false;
+    }
     findAsk();
   }
   void findAsk() async{
@@ -204,60 +214,63 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
               elevation: 15,
               color: thiscolor.withOpacity(1),
             onPressed: () async {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => temp()));
-//              var sessionQuery = Firestore.instance
-//                  .collection('gameSessions')
-//                  .where('roomNumber', isEqualTo: joinedRoom)
-//                  .limit(1);
-//              var querySnapshot = await sessionQuery.getDocuments();
-//              var documents = querySnapshot.documents;
-//              var docs = await documents[0].reference.collection("players").getDocuments();
-//              var length = docs.documents.length;
+              var sessionQuery = Firestore.instance
+                  .collection('gameSessions')
+                  .where('roomNumber', isEqualTo: joinedRoom)
+                  .limit(1);
+              var querySnapshot = await sessionQuery.getDocuments();
+              var documents = querySnapshot.documents;
+              var docs = await documents[0].reference.collection("players").getDocuments();
+              var length = docs.documents.length;
 //              Firestore.instance
 //                  .collection('gameSessions')
 //                  .document(joinedRoom)
 //                  .updateData({'ask': documents[0].data["ask"] + 1});
-//
-////              for(int i = 0; i < length; i++){
-////                Firestore.instance
-////                    .collection('gameSessions')
-////                    .document(joinedRoom)
-////                    .collection("players")
-////                    .document(docs.documents[i].documentID)
-////                    .updateData({'vote': 0, 'phrase': null});
-////              }
-//              if(documents[0].data["ask"]+1 >= length){
-//                Firestore.instance
-//                    .collection('gameSessions')
-//                    .document(joinedRoom)
-//                    .updateData({'GameOpen': false});
-//                Navigator.push(
-//                    context, MaterialPageRoute(builder: (context) => GameEnd()));
-//              }
-//
-//              if(docs.documents[documents[0].data["ask"]+1].documentID==currUser){
-//                Navigator.push(
-//                    context, MaterialPageRoute(builder: (context) => MyGame()));
-//              }else{
-//                  for(int i = 0; i < length; i++){
-//                Firestore.instance
-//                    .collection('gameSessions')
-//                    .document(joinedRoom)
-//                    .collection("players")
-//                    .document(docs.documents[i].documentID)
-//                    .updateData({'vote': 0, 'phrase': null});
-//                  }
-//              }
-////              else{
-////                Navigator.push(
-////                    context, MaterialPageRoute(builder: (context) => AnswerTimer()));
-////              }
+
+              var isGameOpen = documents[0].data['GameOpen'];
+              var isAsk = documents[0].data['ask'];
+
+//            var firstUser = docs.documents[documents[0].data['ask']].documentID;
+              var hiVote = 0;
+              var hiVoteUser;
+              if(documents[0].data["ask"]+1 >= length){
+                Firestore.instance
+                    .collection('gameSessions')
+                    .document(joinedRoom)
+                    .updateData({'GameOpen': false});
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => GameEnd()));
+              }
+              for(int i = 0; i < length; i++){
+                if(hiVote < docs.documents[i].data["vote"]){
+                  hiVote = docs.documents[i].data["vote"];
+                  hiVoteUser = docs.documents[i].documentID;
+                }
+              }
+              if (hiVoteUser == currUser){
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => temp()));
+              }
+              else{
+                if (docs.documents[isAsk+1].documentID == currUser){
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => MyGame()));
+                  ind=true;
+                }
+                else{
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => AnswerTimer()));
+                  ind=true;
+                }
+              }
+
           })
         ]
     );
   }
-
+  Widget buildI(){
+    return Text("A0wait for the winner to start next round");
+  }
 
   Widget buildW(){
     return Column(
@@ -332,10 +345,18 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                                 ready = false;
                               }
                               totVote = totVote + snapshot.data.documents[i].data['vote'];
-                              //int score = snapshot.data.documents[i].data['vote'] + snapshot.data.documents[i].data['score'];
+                          }
+                          var currI;
+                          for(int i = 0; i < length; i++){
+                            if(currUser == snapshot.data.documents[i].documentID){
+                              currI = i;
+                            }
+                          }
+                          var nextRound = snapshot.data.documents[currI].data['nextRound'];
+                          if(nextRound==false){
+                            return buildI();
                           }
                           if(totVote==length){
-
                             return buildS();
                           }
                           if (ready == true) {

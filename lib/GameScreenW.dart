@@ -28,7 +28,7 @@ import 'package:Cherokee/GameScreenA0.dart';
 // TODO: get timer to automatically start
 //done
 int ask;
-
+bool ind = false;
 void main() => runApp(WaitTimer());
 
 class WaitTimer extends StatelessWidget {
@@ -80,6 +80,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
       vsync: this,
       duration: Duration(seconds: 30),
     );
+
     findAsk();
   }
 
@@ -140,52 +141,56 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
       RaisedButton(
           child: Text("Go to the next round"),
           onPressed: () async {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => temp()));
-//                var sessionQuery = Firestore.instance
-//                    .collection('gameSessions')
-//                    .where('roomNumber', isEqualTo: joinedRoom)
-//                    .limit(1);
-//                var querySnapshot = await sessionQuery.getDocuments();
-//                var documents = querySnapshot.documents;
-//                var docs = await documents[0].reference.collection("players").getDocuments();
-//                var length = docs.documents.length;
-//                print("hereeeee1");
-//                Firestore.instance
-//                    .collection('gameSessions')
-//                    .document(joinedRoom)
-//                    .updateData({'ask': documents[0].data["ask"] + 1});
-//                print("hereeeee2");
-////              for(int i = 0; i < length; i++){
-////                Firestore.instance
-////                    .collection('gameSessions')
-////                    .document(joinedRoom)
-////                    .collection("players")
-////                    .document(docs.documents[i].documentID)
-////                    .updateData({'vote': 0, 'phrase': null});
-////              }
-//                print(docs.documents[documents[0].data["ask"]].documentID);
-//                print(currUser);
-//                print(documents[0].data["ask"]);
-//                print("hereeeee");
-//                if(documents[0].data["ask"]+1 >= length){
-//                  Firestore.instance
-//                      .collection('gameSessions')
-//                      .document(joinedRoom)
-//                      .updateData({'GameOpen': false});
-//                  Navigator.push(
-//                      context, MaterialPageRoute(builder: (context) => GameEnd()));
-//                }
-//                if(docs.documents[documents[0].data["ask"]+1].documentID==currUser){
-//                  print(docs.documents[documents[0].data["ask"]].documentID);
-//                  print(currUser);
-//                  print("u");
-//                  Navigator.push(
-//                      context, MaterialPageRoute(builder: (context) => MyGame()));
-//                }else{
-//                  Navigator.push(
-//                      context, MaterialPageRoute(builder: (context) => AnswerTimer()));
-//                }
+            var sessionQuery = Firestore.instance
+                .collection('gameSessions')
+                .where('roomNumber', isEqualTo: joinedRoom)
+                .limit(1);
+            var querySnapshot = await sessionQuery.getDocuments();
+            var documents = querySnapshot.documents;
+            var docs = await documents[0].reference.collection("players").getDocuments();
+            var length = docs.documents.length;
+//            Firestore.instance
+//                .collection('gameSessions')
+//                .document(joinedRoom)
+//                .updateData({'ask': documents[0].data["ask"] + 1});
+
+            var isGameOpen = documents[0].data['GameOpen'];
+            var isAsk = documents[0].data['ask'];
+
+//            var firstUser = docs.documents[documents[0].data['ask']].documentID;
+            var hiVote = 0;
+            var hiVoteUser;
+            if(documents[0].data["ask"]+1 >= length){
+              Firestore.instance
+                  .collection('gameSessions')
+                  .document(joinedRoom)
+                  .updateData({'GameOpen': false});
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => GameEnd()));
+            }
+            for(int i = 0; i < length; i++){
+              if(hiVote < docs.documents[i].data["vote"]){
+                hiVote = docs.documents[i].data["vote"];
+                hiVoteUser = docs.documents[i].documentID;
+              }
+            }
+
+            if (hiVoteUser == currUser){
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => temp()));
+            }
+            else{
+              if (docs.documents[isAsk+1].documentID == currUser){
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => MyGame()));
+                ind=true;
+              }
+              else{
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => AnswerTimer()));
+                ind=true;
+              }
+            }
           })
     ]);
   }

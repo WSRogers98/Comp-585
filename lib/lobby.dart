@@ -195,6 +195,7 @@ class _lobbyState extends State<lobbyPage> {
         'vote': 0,
         'score': 0,
         'phrase': null,
+        "nextRound": true
       });
       Firestore.instance
           .collection('users')
