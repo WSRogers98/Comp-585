@@ -29,6 +29,10 @@ import 'package:Cherokee/GameScreenA0.dart';
 //done
 int ask;
 bool ind = false;
+var userarr= new List();
+var votearr= new List();
+var scorearr= new List();
+
 void main() => runApp(WaitTimer());
 
 class WaitTimer extends StatelessWidget {
@@ -123,9 +127,13 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
             String scoreBoard = '';
             var length = snapshot.data.documents.length;
             for (int i = 0; i < length; i++) {
+
               userName = snapshot.data.documents[i].data['email'];
+              userarr.add(userName);
               votes = snapshot.data.documents[i].data['vote'].toString();
+              votearr.add(votes);
               score = snapshot.data.documents[i].data['score'].toString();
+              scorearr.add(score);
               scoreBoard = scoreBoard +
                   "\n" +
                   userName +
@@ -136,7 +144,20 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                   "total score: " +
                   score;
             }
-            return Text(scoreBoard);
+
+            return Expanded(child:SizedBox(height: 200.0, child:
+              ListView.separated(
+                padding: const EdgeInsets.all(8),
+                itemCount: userarr.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    height: 30,
+//                  color: Colors.amber[colorCodes[index]],
+                    child: Center(child: Text('${userarr[index]} ${votearr[index]} ${scorearr[index]}')),
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) => const Divider(),
+              )));
           }),
       RaisedButton(
           child: Text("Go to the next round"),
@@ -292,6 +313,10 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     );
   }
 
+  Widget buildI(){
+    return Text("AO wait for the winner to start next round");
+  }
+
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
     return Scaffold(
@@ -327,6 +352,16 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
 
                               totVote = totVote +
                                   snapshot.data.documents[i].data['vote'];
+                            }
+                            var currI;
+                            for(int i = 0; i < length; i++){
+                              if(currUser == snapshot.data.documents[i].documentID){
+                                currI = i;
+                              }
+                            }
+                            var nextRound = snapshot.data.documents[currI].data['nextRound'];
+                            if(nextRound==false){
+                              return buildI();
                             }
                             if (totVote == length) {
                               return buildS();

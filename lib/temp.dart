@@ -127,7 +127,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                     Navigator.push(
                         context, MaterialPageRoute(builder: (context) => GameEnd()));
                   }
-                  if(docs.documents[isAsk].documentID == currUser){
+                  else if(docs.documents[isAsk].documentID == currUser){
                     Navigator.push(
                         context, MaterialPageRoute(builder: (context) => MyGame()));
                   }
