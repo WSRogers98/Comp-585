@@ -340,10 +340,13 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                               .collection('players')
                               .snapshots(),
                           builder: (context, snapshot) {
+
+                            if (snapshot.hasError) { return Text("Error loading"); }
+                            if (snapshot.connectionState == ConnectionState.done) { return Text("Stream closed"); }
+                            if (snapshot.connectionState != ConnectionState.active) { return CircularProgressIndicator(); }
+
                             var totVote = 0;
                             bool ready = true;
-                            String question =
-                            snapshot.data.documents[ask].data['phrase'];
                             var length = snapshot.data.documents.length;
                             for (int i = 0; i < length; i++) {
                               if (snapshot.data.documents[i].data['phrase'] ==
@@ -368,8 +371,10 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                               return buildS();
                             }
                             if (ready == true) {
+                              String question = snapshot.data.documents[ask].data['phrase'];
                               return buildV(context, question);
                             }
+                            print("successfully hit build wait");
                             return buildWait(context);
                           })
                     ],
