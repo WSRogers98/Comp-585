@@ -107,6 +107,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                   var docs = await documents[0].reference.collection("players")
                       .getDocuments();
                   var length = docs.documents.length;
+
                   Firestore.instance
                       .collection('gameSessions')
                       .document(joinedRoom)
@@ -122,10 +123,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                   }
                   ind = false;
                   var isAsk = documents[0].data['ask'];
-                  print("kkkkkkkkkkkkkkkkkkkkkkkk");
-                  print("isAsk");
-                  print(isAsk);
-                  print(documents[0].data["ask"] + 1);
+
                   if(docs.documents[isAsk].documentID == currUser){
                     Navigator.push(
                         context, MaterialPageRoute(builder: (context) => MyGame()));

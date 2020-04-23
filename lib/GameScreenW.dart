@@ -123,7 +123,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
             String scoreBoard = '';
             var length = snapshot.data.documents.length;
             for (int i = 0; i < length; i++) {
-              userName = snapshot.data.documents[i].data['email'];
+              userName = snapshot.data.documents[i].documentID;
               votes = snapshot.data.documents[i].data['vote'].toString();
               score = snapshot.data.documents[i].data['score'].toString();
               scoreBoard = scoreBoard +
