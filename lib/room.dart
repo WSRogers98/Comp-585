@@ -99,7 +99,7 @@ class _roomState extends State<roomPage> {
               return _buildList(
                   context,
                   snapshot.data.documents.map((DocumentSnapshot docSnapshot) {
-                    return docSnapshot.documentID;
+                    return docSnapshot.data['email'];
                   }).toList());
             },
           )),
@@ -134,7 +134,8 @@ class _roomState extends State<roomPage> {
         'phrase': null,
         'vote': 0,
         'score': 0,
-        'nextRound': true
+        'nextRound': true,
+        'email': email,
       });
       Firestore.instance
           .collection('users')
