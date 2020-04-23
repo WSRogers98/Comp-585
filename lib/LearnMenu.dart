@@ -90,7 +90,7 @@ class _MyLearnPageState extends State<GamePage> with TickerProviderStateMixin {
                     MaterialPageRoute(builder: (context) => LessonOne()),
                   );
                 },
-                child: Text('Lesson One', style: TextStyle(fontSize: 35)),
+                child: Text('ᎠᏓᎴᏂᏍᎩ ᏐᏊ', style: TextStyle(fontSize: 35)),
                 textColor: Colors.white,
                 elevation: 15,
                 color: buttoncolor.withOpacity(1),
@@ -106,7 +106,7 @@ class _MyLearnPageState extends State<GamePage> with TickerProviderStateMixin {
                     MaterialPageRoute(builder: (context) => LessonTwo()),
                   );
                 },
-                child: Text('Lesson Two', style: TextStyle(fontSize: 35)),
+                child: Text('ᎠᏓᎴᏂᏍᎩ ᏔᎵ', style: TextStyle(fontSize: 35)),
                 textColor: Colors.white,
                 elevation: 15,
                 color: buttoncolor.withOpacity(1),
@@ -122,7 +122,7 @@ class _MyLearnPageState extends State<GamePage> with TickerProviderStateMixin {
                     MaterialPageRoute(builder: (context) => LessonThree()),
                   );
                 },
-                child: Text('Lesson Three', style: TextStyle(fontSize: 35)),
+                child: Text('ᎠᏓᎴᏂᏍᎩ ᏦᎢ', style: TextStyle(fontSize: 35)),
                 textColor: Colors.white,
                 elevation: 15,
                 color: buttoncolor.withOpacity(1),

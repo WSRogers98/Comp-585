@@ -116,7 +116,7 @@ class _MyLearnPageState extends State<GamePage> with TickerProviderStateMixin {
                         style: new TextStyle(fontSize: 22.0),
                       ),
                       new Text(
-                        "Score: $finalScore",
+                        "ᎦᏅᎥᎬ: $finalScore",
                         style: new TextStyle(fontSize: 22.0),
                       )
                     ],

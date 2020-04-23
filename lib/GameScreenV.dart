@@ -100,7 +100,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                              "Time Left",
+                              "ᎤᏓᎷᎳ",
                               style: GoogleFonts.bubblegumSans(
                                 textStyle: TextStyle(
                                   fontWeight: FontWeight.w400,
@@ -197,7 +197,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                         padding: EdgeInsets.all(8.0),
                         child: TextFormField(
                           decoration: new InputDecoration(
-                            labelText: "Enter Your Response Here!",
+                            labelText: "ᎭᏂ ᎯᏁᎩ!",
                             fillColor: Colors.white,
                             border: new OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(20.0),
@@ -217,7 +217,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                         padding: const EdgeInsets.all(8.0),
                         child: RaisedButton(
                           child: Text(
-                            "Submit",
+                            "ᏫᎲᎦ",
                             style: GoogleFonts.bubblegumSans(
                                 textStyle: TextStyle(
                               fontWeight: FontWeight.w400,

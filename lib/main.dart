@@ -178,7 +178,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: RaisedButton(
-                                            child: Text("Submit"),
+                                            child: Text("ᏫᎲᎦ"),
                                             onPressed: () async {
                                               signIn();
                                               _audioCache.play('button.mp3');
@@ -247,7 +247,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: RaisedButton(
-                                            child: Text("Submit"),
+                                            child: Text("ᏫᎲᎦ"),
                                             onPressed: () async {
                                               _audioCache.play('button.mp3');
                                               signIn();
@@ -269,7 +269,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               });
                         },
                         // profile section of button
-                        child: Text('Profile', style: TextStyle(fontSize: 10)),
+                        child: Text('PᏄᏍᏗᏓᏅᎢ', style: TextStyle(fontSize: 10)),
                         color: thiscolor.withOpacity(1),
                         shape: RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(10.0),
@@ -324,7 +324,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: RaisedButton(
-                                      child: Text("Submit"),
+                                      child: Text("ᏫᎲᎦ"),
                                       onPressed: () async {
                                         _audioCache.play('button.mp3');
                                         register();
@@ -433,11 +433,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     email: _emailReg, password: _passwordReg))
             .user;
         currUser = user.uid;
+        SignedIn = true;
+        email = _emailReg;
         Firestore.instance
             .collection('users')
             .document(currUser)
             .setData({'room': null, 'owner': false});
-        SignedIn = true;
+
         Fluttertoast.showToast(
             msg: "Registration Successful, you are now signed in",
             toastLength: Toast.LENGTH_SHORT,
@@ -447,7 +449,6 @@ class _MyHomePageState extends State<MyHomePage> {
             textColor: Colors.white,
             fontSize: 16.0);
 
-        email = _email;
 
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => MyApp()));
