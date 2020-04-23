@@ -123,7 +123,10 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                   }
                   ind = false;
                   var isAsk = documents[0].data['ask'];
-
+                  if(isAsk == length){
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => GameEnd()));
+                  }
                   if(docs.documents[isAsk].documentID == currUser){
                     Navigator.push(
                         context, MaterialPageRoute(builder: (context) => MyGame()));
@@ -140,4 +143,3 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     );
   }
 }
-
