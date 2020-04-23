@@ -108,34 +108,6 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     );
   }
 
-  Widget buildPEEN(var username, var vote, var score) {
-    return new Padding(
-      padding: new EdgeInsets.all(15.0),
-      child: Row(
-        children: <Widget>[
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(username),
-            ],
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Text(vote),
-            ],
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              Text(score),
-            ],
-          )
-        ],
-      ),
-    );
-  }
-
   Widget buildS() {
     return Column(children: <Widget>[
       StreamBuilder<QuerySnapshot>(
@@ -152,13 +124,8 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
             var length = snapshot.data.documents.length;
             for (int i = 0; i < length; i++) {
               userName = snapshot.data.documents[i].data['email'];
-              //userName = snapshot.data.documents[i].documentID;
               votes = snapshot.data.documents[i].data['vote'].toString();
               score = snapshot.data.documents[i].data['score'].toString();
-
-//              userarr.add(userName);
-//              votearr.add(votes);
-//              score.add(score);
               scoreBoard = scoreBoard +
                   "\n" +
                   userName +
@@ -168,73 +135,65 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                   "\n" +
                   "total score: " +
                   score;
-              return buildPEEN(userName, votes, score);
             }
-            return Text("");
+            return Text(scoreBoard);
           }),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          RaisedButton(
-              child: Text("Go to the next round"),
-              onPressed: () async {
-                var sessionQuery = Firestore.instance
-                    .collection('gameSessions')
-                    .where('roomNumber', isEqualTo: joinedRoom)
-                    .limit(1);
-                var querySnapshot = await sessionQuery.getDocuments();
-                var documents = querySnapshot.documents;
-                var docs = await documents[0]
-                    .reference
-                    .collection("players")
-                    .getDocuments();
-                var length = docs.documents.length;
+      RaisedButton(
+          child: Text("Go to the next round"),
+          onPressed: () async {
+            var sessionQuery = Firestore.instance
+                .collection('gameSessions')
+                .where('roomNumber', isEqualTo: joinedRoom)
+                .limit(1);
+            var querySnapshot = await sessionQuery.getDocuments();
+            var documents = querySnapshot.documents;
+            var docs = await documents[0].reference.collection("players").getDocuments();
+            var length = docs.documents.length;
 //            Firestore.instance
 //                .collection('gameSessions')
 //                .document(joinedRoom)
 //                .updateData({'ask': documents[0].data["ask"] + 1});
 
-                var isGameOpen = documents[0].data['GameOpen'];
-                var isAsk = documents[0].data['ask'];
+            var isGameOpen = documents[0].data['GameOpen'];
+            var isAsk = documents[0].data['ask'];
 
 //            var firstUser = docs.documents[documents[0].data['ask']].documentID;
-                var hiVote = 0;
-                var hiVoteUser;
-                if (documents[0].data["ask"] + 1 >= length) {
-                  Firestore.instance
-                      .collection('gameSessions')
-                      .document(joinedRoom)
-                      .updateData({'GameOpen': false});
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => GameEnd()));
-                }
-                for (int i = 0; i < length; i++) {
-                  if (hiVote < docs.documents[i].data["vote"]) {
-                    hiVote = docs.documents[i].data["vote"];
-                    hiVoteUser = docs.documents[i].documentID;
-                  }
-                }
+            var hiVote = 0;
+            var hiVoteUser;
+            if(documents[0].data["ask"]+1 >= length){
+              Firestore.instance
+                  .collection('gameSessions')
+                  .document(joinedRoom)
+                  .updateData({'GameOpen': false});
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => GameEnd()));
+            }
+            for(int i = 0; i < length; i++){
+              if(hiVote < docs.documents[i].data["vote"]){
+                hiVote = docs.documents[i].data["vote"];
+                hiVoteUser = docs.documents[i].documentID;
+              }
+            }
 
-                if (hiVoteUser == currUser) {
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => temp()));
-                } else {
-                  if (docs.documents[isAsk + 1].documentID == currUser) {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MyGame()));
-                    ind = true;
-                  } else {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => AnswerTimer()));
-                    ind = true;
-                  }
-                }
-              })
-        ],
-      )
+            if (hiVoteUser == currUser){
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => temp()));
+            }
+            else{
+              if (docs.documents[isAsk+1].documentID == currUser){
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => MyGame()));
+                ind=true;
+              }
+              else{
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => AnswerTimer()));
+                ind=true;
+              }
+            }
+          })
     ]);
   }
-
 
   Widget buildV(BuildContext context, String question) {
     return Scaffold(
@@ -426,7 +385,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                              "Time Left",
+                              "ᎤᏓᎷᎳ",
                               style: GoogleFonts.bubblegumSans(
                                 textStyle: TextStyle(
                                   fontWeight: FontWeight.w400,
@@ -458,7 +417,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
             ),
             Container(
               child: Text(
-                "Just wait",
+                "ᎧᏁᎦ ᎯᎦᏘᏓ",
                 style: GoogleFonts.bubblegumSans(
                   textStyle: TextStyle(
                     fontWeight: FontWeight.w100,

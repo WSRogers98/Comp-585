@@ -78,7 +78,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
   }
 
   Widget buildI() {
-    return Text("Qwait for the winner to start next round");
+    return Text("Q wait for the winner to start next round");
   }
 
   Widget buildQ(BuildContext context) {
@@ -118,7 +118,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                              "Time Left",
+                              "ᎤᏓᎷᎳ",
                               style: GoogleFonts.bubblegumSans(
                                 textStyle: TextStyle(
                                   fontWeight: FontWeight.w400,
@@ -178,7 +178,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                                 fontSize: 15,
                               )),
                           decoration: new InputDecoration(
-                            labelText: "Enter Your Question Here!",
+                            labelText: "ᎭᏂ ᏙᏪᎳᎦ ᎠᏛᏓᏍᏗ ᏣᏤᎵᎢ",
                             fillColor: Colors.white,
                             border: new OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(20.0),
@@ -192,7 +192,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                         padding: const EdgeInsets.all(8.0),
                         child: RaisedButton(
                           child: Text(
-                            "Submit",
+                            "ᏫᎲᎦ",
                             style: GoogleFonts.bubblegumSans(
                                 textStyle: TextStyle(
                                   fontWeight: FontWeight.w400,
@@ -413,7 +413,7 @@ class TimerPainter extends CustomPainter {
 //                          crossAxisAlignment: CrossAxisAlignment.center,
 //                          children: <Widget>[
 //                            Text(
-//                              "Time Left",
+//                              "ᎤᏓᎷᎳ",
 //                              style: themeData.textTheme.subhead,
 //                            ),
 //                            AnimatedBuilder(
