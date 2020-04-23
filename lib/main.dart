@@ -188,16 +188,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                             },
                                           ),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(1),
-                                          child: RaisedButton(
-                                            child: Text("Use Google Instead"),
-                                            onPressed: () async {
-                                              Navigator.push(
-                                                  context, MaterialPageRoute(builder: (context) => SignInWithGoogler()));
-                                            },
-                                          ),
-                                        ),
+//                                        Padding(
+//                                          padding: const EdgeInsets.all(1),
+//                                          child: RaisedButton(
+//                                            child: Text("Use Google Instead"),
+//                                            onPressed: () async {
+//                                              Navigator.push(
+//                                                  context, MaterialPageRoute(builder: (context) => SignInWithGoogler()));
+//                                            },
+//                                          ),
+//                                        ),
                                       ],
                                     ),
                                   ),
@@ -259,14 +259,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                             },
                                           ),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: RaisedButton(
-                                            child: Text("Use Google Instead"),
-                                            onPressed: () async {
-                                            },
-                                          ),
-                                        ),
+//                                        Padding(
+//                                          padding: const EdgeInsets.all(8.0),
+//                                          child: RaisedButton(
+//                                            child: Text("Use Google Instead"),
+//                                            onPressed: () async {
+//                                            },
+//                                          ),
+//                                        ),
                                       ],
                                     ),
                                   ),
@@ -336,16 +336,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                       },
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: RaisedButton(
-                                      child: Text("Use Google Instead"),
-                                      onPressed: () async {
-                                        Navigator.push(
-                                            context, MaterialPageRoute(builder: (context) => SignInWithGoogler()));
-                                      },
-                                    ),
-                                  )
+//                                  Padding(
+//                                    padding: const EdgeInsets.all(8.0),
+//                                    child: RaisedButton(
+//                                      child: Text("Use Google Instead"),
+//                                      onPressed: () async {
+//                                        Navigator.push(
+//                                            context, MaterialPageRoute(builder: (context) => SignInWithGoogler()));
+//                                      },
+//                                    ),
+//                                  )
                                 ],
                               ),
                             ),
