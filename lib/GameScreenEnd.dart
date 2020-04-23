@@ -73,15 +73,12 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
             String scoreBoard = '';
             var length = snapshot.data.documents.length;
             for (int i = 0; i < length; i++) {
-              userName = snapshot.data.documents[i].documentID;
+              userName = snapshot.data.documents[i].data['email'];
               votes = snapshot.data.documents[i].data['vote'].toString();
               score = snapshot.data.documents[i].data['score'].toString();
               scoreBoard = scoreBoard +
                   "\n" +
                   userName +
-                  "\n" +
-                  "current round: " +
-                  votes +
                   "\n" +
                   "total score: " +
                   score;
@@ -99,4 +96,5 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     const thiscolor = const Color(0x6BA7B5);
     return buildS();
   }
+
 }
