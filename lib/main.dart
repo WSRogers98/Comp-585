@@ -433,11 +433,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     email: _emailReg, password: _passwordReg))
             .user;
         currUser = user.uid;
+        SignedIn = true;
+        email = _emailReg;
         Firestore.instance
             .collection('users')
             .document(currUser)
             .setData({'room': null, 'owner': false});
-        SignedIn = true;
+
         Fluttertoast.showToast(
             msg: "Registration Successful, you are now signed in",
             toastLength: Toast.LENGTH_SHORT,
@@ -447,7 +449,6 @@ class _MyHomePageState extends State<MyHomePage> {
             textColor: Colors.white,
             fontSize: 16.0);
 
-        email = _email;
 
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => MyApp()));
