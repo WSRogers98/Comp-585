@@ -184,7 +184,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                               _audioCache.play('button.mp3');
                                             },
                                           ),
-                                        )
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: RaisedButton(
+                                            child: Text("Use Google Instead"),
+                                            onPressed: () async {
+                                            },
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -245,7 +253,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                               signIn();
                                             },
                                           ),
-                                        )
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: RaisedButton(
+                                            child: Text("Use Google Instead"),
+                                            onPressed: () async {
+                                            },
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -312,6 +328,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                       onPressed: () async {
                                         _audioCache.play('button.mp3');
                                         register();
+                                      },
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: RaisedButton(
+                                      child: Text("Use Google Instead"),
+                                      onPressed: () async {
                                       },
                                     ),
                                   )
