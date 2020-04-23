@@ -389,7 +389,10 @@ class Summary extends StatelessWidget {
                         onPressed: () {
                           questionNumber = 0;
                           finalScore = 0;
-                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) =>  SecondRoute()),
+                          );
                         },
                         child: new Text(
                           "Quit",

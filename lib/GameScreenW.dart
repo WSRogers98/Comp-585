@@ -142,7 +142,8 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                   votes +
                   "\n" +
                   "total score: " +
-                  score;
+                  score
+              + "\n";
             }
 
             return Expanded(child:SizedBox(height: 200.0, child:
