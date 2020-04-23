@@ -1,3 +1,4 @@
+import 'package:Cherokee/SignInWithGoogleer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -12,6 +13,8 @@ import 'package:Cherokee/lobbyJ.dart';
 import 'package:Cherokee/LearnMenu.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
+
+import 'LoginPage.dart';
 
 String _email, _password, _emailReg, _passwordReg;
 String currUser;
@@ -164,7 +167,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           ),
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.all(8.0),
+                                          padding: EdgeInsets.all(1.0),
                                           child: TextFormField(
                                               decoration: InputDecoration(
                                                 border: OutlineInputBorder(),
@@ -176,7 +179,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   _password = input),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.all(8.0),
+                                          padding: const EdgeInsets.all(1.0),
                                           child: RaisedButton(
                                             child: Text("Submit"),
                                             onPressed: () async {
@@ -186,10 +189,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                           ),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.all(8.0),
+                                          padding: const EdgeInsets.all(1),
                                           child: RaisedButton(
                                             child: Text("Use Google Instead"),
                                             onPressed: () async {
+                                              Navigator.push(
+                                                  context, MaterialPageRoute(builder: (context) => SignInWithGoogler()));
                                             },
                                           ),
                                         ),
@@ -336,6 +341,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                     child: RaisedButton(
                                       child: Text("Use Google Instead"),
                                       onPressed: () async {
+                                        Navigator.push(
+                                            context, MaterialPageRoute(builder: (context) => SignInWithGoogler()));
                                       },
                                     ),
                                   )
