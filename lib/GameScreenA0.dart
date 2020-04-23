@@ -10,16 +10,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:Cherokee/main.dart';
 import 'package:Cherokee/GameScreenQ.dart';
 import 'package:Cherokee/lobbyO.dart';
-import 'package:Cherokee/GameScreenW.dart';
 import 'package:Cherokee/GameScreenEnd.dart';
+import 'package:Cherokee/GameScreenW.dart';
 import 'package:Cherokee/temp.dart';
-import 'package:Cherokee/main.dart';
-import 'package:Cherokee/main.dart';
-
 String prompt = "Enter your answer:";
 bool ignore = false;
 int memNum;
@@ -87,11 +83,11 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
 
   Widget buildV(BuildContext context, String question){
     return Scaffold(
-      body:
-          Column(children: <Widget>[
-            Text(question),
-            Flexible(child: _buildBody(context),),
-          ],)
+        body:
+        Column(children: <Widget>[
+          Text(question),
+          Flexible(child: _buildBody(context),),
+        ],)
     );
   }
   Widget _buildBody(BuildContext context) {
@@ -145,6 +141,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                     backgroundColor: Colors.black26,
                     textColor: Colors.white,
                     fontSize: 16.0);
+
               },
             )
         );
@@ -169,131 +166,93 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
   }
 
   Widget buildS(){
-    var docLength;
-    var dscore = new List(3);
-    var userarr= new List();
-    var votearr=new List();
-    var scorearr=new List();
     const thiscolor = const Color(0x6BA7B5);
     return Column(
         children: <Widget>[
-
           StreamBuilder<QuerySnapshot>(
               stream: Firestore.instance.collection('gameSessions').document(joinedRoom).collection('players').snapshots(),
               builder: (context, snapshot) {
                 var userName;
                 var votes;
-                var score ;
+                var score;
                 String scoreBoard = '';
                 var length = snapshot.data.documents.length;
-                print("length "+ length.toString());
-                docLength = length;
                 for (int i = 0; i < length; i++) {
                   userName = snapshot.data.documents[i].data['email'];
-                  userarr.add(userName);
                   votes = snapshot.data.documents[i].data['vote'].toString();
-                  votearr.add(votes);
                   score = snapshot.data.documents[i].data['score'].toString();
-                  scorearr.add(score);
                   scoreBoard = scoreBoard + "\n"+userName + "\n" + "current round: " + votes + "\n" + "total score: " + score;
                 }
-                dscore[0]=userarr;
-                dscore[1]=votearr;
-                dscore[2]=scorearr;
                 return Text(scoreBoard);
               }
           ),
-//          GridView.count(
-//            crossAxisCount: 3,
-//            // Generate 100 widgets that display their index in the List.
-//            children: List.generate(docLength, (index) {
-//              return Center(
-//                child: Column(
-//                  children: <Widget>[
-//                Column(
-//                  crossAxisAlignment: CrossAxisAlignment.start,
-//                  children: [
-//                    for ( var i in userarr ) Text(i.toString())
-//                  ]
-//                ),
-//                    Column(
-//                        crossAxisAlignment: CrossAxisAlignment.center,
-//                        children: [
-//                          for ( var i in votearr ) Text(i.toString())
-//                        ]
-//                    ),
-//                    Column(
-//                        crossAxisAlignment: CrossAxisAlignment.end,
-//                        children: [
-//                          for ( var i in scorearr ) Text(i.toString())
-//                        ]
-//                    )
-//                    ]
-//                ),
-//              );
-//            }),
-//          ),
           RaisedButton(
-            child: Text("Go to the next round", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
-              fontWeight: FontWeight.w100,
-              fontSize: 15,
-            )),
-            ),
+              child: Text("Go to the next round", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+                fontWeight: FontWeight.w100,
+                fontSize: 15,
+              )),
+              ),
               shape: RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(7.0),
               ),
               textColor: Colors.white,
               elevation: 15,
               color: thiscolor.withOpacity(1),
-            onPressed: () async {
-              var sessionQuery = Firestore.instance
-                  .collection('gameSessions')
-                  .where('roomNumber', isEqualTo: joinedRoom)
-                  .limit(1);
-              var querySnapshot = await sessionQuery.getDocuments();
-              var documents = querySnapshot.documents;
-              if (documents.length == 0) {
-                /*room doesn't exist? */ return;
-              }
-              var docs = await documents[0].reference.collection("players").getDocuments();
-              print("???????");
-              int topVoter;
-              int topVote = 0;
-              for(int i = 0; i < docs.documents.length; i++){
-                print("bbbb");
-                int vote = int.parse(docs.documents[i].data["vote"].toString());
-                if(topVote < vote){
-                  topVote = vote;
-                  topVoter = i;
-                }
-              }
-              print("!!!!");
-              print(topVoter);
-              var topVoterUID = docs.documents[topVoter].documentID;
-              print(topVoterUID);
-              print(currUser);
-              if(topVoterUID == currUser){
-                print("if");
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => temp()));
-              }
-              Firestore.instance
-                  .collection('gameSessions')
-                  .document(joinedRoom)
-                  .collection("players")
-                  .document(currUser)
-                  .updateData({'nextRound': false});
-              var ask = docs.documents[documents[0].data['ask']+1].documentID;
-              if (ask == currUser){
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => MyGame()));
-              }
+              onPressed: () async {
+                var sessionQuery = Firestore.instance
+                    .collection('gameSessions')
+                    .where('roomNumber', isEqualTo: joinedRoom)
+                    .limit(1);
+                var querySnapshot = await sessionQuery.getDocuments();
+                var documents = querySnapshot.documents;
+                var docs = await documents[0].reference.collection("players").getDocuments();
+                var length = docs.documents.length;
+//              Firestore.instance
+//                  .collection('gameSessions')
+//                  .document(joinedRoom)
+//                  .updateData({'ask': documents[0].data["ask"] + 1});
 
-          })
+                var isGameOpen = documents[0].data['GameOpen'];
+                var isAsk = documents[0].data['ask'];
+
+//            var firstUser = docs.documents[documents[0].data['ask']].documentID;
+                var hiVote = 0;
+                var hiVoteUser;
+                if(documents[0].data["ask"]+1 >= length){
+                  Firestore.instance
+                      .collection('gameSessions')
+                      .document(joinedRoom)
+                      .updateData({'GameOpen': false});
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => GameEnd()));
+                }
+                for(int i = 0; i < length; i++){
+                  if(hiVote < docs.documents[i].data["vote"]){
+                    hiVote = docs.documents[i].data["vote"];
+                    hiVoteUser = docs.documents[i].documentID;
+                  }
+                }
+                if (hiVoteUser == currUser){
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => temp()));
+                }
+                else{
+                  if (docs.documents[isAsk+1].documentID == currUser){
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => MyGame()));
+                    ind=true;
+                  }
+                  else{
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => AnswerTimer()));
+                    ind=true;
+                  }
+                }
+
+              })
         ]
     );
   }
-
   Widget buildI(){
     return Text("A0wait for the winner to start next round");
   }
@@ -312,64 +271,36 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
   Widget buildN(var question){
     const thiscolor = const Color(0x6BA7B5);
     return Column(
-      children: <Widget>[
-        Text(question),
-        Text(prompt),
-        TextField(
-          controller: myController,
-        ),
-        RaisedButton(
-            child: Text("Submit", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
-              fontWeight: FontWeight.w100,
-              fontSize: 15,
-            ),
-            ),),
-            shape: RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(7.0),
-            ),
-            textColor: Colors.white,
-            elevation: 15,
-            color: thiscolor.withOpacity(1),
-        onPressed: () async {
-              Firestore.instance
-          .collection('gameSessions')
-          .document(joinedRoom)
-          .collection('players')
-          .document(currUser)
-          .updateData({
-        'phrase': myController.text,
-        });
-    })
-    ]
+        children: <Widget>[
+          Text(question),
+          Text(prompt),
+          TextField(
+            controller: myController,
+          ),
+          RaisedButton(
+              child: Text("Submit", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+                fontWeight: FontWeight.w100,
+                fontSize: 15,
+              ),
+              ),),
+              shape: RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(7.0),
+              ),
+              textColor: Colors.white,
+              elevation: 15,
+              color: thiscolor.withOpacity(1),
+              onPressed: () async {
+                Firestore.instance
+                    .collection('gameSessions')
+                    .document(joinedRoom)
+                    .collection('players')
+                    .document(currUser)
+                    .updateData({
+                  'phrase': myController.text,
+                });
+              })
+        ]
     );
-  }
-  Widget buildNextRound(){
-    return Column(children: <Widget>[
-      Text("Wait for the next round to start."),
-      RaisedButton(
-          child: Text("Go to the next round"),
-          onPressed: () async {
-            var sessionQuery = Firestore.instance
-                .collection('gameSessions')
-                .where('roomNumber', isEqualTo: joinedRoom)
-                .limit(1);
-            var querySnapshot = await sessionQuery.getDocuments();
-            var documents = querySnapshot.documents;
-            if (documents.length == 0) {
-              /*room doesn't exist? */ return;
-            }
-            var isGameOpen = documents[0].data['GameOpen'];
-            var isAsk = documents[0].data['ask'];
-            var docs = await documents[0].reference.collection("players").getDocuments();
-
-
-            var ask = docs.documents[documents[0].data['ask']].documentID;
-            if (ask != currUser){
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => AnswerTimer()));
-            }
-          })
-    ],);
   }
   @override
   Widget build(BuildContext context) {
@@ -397,11 +328,11 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                         },
                       ),
 
-                          ],
-                        ),
-                      ),
+                    ],
                   ),
                 ),
+              ),
+            ),
           ],
         ),
       ),
@@ -496,11 +427,11 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                                   return Text(
                                     timeString,
                                     style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
-                                  fontWeight: FontWeight.w100,
-                                    letterSpacing: 0.0,
-                                    fontSize: 112,
-                                  ),
-                                  ),
+                                      fontWeight: FontWeight.w100,
+                                      letterSpacing: 0.0,
+                                      fontSize: 112,
+                                    ),
+                                    ),
                                   );
                                 }),
                             ///////////////////////////////
@@ -513,28 +444,28 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                               },
                             ),
                             StreamBuilder<QuerySnapshot>(
-                                 stream: Firestore.instance.collection('gameSessions').document(joinedRoom).collection('players').snapshots(),
-                                 builder: (context, snapshot) {
-                                   var length = snapshot.data.documents.length;
-                                   for(int i = 0; i < length; i++){
-                                     if(currUser == snapshot.data.documents[i].documentID){
-                                       if(snapshot.data.documents[i].data['phrase'] != null){
-                                         return buildW();
-                                       }
-                                     }
-                                   }
-                                   print("LLLLLLLLLLLLLL");
-                                   print(ask);
+                              stream: Firestore.instance.collection('gameSessions').document(joinedRoom).collection('players').snapshots(),
+                              builder: (context, snapshot) {
+                                var length = snapshot.data.documents.length;
+                                for(int i = 0; i < length; i++){
+                                  if(currUser == snapshot.data.documents[i].documentID){
+                                    if(snapshot.data.documents[i].data['phrase'] != null){
+                                      return buildW();
+                                    }
+                                  }
+                                }
+                                print("LLLLLLLLLLLLLL");
+                                print(ask);
 
-                                   if(snapshot.data.documents[ask].data["phrase"]!=null){
-                                     var question = snapshot.data.documents[ask].data["phrase"];
-                                      return buildN(question);
-                                   }
-                                   return Text("Wait for the question...",  style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
-                                     fontWeight: FontWeight.w100,
-                                     fontSize: 15,
-                                   )),);
-                                  },
+                                if(snapshot.data.documents[ask].data["phrase"]!=null){
+                                  var question = snapshot.data.documents[ask].data["phrase"];
+                                  return buildN(question);
+                                }
+                                return Text("Wait for the question...",  style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+                                  fontWeight: FontWeight.w100,
+                                  fontSize: 15,
+                                )),);
+                              },
                             )
                           ],
                         ),
