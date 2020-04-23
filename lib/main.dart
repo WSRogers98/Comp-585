@@ -398,8 +398,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _formKey.currentState.save();
       try {
         FirebaseUser user = (await FirebaseAuth.instance
-                .signInWithEmailAndPassword(email: _email, password: _password))
-            .user;
+                .signInWithEmailAndPassword(email: _email, password: _password)).user;
         currUser = user.uid;
 
         SignedIn = true;

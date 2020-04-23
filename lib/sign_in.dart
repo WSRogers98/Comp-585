@@ -1,14 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn googleSignIn = GoogleSignIn();
-FirebaseUser user =null;
+FirebaseUser user;
 String name;
 String email;
 String imageUrl;
+String currUser;
+var SignedIn = false;
+
+
 
 Future<String> signInWithGoogle() async {
 
@@ -39,6 +45,39 @@ Future<String> signInWithGoogle() async {
   imageUrl = user.photoUrl;
 
 
+  try {
+    FirebaseUser user = (await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+        email: email)).user;
+    currUser = user.uid;
+    email = email;
+    Firestore.instance
+        .collection('users')
+        .document(currUser)
+        .setData({'room': null, 'owner': false});
+    SignedIn = true;
+    Fluttertoast.showToast(
+        msg: "Registration Successful, you are now signed in",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 2,
+        backgroundColor: Colors.black26,
+        textColor: Colors.white,
+        fontSize: 16.0);
+
+
+  } catch (e) {
+    Fluttertoast.showToast(
+        msg: "Register Failed - Please Retry",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 2,
+        backgroundColor: Colors.black26,
+        textColor: Colors.white,
+        fontSize: 16.0);
+  }
+
+
 
 // Only taking the first part of the name, i.e., First Name
   if (name.contains(" ")) {
@@ -47,6 +86,10 @@ Future<String> signInWithGoogle() async {
 
 
   return 'signInWithGoogle succeeded: $user';
+
+
+
+
 }
 
 void signOutGoogle() async{
