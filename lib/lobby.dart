@@ -88,6 +88,11 @@ class _lobbyState extends State<lobbyPage> {
           ),),
           TextField(
             controller: myController,
+            textAlign: TextAlign.center,
+            decoration: new InputDecoration.collapsed(
+                border: OutlineInputBorder(),
+                hintText: 'If room # known, enter here',
+            ),
           ),
           Container(margin: const EdgeInsets.only(top: 20.0),
           child:
