@@ -64,7 +64,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     super.initState();
     controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 30),
+      duration: Duration(seconds: 45),
     );
     if (ind){
       Firestore.instance

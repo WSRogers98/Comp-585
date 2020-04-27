@@ -58,7 +58,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
         fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
     controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 30),
+      duration: Duration(seconds: 45),
     );
   }
 
