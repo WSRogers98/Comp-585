@@ -109,6 +109,10 @@ class _roomState extends State<roomPage> {
             onPressed: () {
               _audioCache.play('button.mp3');
               joinRoom();
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => lobbyJPage()));
             },
             color: Colors.orangeAccent,
             textColor: Colors.white,
