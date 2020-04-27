@@ -95,14 +95,14 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
           fontWeight: FontWeight.w100,
           fontSize: 50,
         )),),
-        Text("player      current round      total score",style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+        Text("player      total score",style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
           fontWeight: FontWeight.w100,
           fontSize: 20,
         )),),
         Row(
           children: <Widget>[
             Text(username),
-            Text(curvote),
+
             Text(totvote)
           ],
         ),
