@@ -69,7 +69,7 @@ class _MyLearnPageState extends State<GamePage> {
         decoration: BoxDecoration(
           // decoration box for background Image
           image:  DecorationImage(
-            image: AssetImage('assets/animations/$num.gif'),
+            image: AssetImage('assets/animations/1.gif'),
             fit: BoxFit.fill,
           ),
         ),

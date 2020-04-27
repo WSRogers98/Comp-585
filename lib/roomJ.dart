@@ -49,6 +49,7 @@ class _roomJState extends State<roomJPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.orangeAccent,
           title: Text(joinRoomNum),
           leading: Builder(
             builder: (BuildContext context) {

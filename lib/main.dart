@@ -31,8 +31,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         buttonTheme: ButtonThemeData(
-          height: 25,
-          minWidth: 65,
+          height: 40,
+          minWidth: 110,
+
         ),
       ),
       home: new MyHomePage(),
@@ -75,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Stack(children: <Widget>[
             Container(
               child: Align(
-                alignment: Alignment(.40, .70),
+                alignment: Alignment(0.5, .70),
                 child: RaisedButton(
                   onPressed: () async {
                     _audioCache.play('button.mp3');
@@ -85,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     );
                   },
                   // Learn Button
-                  child: Text('ᎭᏕᎶᏆ', style: TextStyle(fontSize: 10)),
+                  child: Text('ᎭᏕᎶᏆ', style: TextStyle(fontSize: 15)),
                   shape: RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(10.0),
                   ),
@@ -98,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
             // Play Button
             Container(
               child: Align(
-                alignment: Alignment(-.40, .70),
+                alignment: Alignment(-.50, .70),
                 child: RaisedButton(
                   onPressed: () async {
                     _audioCache.play('button.mp3');
@@ -127,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     }
                   },
                   // Play Button
-                  child: Text('ᎭᏁᏟᏓ', style: TextStyle(fontSize: 10)),
+                  child: Text('ᎭᏁᏟᏓ', style: TextStyle(fontSize: 15)),
                   shape: RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(10.0),
                   ),
@@ -139,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Container(
               child: Align(
-                alignment: Alignment(0.4, .9),
+                alignment: Alignment(0.5, .9),
                 child: SignedIn == false
                     // conditional Switch Button Between Sign in and profile, dependent on if user is already signed in
                     ? RaisedButton(
@@ -155,7 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
                                         Padding(
-                                          padding: EdgeInsets.all(8.0),
+                                          padding: EdgeInsets.all(1.0),
                                           child: TextFormField(
                                             decoration: InputDecoration(
                                               border: OutlineInputBorder(),
@@ -181,7 +182,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                         Padding(
                                           padding: const EdgeInsets.all(1.0),
                                           child: RaisedButton(
-                                            child: Text("ᏫᎲᎦ"),
+                                            child: Text("ᏫᎲᎦ",style: TextStyle(fontSize: 17)),
+                                            textColor: Colors.white,
+                                            color: thiscolor.withOpacity(1),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: new BorderRadius.circular(7.0),
+                                            ),
                                             onPressed: () async {
                                               signIn();
                                               _audioCache.play('button.mp3');
@@ -205,7 +211,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               });
                         },
                         // log in section of button
-                        child: Text('ᎯᏴᎭ', style: TextStyle(fontSize: 10)),
+                        child: Text('ᎯᏴᎭ', style: TextStyle(fontSize: 15)),
                         color: thiscolor.withOpacity(1),
                         shape: RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(10.0),
@@ -252,7 +258,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: RaisedButton(
-                                            child: Text("ᏫᎲᎦ"),
+                                            child: Text("ᏫᎲᎦ",style: TextStyle(fontSize: 17)),
+                                            textColor: Colors.white,
+                                            color: thiscolor.withOpacity(1),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: new BorderRadius.circular(10.0),
+                                            ),
                                             onPressed: () async {
                                               _audioCache.play('button.mp3');
                                               signIn();
@@ -274,7 +285,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               });
                         },
                         // profile section of button
-                        child: Text('PᏄᏍᏗᏓᏅᎢ', style: TextStyle(fontSize: 10)),
+                        child: Text('PᏄᏍᏗᏓᏅᎢ', style: TextStyle(fontSize: 15)),
                         color: thiscolor.withOpacity(1),
                         shape: RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(10.0),
@@ -287,7 +298,7 @@ class _MyHomePageState extends State<MyHomePage> {
             // Button to Register New User
             Container(
               child: Align(
-                alignment: Alignment(-.4, 0.9),
+                alignment: Alignment(-.5, 0.9),
                 // Switch register Button
                 child: RaisedButton(
                   onPressed: () async {
@@ -329,7 +340,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: RaisedButton(
-                                      child: Text("ᏫᎲᎦ"),
+                                      child: Text("ᏫᎲᎦ",style: TextStyle(fontSize: 17)),
+                                      textColor: Colors.white,
+                                      color: thiscolor.withOpacity(1),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: new BorderRadius.circular(5.0),
+                                      ),
                                       onPressed: () async {
                                         _audioCache.play('button.mp3');
                                         register();
@@ -353,7 +369,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         });
                   },
                   // register/ sign up account button
-                  child: Text('ᏕᏣᏙᎥ ᎰᏪᎸᎦ', style: TextStyle(fontSize: 10)),
+                  child: Text('ᏕᏣᏙᎥ ᎰᏪᎸᎦ', style: TextStyle(fontSize: 15)),
                   color: thiscolor.withOpacity(1),
                   shape: RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(10.0),

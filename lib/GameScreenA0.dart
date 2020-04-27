@@ -5,9 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:math' as math;
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
 import 'package:Cherokee/main.dart';
@@ -39,8 +37,8 @@ class AnswerTimer extends StatelessWidget {
         ),
         accentColor: Colors.pinkAccent,
         buttonTheme: ButtonThemeData(
-          height: 25,
-          minWidth: 65,
+          height: 35,
+          minWidth: 120,
         ),
       ),
       home: new GamePage(),
@@ -85,7 +83,12 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     return Scaffold(
         body:
         Column(children: <Widget>[
-          Text(question),
+          Text(question, style: GoogleFonts.bubblegumSans(
+            textStyle: TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 30,
+            ),
+          ),),
           Flexible(child: _buildBody(context),),
         ],)
     );
@@ -156,14 +159,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     );
   }
 
-  Widget buildScore(var scoreBoard){
-    return Column(
-      children: <Widget>[
-        Text(scoreBoard),
 
-      ],
-    );
-  }
 
   Widget buildS(){
     const thiscolor = const Color(0x6BA7B5);
@@ -172,6 +168,9 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
           StreamBuilder<QuerySnapshot>(
               stream: Firestore.instance.collection('gameSessions').document(joinedRoom).collection('players').snapshots(),
               builder: (context, snapshot) {
+                String users = "        ";
+                String curvote = '                 ';
+                String totvote = '                          ';
                 var userName;
                 var votes;
                 var score;
@@ -181,23 +180,25 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                   userName = snapshot.data.documents[i].data['email'];
                   votes = snapshot.data.documents[i].data['vote'].toString();
                   score = snapshot.data.documents[i].data['score'].toString();
-                  scoreBoard = scoreBoard + "\n"+userName + "\n" + "current round: " + votes + "\n" + "total score: " + score +"\n";
+                  users = users + userName+"\n"+'        ';
+                  curvote = curvote + votes+"\n"+"                 ";
+                  totvote = totvote + score+"\n"+'                          ';
                 }
-                return Text(scoreBoard);
+
+                return buildScore(users, curvote, totvote);
               }
           ),
           RaisedButton(
-              child: Text("Go to the next round", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
-                fontWeight: FontWeight.w100,
-                fontSize: 15,
-              )),
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(7.0),
-              ),
+              child: Text("Go to the next round",style: TextStyle(fontSize: 15)),
               textColor: Colors.white,
-              elevation: 15,
-              color: thiscolor.withOpacity(1),
+              color: Colors.black54.withOpacity(0.1),
+              shape: RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(5.0),
+                side: BorderSide(color: Colors.black54),
+              ),
+
+
+
               onPressed: () async {
                 var sessionQuery = Firestore.instance
                     .collection('gameSessions')
@@ -207,10 +208,6 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                 var documents = querySnapshot.documents;
                 var docs = await documents[0].reference.collection("players").getDocuments();
                 var length = docs.documents.length;
-//              Firestore.instance
-//                  .collection('gameSessions')
-//                  .document(joinedRoom)
-//                  .updateData({'ask': documents[0].data["ask"] + 1});
 
                 var isGameOpen = documents[0].data['GameOpen'];
                 var isAsk = documents[0].data['ask'];
@@ -254,7 +251,33 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     );
   }
   Widget buildI(){
-    return Text("AO wait for the winner to start next round");
+    return Text("Wait for the winner to start next round...",style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+      fontWeight: FontWeight.w100,
+      fontSize: 50,
+    )),);
+  }
+
+  Widget buildScore(var username, var curvote, var totvote) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Text("Leaderboard", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+          fontWeight: FontWeight.w100,
+          fontSize: 50,
+        )),),
+        Text("player      current round      total score",style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+          fontWeight: FontWeight.w100,
+          fontSize: 20,
+        )),),
+        Row(
+          children: <Widget>[
+            Text(username),
+            Text(curvote),
+            Text(totvote)
+          ],
+        ),
+      ],
+    );
   }
 
   Widget buildW(){
@@ -272,8 +295,18 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     const thiscolor = const Color(0x6BA7B5);
     return Column(
         children: <Widget>[
-          Text(question),
-          Text(prompt),
+          Text(question,style: GoogleFonts.bubblegumSans(
+            textStyle: TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 30,
+            ),
+          ),),
+          Text(prompt,style: GoogleFonts.bubblegumSans(
+            textStyle: TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 30,
+            ),
+          ),),
           TextField(
             controller: myController,
           ),
@@ -322,8 +355,6 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                         stream: Firestore.instance.collection('gameSessions').document(joinedRoom).snapshots(),
                         builder: (context, snapshot) {
                           ask = snapshot.data["ask"];
-                          print("askkkkkkkkk");
-                          print(ask);
                           return streamBuilder(ask);
                         },
                       ),
@@ -344,8 +375,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
         builder: (context, snapshot) {
           var totVote = 0;
           bool ready = true;
-          print("aaaaaaaaaaaaask");
-          print(ask);
+
           String question = snapshot.data.documents[ask].data['phrase'];
           var length = snapshot.data.documents.length;
           askUID = snapshot.data.documents[ask].documentID;

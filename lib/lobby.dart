@@ -38,37 +38,16 @@ class _lobbyState extends State<lobbyPage> {
         fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
   }
 
-//  int room() async{
-//    var ran = await Firestore.instance
-//        .collection('gameSessions').getDocuments();
-//    int xx = ran.documents.length;
-//    return xx;
-//  }
-//  void initState(){
-//    int z;
-//    //var x = Firestore.instance
-//      //.collection('gameSessions').getDocuments().then((var y)=>z = y.documents.length);
-//    Firestore.instance
-//        .collection('gameSessions').getDocuments().then((var y)=>roomListLength = y.documents.length);
-//   // x.then((var y)=>z = y.documents.length);
-//    print("xx");
-//    z = await room();
-//   print(room());
-//   print('zz');
-//  }
-//  Widget roomList(BuildContext context){
-//    return ListView.builder(
-//
-//        itemCount: ,
-//        itemBuilder: (context, index) => Text(names[index])
-//    )
-//  }
-
   @override
   Widget build(BuildContext context) {
+    const themeColor = const Color(0xffb77b);
+
     return Scaffold(
+
         appBar: AppBar(
+          backgroundColor: Colors.orangeAccent,
           title: Text("lobby"),
+
           leading: Builder(
             builder: (BuildContext context) {
               return IconButton(
@@ -83,36 +62,53 @@ class _lobbyState extends State<lobbyPage> {
             },
           ),
         ),
-        body: Column(children: [
+        body: Column(
+
+            children: [
+              Container(margin: const EdgeInsets.only(top: 20.0),
+          child:
           RaisedButton(
-            child: Text("Start a Room"),
+            child: Text("Start a Room",style: TextStyle(fontSize: 20)),
+
             onPressed: () {
               _audioCache.play('button.mp3');
               startRoom();
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => lobbyOPage()));
             },
-            color: Colors.orangeAccent,
+            color: Colors.orangeAccent.withOpacity(0.9),
+
+            shape: RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(5.0),
+              side: BorderSide(color: Colors.orangeAccent),
+            ),
             textColor: Colors.white,
-            padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+            padding: EdgeInsets.fromLTRB(40, 15, 40, 15),
             splashColor: Colors.grey,
-          ),
+          ),),
           TextField(
             controller: myController,
           ),
+          Container(margin: const EdgeInsets.only(top: 20.0),
+          child:
           RaisedButton(
-            child: Text("Join a Room"),
+
+            child: Text("Join a Room",style: TextStyle(fontSize: 20)),
             onPressed: () {
               _audioCache.play('button.mp3');
               joinRoom();
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => lobbyJPage()));
             },
-            color: Colors.orangeAccent,
+            color: Colors.orangeAccent.withOpacity(0.9),
+            shape: RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(5.0),
+              side: BorderSide(color: Colors.orangeAccent),
+            ),
             textColor: Colors.white,
-            padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+            padding: EdgeInsets.fromLTRB(40, 15, 40, 15),
             splashColor: Colors.grey,
-          ),
+          ),),
 
           Flexible(
             child: _buildBody(context),
@@ -208,50 +204,6 @@ class _lobbyState extends State<lobbyPage> {
   void joinRoom() async {
     _roomNum = myController.text;
 
-    //print(getPlayers().then((onValue)=>print(onValue)));
-    // print(getPlayers());
-    //print("ii");
-    //print(_roomNum);
-
-//      List<DocumentSnapshot> templist;
-//
-//      var players = Firestore.instance.collection('gameSessions').getDocuments().toString();
-
-    //List<String> players = (List<String>) Firestore.instance.collection('gameSessions').
-    //List<String> group = (List<String>) document.get("dungeon_group");
-    //var testing =  players.docs.map(doc => doc.data());
-
-//      var list = templist.map((DocumentSnapshot players){
-//        return players.data;
-//      }).toList();
-
-//    List<DocumentSnapshot> templist;
-//    List<Map<dynamic, dynamic>> list = new List();
-//    CollectionReference collectionRef = Firestore.instance.collection(
-//        "gameSessions");
-//    QuerySnapshot collectionSnapshot = await collectionRef.getDocuments();
-//
-//    templist = collectionSnapshot.documents;
-//
-//    list = templist.map((DocumentSnapshot docSnapshot) {
-//      return docSnapshot.data;
-//    }).toList();
-//
-//    var room;
-//
-//    for (var i = 0; i < list.length; i++) {
-//      print(_roomNum);
-//      if (list[i]["roomNumber"] == _roomNum) {
-//        room = list[i];
-//      }
-//    }
-//
-//    int numPlayers = 1;
-//    for (var key in room.keys) {
-//      if (key.startsWith("player")) numPlayers++;
-//    }
-///////////////////////////////////////////
-    //   var playerNumString = "player" + numPlayers.toString();
 
     if (currUser != null) {
       Firestore.instance
@@ -292,15 +244,6 @@ class _lobbyState extends State<lobbyPage> {
     list = templist.map((DocumentSnapshot docSnapshot) {
       return docSnapshot.data['email'];;
     }).toList();
-    //print(list);
-    //print("00 ");
-
-//    print("before testing print line !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//      print(list);
-//      for (var i = 0; i < list.length; i++) {
-//        print(list[i]);
-//      }
-//    print("after testing print line  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
     return list;
   }

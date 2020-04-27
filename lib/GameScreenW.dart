@@ -33,6 +33,7 @@ var userarr= new List();
 var votearr= new List();
 var scorearr= new List();
 
+
 void main() => runApp(WaitTimer());
 
 class WaitTimer extends StatelessWidget {
@@ -49,8 +50,8 @@ class WaitTimer extends StatelessWidget {
         ),
         accentColor: Colors.pinkAccent,
         buttonTheme: ButtonThemeData(
-          height: 25,
-          minWidth: 65,
+          height: 40,
+          minWidth: 150,
         ),
       ),
       home: new GamePage(),
@@ -104,16 +105,35 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     ask = documents[0].data['ask'];
   }
 
-  Widget buildScore(var scoreBoard) {
+  Widget buildScore(var username, var curvote, var totvote) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        Text(scoreBoard),
+        Text("Leaderboard", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+          fontWeight: FontWeight.w100,
+          fontSize: 50,
+        )),),
+        Text("player      current round      total score",style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+          fontWeight: FontWeight.w100,
+          fontSize: 20,
+        )),),
+        Row(
+          children: <Widget>[
+            Text(username),
+            Text(curvote),
+            Text(totvote)
+          ],
+        ),
+
       ],
     );
   }
 
   Widget buildS() {
-    return Column(children: <Widget>[
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+
       StreamBuilder<QuerySnapshot>(
           stream: Firestore.instance
               .collection('gameSessions')
@@ -124,7 +144,10 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
             var userName;
             var votes;
             var score;
-            String scoreBoard = '';
+
+            String users = "        ";
+            String curvote = '                 ';
+            String totvote = '                          ';
             var length = snapshot.data.documents.length;
             for (int i = 0; i < length; i++) {
 
@@ -134,34 +157,23 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
               votearr.add(votes);
               score = snapshot.data.documents[i].data['score'].toString();
               scorearr.add(score);
-              scoreBoard = scoreBoard +
-                  "\n" +
-                  userName +
-                  "\n" +
-                  "current round: " +
-                  votes +
-                  "\n" +
-                  "total score: " +
-                  score
-              + "\n";
+              users = users + userName+"\n"+'        ';
+              curvote = curvote + votes+"\n"+"                 ";
+              totvote = totvote + score+"\n"+'                          ';
             }
 
-            return Expanded(child:SizedBox(height: 200.0, child:
-              ListView.separated(
-                padding: const EdgeInsets.all(8),
-                itemCount: userarr.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    height: 30,
-//                  color: Colors.amber[colorCodes[index]],
-                    child: Center(child: Text('${userarr[index]} ${votearr[index]} ${scorearr[index]}')),
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) => const Divider(),
-              )));
+            return buildScore(users, curvote, totvote);
           }),
       RaisedButton(
-          child: Text("Go to the next round"),
+          child: Text("Go to the next round",style: TextStyle(fontSize: 15)),
+
+          textColor: Colors.white,
+          color: Colors.orangeAccent.withOpacity(0),
+          shape: RoundedRectangleBorder(
+
+            borderRadius: new BorderRadius.circular(10.0),
+            side: BorderSide(color: Colors.black54),
+          ),
           onPressed: () async {
             var sessionQuery = Firestore.instance
                 .collection('gameSessions')
@@ -171,10 +183,6 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
             var documents = querySnapshot.documents;
             var docs = await documents[0].reference.collection("players").getDocuments();
             var length = docs.documents.length;
-//            Firestore.instance
-//                .collection('gameSessions')
-//                .document(joinedRoom)
-//                .updateData({'ask': documents[0].data["ask"] + 1});
 
             var isGameOpen = documents[0].data['GameOpen'];
             var isAsk = documents[0].data['ask'];
@@ -315,7 +323,10 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
   }
 
   Widget buildI(){
-    return Text("AO wait for the winner to start next round");
+    return Text("Wait for the winner to start next round...",style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+      fontWeight: FontWeight.w100,
+      fontSize: 50,
+    )),);
   }
 
   Widget build(BuildContext context) {
@@ -324,6 +335,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
       body: Padding(
         padding: EdgeInsets.all(8.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Expanded(

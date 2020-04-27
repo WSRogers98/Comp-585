@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:math' as math;
-import 'package:Cherokee/lobby.dart';
+import 'package:Cherokee/lobbyJ.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:Cherokee/lobbyO.dart';
 import 'package:Cherokee/GameScreenW.dart';
@@ -59,7 +59,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
 
   Widget buildS() {
     return Column(children: <Widget>[
-      Text("Final Score"),
+      Text("Game Eng"),
       StreamBuilder<QuerySnapshot>(
           stream: Firestore.instance
               .collection('gameSessions')
@@ -70,31 +70,101 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
             var userName;
             var votes;
             var score;
-            String scoreBoard = '';
+            String users = "        ";
+            String curvote = '                 ';
+            String totvote = '                          ';
             var length = snapshot.data.documents.length;
             for (int i = 0; i < length; i++) {
               userName = snapshot.data.documents[i].data['email'];
               votes = snapshot.data.documents[i].data['vote'].toString();
               score = snapshot.data.documents[i].data['score'].toString();
-              scoreBoard = scoreBoard +
-                  "\n" +
-                  userName +
-                  "\n" +
-                  "total score: " +
-                  score;
+              users = users + userName+"\n"+'        ';
+              curvote = curvote + votes+"\n"+"                 ";
+              totvote = totvote + score+"\n"+'                          ';
             }
-            return Text(scoreBoard);
+            return buildScore(users, curvote, totvote);
           }),
 
     ]);
   }
+  Widget buildScore(var username, var curvote, var totvote) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Text("Final Scores", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+          fontWeight: FontWeight.w100,
+          fontSize: 50,
+        )),),
+        Text("player      current round      total score",style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+          fontWeight: FontWeight.w100,
+          fontSize: 20,
+        )),),
+        Row(
+          children: <Widget>[
+            Text(username),
+            Text(curvote),
+            Text(totvote)
+          ],
+        ),
 
+      ],
+    );
+  }
   @override
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
+    return Scaffold(
+      body: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Expanded(
+              child: Align(
+                alignment: FractionalOffset.center,
+                child: AspectRatio(
+                  aspectRatio: 1.0,
+                  child: Column(
+                    children: <Widget>[
+                      buildS(),
+                      RaisedButton(
+                          child: Text("Go back to lobby",style: TextStyle(fontSize: 15)),
 
-    const thiscolor = const Color(0x6BA7B5);
-    return buildS();
+                          textColor: Colors.white,
+                          color: Colors.orangeAccent.withOpacity(0),
+                          shape: RoundedRectangleBorder(
+
+                            borderRadius: new BorderRadius.circular(10.0),
+                            side: BorderSide(color: Colors.black54),
+                          ),
+                          onPressed: () async {
+                            if (ownerForEnd){
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => lobbyOPage()));
+                            }else{
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => lobbyJPage()));
+                            }
+                          })
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+
+
+
+
+
+
   }
 
 }

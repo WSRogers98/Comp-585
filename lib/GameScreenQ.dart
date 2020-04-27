@@ -36,8 +36,8 @@ class MyGame extends StatelessWidget {
         ),
         accentColor: Colors.pinkAccent,
         buttonTheme: ButtonThemeData(
-          height: 25,
-          minWidth: 65,
+          height: 35,
+          minWidth: 120,
         ),
       ),
       home: new GamePage(),
@@ -78,7 +78,12 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
   }
 
   Widget buildI() {
-    return Text("Q wait for the winner to start next round");
+    return
+      Container(margin: const EdgeInsets.only(top: 60.0),
+    child:Text("Wait for the winner to start next round...",style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+      fontWeight: FontWeight.w100,
+      fontSize: 40,
+    )),));
   }
 
   Widget buildQ(BuildContext context) {
@@ -196,7 +201,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                             style: GoogleFonts.bubblegumSans(
                                 textStyle: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 15,
+                                  fontSize: 17,
                                 )),
                           ),
                           onPressed: () async {
@@ -241,6 +246,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
         padding: EdgeInsets.all(15.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Flexible(
                 child:

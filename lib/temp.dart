@@ -82,15 +82,22 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
       body: Padding(
         padding: EdgeInsets.all(8.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("you are the winner"),
+            Text("You are the winner!🎉",style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+              fontWeight: FontWeight.w100,
+              fontSize: 40,
+            )),),
+        Container(margin: const EdgeInsets.only(bottom: 30.0),
+          child:
             RaisedButton(
                 child: Text("Start the next round", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
                   fontWeight: FontWeight.w100,
-                  fontSize: 15,
+                  fontSize: 25,
                 ),
                 ),),
+                color: Colors.teal,
+                padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
                 shape: RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(7.0),
                 ),
@@ -122,17 +129,11 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                         {'vote': 0, 'phrase': null, 'nextRound': true});
                   }
                   ind = false;
-
-                  print(isAsk);
-                  print("JJ");
                   if(isAsk+1 == length){
                     Navigator.push(
                         context, MaterialPageRoute(builder: (context) => GameEnd()));
                   }
                   else if(docs.documents[isAsk+1].documentID == currUser){
-                    print("assssssssssssssssssssssk");
-                    print(isAsk);
-
                     Navigator.push(
                         context, MaterialPageRoute(builder: (context) => MyGame()));
                   }
@@ -142,7 +143,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                   }
                 }
 
-            )],
+            ))],
         ),
       ),
     );

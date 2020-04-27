@@ -20,6 +20,7 @@ import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 String joinedRoom;
+bool ownerForEnd = true;
 
 class lobbyOPage extends StatefulWidget {
   @override
@@ -48,9 +49,7 @@ class _lobbyOState extends State<lobbyOPage> {
     //this code is to periodically check if GameOpen has been set to true by the room owner, if it is true
     //then move them to gamescreen
     Timer.periodic(Duration(seconds: 2), (timer) async {
-      //print(DateTime.now());
-      print(joinedRoom);
-      print('kk');
+
       var sessionQuery = Firestore.instance
           .collection('gameSessions')
           .where('roomNumber', isEqualTo: joinedRoom)
@@ -64,9 +63,7 @@ class _lobbyOState extends State<lobbyOPage> {
       var docs =
       await documents[0].reference.collection("players").getDocuments();
       var askUser = docs.documents[documents[0].data['ask']].documentID;
-      print(askUser);
-      print(currUser);
-      print("fuckplease");
+
       if (isGameOpen == true) {
         if (askUser == currUser) {
           Navigator.push(
@@ -81,36 +78,13 @@ class _lobbyOState extends State<lobbyOPage> {
     });
   }
 
-//  int room() async{
-//    var ran = await Firestore.instance
-//        .collection('gameSessions').getDocuments();
-//    int xx = ran.documents.length;
-//    return xx;
-//  }
-//  void initState(){
-//    int z;
-//    //var x = Firestore.instance
-//      //.collection('gameSessions').getDocuments().then((var y)=>z = y.documents.length);
-//    Firestore.instance
-//        .collection('gameSessions').getDocuments().then((var y)=>roomListLength = y.documents.length);
-//   // x.then((var y)=>z = y.documents.length);
-//    print("xx");
-//    z = await room();
-//   print(room());
-//   print('zz');
-//  }
-//  Widget roomList(BuildContext context){
-//    return ListView.builder(
-//
-//        itemCount: ,
-//        itemBuilder: (context, index) => Text(names[index])
-//    )
-//  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.orangeAccent,
           title: Text("lobby"),
           leading: Builder(
             builder: (BuildContext context) {
@@ -127,7 +101,9 @@ class _lobbyOState extends State<lobbyOPage> {
           ),
         ),
         body: Column(children: [
-          Text('room number:'),
+          Container(margin: const EdgeInsets.only(top: 20.0),
+              child:Text('room number:',style: TextStyle(fontSize: 15)),),
+
           Flexible(
             child: StreamBuilder<DocumentSnapshot>(
               stream: Firestore.instance
@@ -136,14 +112,15 @@ class _lobbyOState extends State<lobbyOPage> {
                   .snapshots(),
               builder: (context, snapshot) {
                 joinedRoom = snapshot.data['room'];
-                print('jj');
-                print(joinedRoom);
+
                 if (!snapshot.hasData) return LinearProgressIndicator();
-                return Text(snapshot.data['room']);
+                return Text(snapshot.data['room'],style: TextStyle(fontSize: 35));
               },
             ),
           ),
-          Text('room member:'),
+          Container(margin: const EdgeInsets.only(top: 15.0),
+            child:Text('room member:',style: TextStyle(fontSize: 15)),),
+
           Flexible(
             child: StreamBuilder<DocumentSnapshot>(
               stream: Firestore.instance
@@ -152,15 +129,20 @@ class _lobbyOState extends State<lobbyOPage> {
                   .snapshots(),
               builder: (context, snapshot) {
                 joinedRoom = snapshot.data['room'];
-                print('jj');
-                print(joinedRoom);
+
                 if (!snapshot.hasData) return LinearProgressIndicator();
                 return _buildMem(context, joinedRoom);
               },
             ),
           ),
+          Container(margin: const EdgeInsets.only(top: 10.0),
+            child:
           RaisedButton(
-            child: Text("Start Game"),
+            child: Text("Start Game",style: TextStyle(fontSize: 20)),
+            shape: RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(5.0),
+              side: BorderSide(color: Colors.orangeAccent),
+            ),
             onPressed: () {
               _audioCache.play('button.mp3');
               Firestore.instance
@@ -171,11 +153,17 @@ class _lobbyOState extends State<lobbyOPage> {
             },
             color: Colors.orangeAccent,
             textColor: Colors.white,
-            padding: EdgeInsets.fromLTRB(35, 10, 35, 10),
+            padding: EdgeInsets.fromLTRB(41, 10, 41, 10),
             splashColor: Colors.grey,
-          ),
+          ),),
+          Container(margin: const EdgeInsets.only(top: 10.0),
+            child:
           RaisedButton(
-            child: Text("Delete Room"),
+            child: Text("Delete Room",style: TextStyle(fontSize: 20)),
+            shape: RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(5.0),
+              side: BorderSide(color: Colors.orangeAccent),
+            ),
             onPressed: () {
               _audioCache.play('button.mp3');
               Firestore.instance
@@ -193,7 +181,7 @@ class _lobbyOState extends State<lobbyOPage> {
             textColor: Colors.white,
             padding: EdgeInsets.fromLTRB(35, 10, 35, 10),
             splashColor: Colors.grey,
-          ),
+          ),),
           Flexible(
             child: _buildBody(context),
           ),
@@ -209,9 +197,7 @@ class _lobbyOState extends State<lobbyOPage> {
             .collection('players')
             .snapshots(),
         builder: (context, snapshot) {
-          print("hh");
-          print(joinedRoom);
-          print(snapshot);
+
           if (!snapshot.hasData) return LinearProgressIndicator();
           return _buildCol(
               context,
@@ -223,7 +209,7 @@ class _lobbyOState extends State<lobbyOPage> {
 
   Widget _buildCol(BuildContext context, List snapshot) {
     return Column(
-      children: <Widget>[for (var item in snapshot) Text(item)],
+      children: <Widget>[for (var item in snapshot) Text(item,style: TextStyle(fontSize: 20))],
     );
   }
 
@@ -276,7 +262,7 @@ class _lobbyOState extends State<lobbyOPage> {
     int z;
     //x.then((var y)=>z = y.documents.length);
     return z;
-    //print(z);
+
   }
 
   // this function grabs and returns a list of players in a specified gameSession
@@ -298,15 +284,6 @@ class _lobbyOState extends State<lobbyOPage> {
     list = templist.map((DocumentSnapshot docSnapshot) {
       return docSnapshot.documentID;
     }).toList();
-    //print(list);
-    //print("00 ");
-
-//    print("before testing print line !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//      print(list);
-//      for (var i = 0; i < list.length; i++) {
-//        print(list[i]);
-//      }
-//    print("after testing print line  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
     return list;
   }

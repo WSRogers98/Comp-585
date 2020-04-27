@@ -36,6 +36,7 @@ class _lobbyJState extends State<lobbyJPage> {
         prefix: "audio/",
         fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
     checkIfOpen();
+    ownerForEnd = false;
   }
 
   void checkIfOpen() {
@@ -95,6 +96,7 @@ class _lobbyJState extends State<lobbyJPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.orangeAccent,
           title: Text("lobby"),
           leading: Builder(
             builder: (BuildContext context) {
@@ -111,7 +113,8 @@ class _lobbyJState extends State<lobbyJPage> {
           ),
         ),
         body: Column(children: [
-          Text('room number:'),
+          Container(margin: const EdgeInsets.only(top: 20.0),
+            child:Text('room number:',style: TextStyle(fontSize: 15)),),
           Flexible(
             child: StreamBuilder<DocumentSnapshot>(
               stream: Firestore.instance
@@ -123,11 +126,12 @@ class _lobbyJState extends State<lobbyJPage> {
                 print('jj');
                 print(joinedRoom);
                 if (!snapshot.hasData) return LinearProgressIndicator();
-                return Text(snapshot.data['room']);
+                return Text(snapshot.data['room'],style: TextStyle(fontSize: 35));
               },
             ),
           ),
-          Text('room member:'),
+          Container(margin: const EdgeInsets.only(top: 15.0),
+            child:Text('room member:',style: TextStyle(fontSize: 15)),),
           Flexible(
             child: StreamBuilder<DocumentSnapshot>(
               stream: Firestore.instance
@@ -143,12 +147,18 @@ class _lobbyJState extends State<lobbyJPage> {
             ),
           ),
           RaisedButton(
-            child: Text("Exit Room"),
+            child: Text("Exit Room",style: TextStyle(fontSize: 20)),
+            shape: RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(5.0),
+              side: BorderSide(color: Colors.orangeAccent),
+            ),
             onPressed: () {
               _audioCache.play('button.mp3');
               Firestore.instance
                   .collection('gameSessions')
                   .document(joinedRoom)
+                  .collection("players")
+                  .document(currUser)
                   .delete();
               Firestore.instance
                   .collection('users')
@@ -190,7 +200,7 @@ class _lobbyJState extends State<lobbyJPage> {
 
   Widget _buildCol(BuildContext context, List snapshot) {
     return Column(
-      children: <Widget>[for (var item in snapshot) Text(item)],
+      children: <Widget>[for (var item in snapshot) Text(item, style: TextStyle(fontSize: 20),)],
     );
   }
 

@@ -49,6 +49,7 @@ class _roomState extends State<roomPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.orangeAccent,
           title: Text(joinRoomNum),
           leading: Builder(
             builder: (BuildContext context) {
