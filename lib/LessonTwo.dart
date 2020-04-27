@@ -110,7 +110,7 @@ class _MyLearnPageState extends State<GamePage> with TickerProviderStateMixin {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       new Text(
-                        "Question ${questionNumber + 1} of ${quiz.questions.length}",
+                        "ᎠᏛᏓᏍᏗ ${questionNumber + 1} of ${quiz.questions.length}",
                         style: new TextStyle(fontSize: 22.0),
                       ),
                       new Text(
