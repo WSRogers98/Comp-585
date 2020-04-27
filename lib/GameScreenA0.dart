@@ -14,7 +14,7 @@ import 'package:Cherokee/lobbyO.dart';
 import 'package:Cherokee/GameScreenEnd.dart';
 import 'package:Cherokee/GameScreenW.dart';
 import 'package:Cherokee/temp.dart';
-String prompt = "Enter your answer:";
+String prompt = "ᎭᏂ ᎯᏁᎩ!";
 bool ignore = false;
 int memNum;
 final myController = TextEditingController();
