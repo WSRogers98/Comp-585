@@ -98,7 +98,7 @@ class _lobbyState extends State<lobbyPage> {
           child:
           RaisedButton(
 
-            child: Text("Join a Room",style: TextStyle(fontSize: 20)),
+            child: Text("Join the above room #",style: TextStyle(fontSize: 20)),
             onPressed: () {
               _audioCache.play('button.mp3');
               joinRoom();
