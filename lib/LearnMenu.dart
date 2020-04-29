@@ -72,7 +72,7 @@ class _MyLearnPageState extends State<GamePage> with TickerProviderStateMixin {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Lessons Menu"),
+        title: Text("ᏗᏕᏲᎲᏍᏗ ᎪᏪᎳᏅ"),
 
         backgroundColor: buttoncolor.withOpacity(1),
       ),
@@ -138,7 +138,7 @@ class _MyLearnPageState extends State<GamePage> with TickerProviderStateMixin {
                     MaterialPageRoute(builder: (context) => MyHomePage()),
                   );
                 },
-                child: Text('Return To Main Menu', style: TextStyle(fontSize: 35)),
+                child: Text('ᎠᏓᎴᏂᏍᎬ ᎪᏪᎳᎾᎥᎢ', style: TextStyle(fontSize: 35)),
                 textColor: Colors.white,
                 elevation: 15,
                 color: buttoncolor.withOpacity(1),

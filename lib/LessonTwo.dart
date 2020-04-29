@@ -307,7 +307,7 @@ class _MyLearnPageState extends State<GamePage> with TickerProviderStateMixin {
                           );
                         },
                         child: new Text(
-                          "Quit",
+                          "ᎦᏅᎪᎢᏍᏗ",
                           style: new TextStyle(
                               fontSize: 18.0, color: Colors.white),
                         ))),
@@ -356,7 +356,7 @@ class Summary extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               new Text(
-                "Final Score: $score",
+                "ᎣᏂ ᏚᏂᎾ: $score",
                 style: new TextStyle(fontSize: 35.0),
               ),
               new Padding(padding: EdgeInsets.all(30.0)),
@@ -374,7 +374,7 @@ class Summary extends StatelessWidget {
                           Navigator.pop(context);
                         },
                         child: new Text(
-                          "Reset Quiz",
+                          "ᏥᎭᏂᎩᏍᏓ",
                           style: new TextStyle(fontSize: 20.0, color: Colors.white),
                         ),
                       ),
@@ -395,7 +395,7 @@ class Summary extends StatelessWidget {
                           );
                         },
                         child: new Text(
-                          "Quit",
+                          "ᎦᏅᎪᎢᏍᏗ",
                           style: new TextStyle(fontSize: 20.0, color: Colors.white),
                         ),
                       )

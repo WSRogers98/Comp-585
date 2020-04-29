@@ -97,7 +97,7 @@ class _lobbyJState extends State<lobbyJPage> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.orangeAccent,
-          title: Text("lobby"),
+          title: Text("ᎠᎦᏘᏗᏍᏗ ᎧᏅᏑᎸ"),
           leading: Builder(
             builder: (BuildContext context) {
               return IconButton(
@@ -114,7 +114,8 @@ class _lobbyJState extends State<lobbyJPage> {
         ),
         body: Column(children: [
           Container(margin: const EdgeInsets.only(top: 20.0),
-            child:Text('room number:',style: TextStyle(fontSize: 15)),),
+            // says room should be room number
+            child:Text('ᎧᏅᏑᎸ:',style: TextStyle(fontSize: 15)),),
           Flexible(
             child: StreamBuilder<DocumentSnapshot>(
               stream: Firestore.instance
@@ -147,7 +148,7 @@ class _lobbyJState extends State<lobbyJPage> {
             ),
           ),
           RaisedButton(
-            child: Text("Exit Room",style: TextStyle(fontSize: 20)),
+            child: Text("ᎦᏅᎪᎢᏍᏗ ᎧᏅᏑᎸ",style: TextStyle(fontSize: 20)),
             shape: RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(5.0),
               side: BorderSide(color: Colors.orangeAccent),

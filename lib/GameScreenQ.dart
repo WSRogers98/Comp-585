@@ -66,7 +66,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
       vsync: this,
       duration: Duration(seconds: 45),
     );
-    if (ind){
+    if (ind) {
       Firestore.instance
           .collection('gameSessions')
           .document(joinedRoom)
@@ -78,12 +78,18 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
   }
 
   Widget buildI() {
-    return
-      Container(margin: const EdgeInsets.only(top: 60.0),
-    child:Text("Wait for the winner to start next round...",style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
-      fontWeight: FontWeight.w100,
-      fontSize: 40,
-    )),));
+    return Container(
+        margin: const EdgeInsets.only(top: 60.0),
+        child: Text(
+          // Wait for the winner to start next round...
+          // currently says Wait
+          "ᎯᎦᏘᏓ...",
+          style: GoogleFonts.bubblegumSans(
+              textStyle: TextStyle(
+            fontWeight: FontWeight.w100,
+            fontSize: 40,
+          )),
+        ));
   }
 
   Widget buildQ(BuildContext context) {
@@ -109,10 +115,10 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                           builder: (BuildContext context, Widget child) {
                             return CustomPaint(
                                 painter: TimerPainter(
-                                  animation: controller,
-                                  backgroundColor: Colors.white,
-                                  color: themeData.indicatorColor,
-                                ));
+                              animation: controller,
+                              backgroundColor: Colors.white,
+                              color: themeData.indicatorColor,
+                            ));
                           },
                         ),
                       ),
@@ -179,9 +185,9 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                           controller: myController,
                           style: GoogleFonts.bubblegumSans(
                               textStyle: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 15,
-                              )),
+                            fontWeight: FontWeight.w400,
+                            fontSize: 15,
+                          )),
                           decoration: new InputDecoration(
                             labelText: "ᎭᏂ ᏙᏪᎳᎦ ᎠᏛᏓᏍᏗ ᏣᏤᎵᎢ",
                             fillColor: Colors.white,
@@ -200,9 +206,9 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                             "ᏫᎲᎦ",
                             style: GoogleFonts.bubblegumSans(
                                 textStyle: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 17,
-                                )),
+                              fontWeight: FontWeight.w400,
+                              fontSize: 17,
+                            )),
                           ),
                           onPressed: () async {
                             Firestore.instance
@@ -236,6 +242,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
@@ -249,57 +256,54 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Flexible(
-                child:
-                StreamBuilder<QuerySnapshot>(
-                    stream: Firestore.instance.collection(
-                        'gameSessions')
+                child: StreamBuilder<QuerySnapshot>(
+                    stream: Firestore.instance
+                        .collection('gameSessions')
                         .document(joinedRoom)
                         .collection('players')
                         .snapshots(),
                     builder: (context, snapshot) {
-
-                      if (snapshot.hasError) { return Text("Error loading"); }
-                      if (snapshot.connectionState == ConnectionState.done) { return Text("Stream closed"); }
-                      if (snapshot.connectionState != ConnectionState.active) { return CircularProgressIndicator(); }
+                      if (snapshot.hasError) {
+                        return Text("Error loading");
+                      }
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        return Text("Stream closed");
+                      }
+                      if (snapshot.connectionState != ConnectionState.active) {
+                        return CircularProgressIndicator();
+                      }
 
                       var totVote = 0;
                       bool ready = true;
-                      String question = snapshot.data.documents[0].data['phrase'];
+                      String question =
+                          snapshot.data.documents[0].data['phrase'];
                       var length = snapshot.data.documents.length;
                       for (int i = 0; i < length; i++) {
-                        if (snapshot.data.documents[i]
-                            .data['phrase'] == null) {
+                        if (snapshot.data.documents[i].data['phrase'] == null) {
                           ready = false;
                         }
-                        totVote = totVote +
-                            snapshot.data.documents[i].data['vote'];
+                        totVote =
+                            totVote + snapshot.data.documents[i].data['vote'];
                       }
                       var currI;
                       for (int i = 0; i < length; i++) {
-                        if (currUser ==
-                            snapshot.data.documents[i].documentID) {
+                        if (currUser == snapshot.data.documents[i].documentID) {
                           currI = i;
                         }
                       }
-                      var nextRound = snapshot.data.documents[currI]
-                          .data['nextRound'];
+                      var nextRound =
+                          snapshot.data.documents[currI].data['nextRound'];
                       if (nextRound == false) {
                         return buildI();
                       }
                       return buildQ(context);
-                    }
-                )
-
-            )
-
+                    }))
           ],
         ),
       ),
     );
   }
 }
-
-
 
 void startTimer(controller) {
   controller.reverse(from: controller.value == 0.0 ? 1.0 : controller.value);

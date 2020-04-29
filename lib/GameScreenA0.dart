@@ -189,7 +189,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
               }
           ),
           RaisedButton(
-              child: Text("Go to the next round",style: TextStyle(fontSize: 15)),
+              child: Text("ᎬᎵᏱᎵᏒ ᏔᎵᏁ ᎤᏥᎶᏓ",style: TextStyle(fontSize: 15)),
               textColor: Colors.white,
               color: Colors.black54.withOpacity(0.1),
               shape: RoundedRectangleBorder(
@@ -261,11 +261,11 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        Text("Leaderboard", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+        Text("ᏗᏓᏘᏂᏙᎯ ᎪᏪᎳᏅ", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
           fontWeight: FontWeight.w100,
           fontSize: 50,
         )),),
-        Text("player      current round      total score",style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+        Text("ᎠᏁᎸᏗᏍᎩ      ᎯᎠ ᎢᏳᏥᎶᏓ      ᏂᎦᏓ ᏚᏂᎾ",style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
           fontWeight: FontWeight.w100,
           fontSize: 20,
         )),),
@@ -283,7 +283,7 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
   Widget buildW(){
     return Column(
         children: <Widget>[
-          Text("Waiting for others to answer...", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+          Text("ᎯᎦᏘᏯ ᎠᏂᏐᎢ ᏓᎾᏬᎯᎵᏴᏍᎬ...", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
             fontWeight: FontWeight.w100,
             fontSize: 15,
           )),),

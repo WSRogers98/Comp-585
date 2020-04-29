@@ -46,7 +46,7 @@ class _lobbyState extends State<lobbyPage> {
 
         appBar: AppBar(
           backgroundColor: Colors.orangeAccent,
-          title: Text("lobby"),
+          title: Text("ᎠᎦᏘᏗᏍᏗ ᎧᏅᏑᎸ"),
 
           leading: Builder(
             builder: (BuildContext context) {
@@ -68,7 +68,7 @@ class _lobbyState extends State<lobbyPage> {
               Container(margin: const EdgeInsets.only(top: 20.0),
           child:
           RaisedButton(
-            child: Text("Start a Room",style: TextStyle(fontSize: 20)),
+            child: Text("ᎠᏓᎴᏂᏍᏗ ᎧᏅᏑᎸ",style: TextStyle(fontSize: 20)),
 
             onPressed: () {
               _audioCache.play('button.mp3');
@@ -91,14 +91,14 @@ class _lobbyState extends State<lobbyPage> {
             textAlign: TextAlign.center,
             decoration: new InputDecoration.collapsed(
                 border: OutlineInputBorder(),
-                hintText: 'If room # known, enter here',
+                hintText: 'ᎭᏂ ᏙᏪᎳᎦ ᏗᏎᏍᏗ ᎧᏅᏑᎸ',
             ),
           ),
           Container(margin: const EdgeInsets.only(top: 20.0),
           child:
           RaisedButton(
 
-            child: Text("Join the above room #",style: TextStyle(fontSize: 20)),
+            child: Text("ᎭᏖᎳᏓ ᏍᎩᎾ ᎧᏅᏑᎸ",style: TextStyle(fontSize: 20)),
             onPressed: () {
               _audioCache.play('button.mp3');
               joinRoom();

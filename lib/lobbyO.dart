@@ -85,7 +85,7 @@ class _lobbyOState extends State<lobbyOPage> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.orangeAccent,
-          title: Text("lobby"),
+          title: Text("ᎠᎦᏘᏗᏍᏗ ᎧᏅᏑᎸ"),
           leading: Builder(
             builder: (BuildContext context) {
               return IconButton(
@@ -102,7 +102,8 @@ class _lobbyOState extends State<lobbyOPage> {
         ),
         body: Column(children: [
           Container(margin: const EdgeInsets.only(top: 20.0),
-              child:Text('room number:',style: TextStyle(fontSize: 15)),),
+            // just says room is actually the room number
+            child:Text('ᎧᏅᏑᎸ:',style: TextStyle(fontSize: 15)),),
 
           Flexible(
             child: StreamBuilder<DocumentSnapshot>(
@@ -138,7 +139,7 @@ class _lobbyOState extends State<lobbyOPage> {
           Container(margin: const EdgeInsets.only(top: 10.0),
             child:
           RaisedButton(
-            child: Text("Start Game",style: TextStyle(fontSize: 20)),
+            child: Text("ᎭᎴᎾ ᎠᏁᎸᏙᏗ",style: TextStyle(fontSize: 20)),
             shape: RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(5.0),
               side: BorderSide(color: Colors.orangeAccent),
@@ -159,7 +160,7 @@ class _lobbyOState extends State<lobbyOPage> {
           Container(margin: const EdgeInsets.only(top: 10.0),
             child:
           RaisedButton(
-            child: Text("Delete Room",style: TextStyle(fontSize: 20)),
+            child: Text("ᎧᎵ ᎯᏍᎪᎸᏛᎯ ᎧᏅᏑᎸ",style: TextStyle(fontSize: 20)),
             shape: RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(5.0),
               side: BorderSide(color: Colors.orangeAccent),

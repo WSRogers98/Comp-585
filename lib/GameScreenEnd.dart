@@ -91,11 +91,11 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        Text("Final Scores", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+        Text("ᎣᏂ ᏚᏂᎾ", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
           fontWeight: FontWeight.w100,
           fontSize: 50,
         )),),
-        Text("player      total score",style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+        Text("ᎠᏁᎸᏗᏍᎩ      ᏂᎦᏓ ᏚᏂᎾ",style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
           fontWeight: FontWeight.w100,
           fontSize: 20,
         )),),
@@ -128,7 +128,8 @@ class _MyHomePageState extends State<GamePage> with TickerProviderStateMixin {
                     children: <Widget>[
                       buildS(),
                       RaisedButton(
-                          child: Text("Go back to lobby",style: TextStyle(fontSize: 15)),
+                        // should be go back to lobby but says exit right now
+                          child: Text("ᎦᏅᎪᎢᏍᏗ",style: TextStyle(fontSize: 15)),
 
                           textColor: Colors.white,
                           color: Colors.orangeAccent.withOpacity(0),
