@@ -1,6 +1,6 @@
-# Cherokee
+# Who's Your Daddy
 
-A new Flutter application.
+A Cherokee language learning game
 - [Project Website](https://marlon320.github.io/)
 - [documentation and notes](https://drive.google.com/drive/folders/1vGei166hBz10lVUCbz8cceXt667PN6rG?usp=sharing)
 
